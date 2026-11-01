@@ -135,35 +135,6 @@
   "notes": "CR 1/4 · Small humanoid (goblinoid) · Vel. 30 ft.\nSentidos: darkvision 60 ft., passive Perception 13\nRasgos:\n• Útil: Copete puede realizar la acción de Ayudar como acción adicional.\n• Acción Astuta: En su turno, Copete puede Correr, Desengancharse u Ocultarse como acción adicional.\n• Demasiado Joven para el Odio: Copete tiene desventaja en su primera tirada de ataque en un combate. Después de fallar o ser herido, pierde esta desventaja. Desaparece al cruzar la Etapa II.\nAcciones:\n• Látigo +1: Ataque cuerpo a cuerpo: +5 al ataque, alcance 10 ft., un objetivo. Impacto: 5 (1d4 + 3) daño cortante.\n• Cimitarra: Ataque cuerpo a cuerpo: +4 al ataque, alcance 5 ft., un objetivo. Impacto: 5 (1d6 + 2) daño cortante."
  },
  {
-  "name": "Copete, el Goblin Emo",
-  "source": "Cueva Goblin de las Colinas del Norte",
-  "cr": "1/8",
-  "actions": [
-   {
-    "name": "Daga (no quiere usarla)",
-    "desc": "+3 al ataque, 1d4+1 perforante. Copete se disculpa después de cada golpe.",
-    "toHit": 3,
-    "damage": "1d4+1"
-   }
-  ],
-  "resources": [],
-  "abilities": {
-   "str": 8,
-   "dex": 14,
-   "con": 10,
-   "int": 10,
-   "wis": 8,
-   "cha": 12
-  },
-  "ac": 13,
-  "maxHp": 5,
-  "prof": 2,
-  "initBonus": 0,
-  "saveProf": {},
-  "skillProf": {},
-  "notes": "CR 1/8 · Small humanoide (goblinoide) · Vel. 30 ft.\nSentidos: darkvision 60 ft., passive Perception 9\nRasgos:\n• Copete Trágico: Si un PJ halaga su copete, Copete gana inspiración emocional: tiene ventaja en su siguiente tirada.\n• Cansado de la Vida: Copete tiene desventaja en tiradas de ataque porque 'la violencia lo deprime'.\n• Nimble Escape (fallido): Copete intenta usar Disengage o Hide, pero tiene desventaja al hacerlo.\nAcciones:\n• Daga (no quiere usarla): +3 al ataque, 1d4+1 perforante. Copete se disculpa después de cada golpe."
- },
- {
   "name": "Custodio de la Guardia del Voto",
   "source": "Sesión 11 — Lo que se Hereda al Morir",
   "cr": "1/2",
