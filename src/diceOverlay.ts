@@ -37,8 +37,8 @@ OBR.onReady(async () => {
         texture: "none",
         material: "glass",
       },
-      // El tamaño del dado va en píxeles: que crezca con la pantalla
-      baseScale: Math.max(100, Math.min(innerWidth, innerHeight) / 6),
+      // El tamaño del dado va en píxeles: proporcional a la bandeja
+      baseScale: Math.max(70, Math.min(innerWidth, innerHeight) / 4.5),
       strength: 1.3,
       shadows: true,
       sounds: false,
