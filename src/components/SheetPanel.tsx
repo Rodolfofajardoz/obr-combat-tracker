@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ReactNode, useRef, useState } from "react";
 import { Combatant, updateSheet } from "../obr";
 import {
   ABILITIES,
@@ -35,13 +35,41 @@ interface Props {
   onRoll: (r: RollRequest) => Promise<unknown>;
   onRollExpr: (r: ExprRequest) => Promise<unknown>;
   onClose: () => void;
+  /** En su propia ventana: arrastrar la cabecera y soltar la mueve (dx, dy en píxeles) */
+  onDrop?: (dx: number, dy: number) => void;
+  /** Botones de tirada (ventaja, oculta…) cuando la hoja va en su propia ventana */
+  tools?: ReactNode;
 }
 
 const PROF_MARK: Record<ProfLevel, string> = { 0: "○", 1: "●", 2: "◆" };
 
-export function SheetPanel({ c, isGM, playerName, settings, profiles, catalog, party, onRoll, onRollExpr, onClose }: Props) {
+export function SheetPanel({ c, isGM, playerName, settings, profiles, catalog, party, onRoll, onRollExpr, onClose, onDrop, tools }: Props) {
   const { t, lang } = useT();
   const s = c.sheet;
+  // Arrastre de la cabecera: nada se mueve hasta soltar (Owlbear no mueve ventanas en vivo)
+  const drag = useRef<{ x: number; y: number } | null>(null);
+  const dragProps = onDrop
+    ? {
+        className: "drag",
+        title: t("dragSheet"),
+        onPointerDown: (e: React.PointerEvent<HTMLElement>) => {
+          if ((e.target as HTMLElement).closest("button,input,label,select")) return;
+          e.preventDefault();
+          e.currentTarget.setPointerCapture(e.pointerId);
+          // screenX/Y: la ventana se cierra y reabre, así que las coordenadas de cliente no sirven
+          drag.current = { x: e.screenX, y: e.screenY };
+        },
+        onPointerUp: (e: React.PointerEvent<HTMLElement>) => {
+          const d = drag.current;
+          drag.current = null;
+          if (!d) return;
+          const dx = e.screenX - d.x;
+          const dy = e.screenY - d.y;
+          if (Math.abs(dx) + Math.abs(dy) > 4) onDrop(dx, dy);
+        },
+        onPointerCancel: () => (drag.current = null),
+      }
+    : {};
   // Mobs y PNJ del catálogo traen acciones: se muestran esas; los PJ, sus conjuros
   const [showSpells, setShowSpells] = useState(false);
   const isMob = s.actions.length > 0;
@@ -131,7 +159,7 @@ export function SheetPanel({ c, isGM, playerName, settings, profiles, catalog, p
 
   return (
     <section className="sheet">
-      <header>
+      <header {...dragProps}>
         <h2>{c.name}</h2>
         {isGM && (
           <label className="share" title={t("sharedAllTitle")}>
@@ -141,6 +169,7 @@ export function SheetPanel({ c, isGM, playerName, settings, profiles, catalog, p
         )}
         <button className="icon" onClick={onClose}>✕</button>
       </header>
+      {tools}
 
       {isGM && (
         <div className="profile-bar owner-bar">

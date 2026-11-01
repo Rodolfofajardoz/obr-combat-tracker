@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import OBR, { Player } from "@owlbear-rodeo/sdk";
+import OBR from "@owlbear-rodeo/sdk";
 import {
   Combatant,
-  broadcastRoll,
   focusItem,
   onRoll,
   readCombat,
@@ -13,20 +12,20 @@ import {
   updateSheets,
 } from "./obr";
 import { Combat, RollMessage, RollMode, Sheet, initMod } from "./types";
-import { parseExpr, rollD20, rollExpr as rollExprInstant } from "./dice";
+import { rollD20 } from "./dice";
 import { setupContextMenu } from "./contextMenu";
 import { Row } from "./components/Row";
-import { SheetPanel } from "./components/SheetPanel";
 import { RollLog } from "./components/RollLog";
 import { ProfilesPanel } from "./components/ProfilesPanel";
 import { Profile, loadProfiles, onProfilesChange } from "./profiles";
-import { DICE_SETTLE_MS, DiceShow, broadcastDice, canSeeWhisper, readDice3dPref, writeDice3dPref } from "./diceShow";
+import { canSeeWhisper } from "./diceShow";
 import { CatalogEntry, loadCatalog } from "./catalog";
 import { Lang, LangContext, tr } from "./i18n";
 import { ResizeHandle } from "./components/ResizeHandle";
 import { applySavedSize } from "./resize";
 import { readBarsPref, writeBarsPref } from "./bars";
-import { Settings, defaultSettings, loadSettings, onSettingsChange } from "./settings";
+import { useRolls } from "./useRolls";
+import { onSheet, sendSheet } from "./sheetWindow";
 
 export interface RollRequest {
   who: string;
@@ -47,21 +46,13 @@ export default function App() {
   const [ready, setReady] = useState(false);
   const [combatants, setCombatants] = useState<Combatant[]>([]);
   const [combat, setCombatState] = useState<Combat>({ round: 1, turnId: null });
-  const [mode, setMode] = useState<RollMode>("normal");
+  /** Ficha cuya hoja está abierta en la ventana aparte (lo dice la página de fondo) */
   const [openId, setOpenId] = useState<string | null>(null);
   const [log, setLog] = useState<RollMessage[]>([]);
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [showProfiles, setShowProfiles] = useState(false);
   const [catalog, setCatalog] = useState<CatalogEntry[]>([]);
-  /** Los demás jugadores conectados (el propio no viene en party) */
-  const [party, setParty] = useState<Player[]>([]);
-  const [dice3d, setDice3d] = useState(readDice3dPref);
-  const [settings, setSettings] = useState<Settings>(defaultSettings);
   const [bars, setBars] = useState(readBarsPref);
-  /** Tiradas ocultas: solo las ve el DM que las hace */
-  const [hidden, setHidden] = useState(false);
-  /** Susurro de un jugador: su tirada solo la ven él y el DM */
-  const [whisper, setWhisper] = useState(false);
   const toggleBars = () => {
     const next = !bars;
     setBars(next);
@@ -88,11 +79,8 @@ export default function App() {
       OBR.scene.onReadyChange(setReady),
       onRoll((m) => setLog((l) => [m, ...l].slice(0, 30))),
       onProfilesChange(setProfiles),
-      onSettingsChange(setSettings),
-      OBR.party.onChange(setParty),
+      onSheet((cmd) => setOpenId(cmd.action === "open" ? cmd.id : null)),
     ];
-    loadSettings().then(setSettings);
-    OBR.party.getPlayers().then(setParty);
     OBR.scene.isReady().then(setReady);
     loadProfiles().then(setProfiles);
     loadCatalog().then(setCatalog);
@@ -128,90 +116,13 @@ export default function App() {
 
   // ---- tiradas ----
   // Un susurro viaja a todos pero cada ventana muestra solo los que le tocan: los del DM, todos
-  const whisperTo = whisper && !isGM ? playerId : undefined;
   const visibleLog = useMemo(() => log.filter((m) => canSeeWhisper(m.whisper, role, playerId)), [log, role, playerId]);
-
-  /** Manda los dados a la pantalla de todos; si aquí se ven en 3D, espera a que caigan antes de publicar el resultado */
-  const showDice = useCallback(
-    async (show: Omit<DiceShow, "by" | "hidden" | "whisper">) => {
-      if (!show.values.length) return;
-      await broadcastDice({ ...show, by: playerName, hidden: hidden || undefined, whisper: whisperTo }, hidden);
-      if (dice3d) await new Promise((r) => setTimeout(r, DICE_SETTLE_MS));
-    },
-    [playerName, hidden, whisperTo, dice3d],
-  );
-
-  const roll = useCallback(
-    async (req: RollRequest) => {
-      const { dice, kept } = rollD20(mode);
-      const msg: RollMessage = {
-        ...req,
-        dice,
-        kept,
-        total: kept + req.mod,
-        mode,
-        by: playerName,
-        at: Date.now(),
-        hidden: hidden || undefined,
-        whisper: whisperTo,
-      };
-      setMode("normal");
-      const bonus = req.mod ? ` ${req.mod > 0 ? "+" : "−"} ${Math.abs(req.mod)}` : "";
-      await showDice({
-        notation: `${dice.length}d20`,
-        values: dice,
-        who: req.who,
-        what: req.what,
-        total: msg.total,
-        detail: (dice.length > 1 ? `[${dice.join(", ")}] → ${kept}` : `${kept}`) + bonus,
-      });
-      await broadcastRoll(msg, hidden);
-      return msg;
-    },
-    [mode, playerName, hidden, whisperTo, showDice],
-  );
-
-  /** Daño y otras expresiones: sin ventaja/desventaja, con dado 3D si está activo */
-  const rollExpr = useCallback(
-    async (req: ExprRequest) => {
-      const { dice, mod, total } = rollExprInstant(req.expr);
-      const msg: RollMessage = {
-        who: req.who,
-        what: req.what,
-        dice,
-        kept: total - mod,
-        mod,
-        total,
-        mode: "normal",
-        by: playerName,
-        at: Date.now(),
-        expr: req.expr,
-        hidden: hidden || undefined,
-        whisper: whisperTo,
-      };
-      // Los dados salen en el orden de los grupos de la expresión
-      await showDice({
-        notation: parseExpr(req.expr).terms.map((t) => `${Math.abs(t.count)}d${t.sides}`).join("+"),
-        values: dice,
-        who: req.who,
-        what: req.what,
-        total,
-        detail: `${req.expr} → [${dice.join(", ")}]`,
-      });
-      await broadcastRoll(msg, hidden);
-      return msg;
-    },
-    [playerName, hidden, whisperTo, showDice],
-  );
-
-  const toggleDice3d = () => {
-    const next = !dice3d;
-    setDice3d(next);
-    writeDice3dPref(next);
-  };
+  // Modo, privacidad y las tiradas en sí se comparten con la ventana de la hoja
+  const rolls = useRolls({ role, playerId, playerName });
+  const { mode, setMode, hidden, toggleHidden, whisper, toggleWhisper, dice3d, toggleDice3d } = rolls;
 
   const rollInitiative = async (c: Combatant) => {
-    const msg = await roll({ who: c.name, what: t("initiative"), mod: initMod(c.sheet) });
+    const msg = await rolls.roll({ who: c.name, what: t("initiative"), mod: initMod(c.sheet) });
     await updateSheet(c.id, { initiative: msg.total });
   };
 
@@ -257,8 +168,6 @@ export default function App() {
     focusItem(list[next].id);
   };
 
-  const open = openId ? combatants.find((c) => c.id === openId) : undefined;
-
   if (!ready) {
     return (
       <LangContext.Provider value={lang}>
@@ -297,11 +206,11 @@ export default function App() {
             ▮ HP
           </button>
           {isGM ? (
-            <button className={`chip ${hidden ? "on dis" : ""}`} onClick={() => setHidden((v) => !v)} title={hidden ? t("hiddenOn") : t("hiddenOff")}>
+            <button className={`chip ${hidden ? "on dis" : ""}`} onClick={toggleHidden} title={hidden ? t("hiddenOn") : t("hiddenOff")}>
               🙈
             </button>
           ) : (
-            <button className={`chip ${whisper ? "on dis" : ""}`} onClick={() => setWhisper((v) => !v)} title={whisper ? t("whisperOn") : t("whisperOff")}>
+            <button className={`chip ${whisper ? "on dis" : ""}`} onClick={toggleWhisper} title={whisper ? t("whisperOn") : t("whisperOff")}>
               🤫
             </button>
           )}
@@ -344,7 +253,7 @@ export default function App() {
               mine={c.sheet.owner === playerId}
               isGM={isGM}
               open={openId === c.id}
-              onToggle={() => setOpenId(openId === c.id ? null : c.id)}
+              onToggle={() => sendSheet(openId === c.id ? { action: "close" } : { action: "open", id: c.id })}
               onFocus={() => focusItem(c.id)}
               onRollInit={() => rollInitiative(c)}
               onSetTurn={() => setCombat({ ...combat, turnId: c.id })}
@@ -362,21 +271,6 @@ export default function App() {
 
       {isGM && showProfiles && (
         <ProfilesPanel profiles={profiles} catalog={catalog} onClose={() => setShowProfiles(false)} />
-      )}
-
-      {open && canSee(open) && (
-        <SheetPanel
-          c={open}
-          isGM={isGM}
-          playerName={playerName}
-          settings={settings}
-          profiles={profiles}
-          catalog={catalog}
-          party={party}
-          onRoll={roll}
-          onRollExpr={rollExpr}
-          onClose={() => setOpenId(null)}
-        />
       )}
 
       <RollLog log={visibleLog} />

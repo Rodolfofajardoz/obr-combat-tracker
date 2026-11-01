@@ -47,6 +47,7 @@ export default defineConfig({
         background: resolve(__dirname, "background.html"),
         card: resolve(__dirname, "card.html"),
         dice: resolve(__dirname, "dice.html"),
+        sheet: resolve(__dirname, "sheet.html"),
       },
     },
   },

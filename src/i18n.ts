@@ -45,6 +45,8 @@ const D = {
   hpTitle: ["PG: escribe un número, o +5 / -7", "HP: type a number, or +5 / -7"],
   setTurn: ["Poner el turno aquí", "Set turn here"],
   sheet: ["Hoja", "Sheet"],
+  dragSheet: ["Arrastra y suelta para mover la hoja: se vuelve a abrir donde la sueltes", "Drag and release to move the sheet: it reopens where you drop it"],
+  sheetGone: ["Esta ficha ya no está en la escena, o ya no puedes verla.", "This token is no longer in the scene, or you can no longer see it."],
   // hoja
   player: ["Jugador", "Player"],
   playerTitle: [

@@ -4,12 +4,13 @@ import { startBars } from "./bars";
 import { CARD_POPOVER_ID, onCast } from "./spells";
 import { DICE_DONE_CHANNEL, DICE_SETTLE_MS, DiceShow, canSeeWhisper, dicePopoverId, onDice, readDice3dPref } from "./diceShow";
 import { DICE_SLOTS, Rect, Slots, diceSlotRect } from "./diceSlots";
+import { SHEET_H, SHEET_POPOVER_ID, SHEET_W, clampSheetPos, defaultSheetPos, onSheet, readSheetPos } from "./sheetWindow";
 
 const page = (name: string, payload: unknown) =>
   `${import.meta.env.BASE_URL}${name}#${encodeURIComponent(JSON.stringify(payload))}`;
 
-/** Un popover sin fondo que ocupa justo el rectángulo pedido; el resto del mapa sigue libre */
-function openAt(id: string, url: string, r: Rect) {
+/** Un popover que ocupa justo el rectángulo pedido; el resto del mapa sigue libre */
+function openAt(id: string, url: string, r: Rect, hidePaper = true) {
   OBR.popover.open({
     id,
     url,
@@ -19,7 +20,7 @@ function openAt(id: string, url: string, r: Rect) {
     anchorPosition: { left: Math.round(r.left), top: Math.round(r.top) },
     anchorOrigin: { horizontal: "LEFT", vertical: "TOP" },
     transformOrigin: { horizontal: "LEFT", vertical: "TOP" },
-    hidePaper: true,
+    hidePaper,
     disableClickAway: true,
   });
 }
@@ -39,6 +40,14 @@ function freeSlot(slot: number) {
   if (t) clearTimeout(t);
   slotTimers[slot] = null;
   diceSlots.release(slot);
+}
+
+/** La ventana de la hoja: donde se dejó la última vez, o a la derecha del tracker */
+async function openSheet(id: string) {
+  const [vw, vh] = await Promise.all([OBR.viewport.getWidth(), OBR.viewport.getHeight()]);
+  const pos = clampSheetPos(readSheetPos() ?? defaultSheetPos(), vw, vh);
+  const url = `${import.meta.env.BASE_URL}sheet.html#${encodeURIComponent(id)}`;
+  openAt(SHEET_POPOVER_ID, url, { ...pos, width: SHEET_W, height: Math.min(SHEET_H, vh - pos.top - 16) }, false);
 }
 
 // Página de fondo: corre siempre, aunque la ventana esté cerrada.
@@ -78,4 +87,10 @@ OBR.onReady(() => {
     diceSlots.push(msg);
   });
   OBR.broadcast.onMessage(DICE_DONE_CHANNEL, (ev) => freeSlot((ev.data as { slot: number }).slot));
+
+  // La lista (▼) y la propia hoja (✕, o soltarla en otro sitio) piden abrir o cerrar la ventana de la hoja
+  onSheet((cmd) => {
+    if (cmd.action === "open") openSheet(cmd.id);
+    else OBR.popover.close(SHEET_POPOVER_ID);
+  });
 });
