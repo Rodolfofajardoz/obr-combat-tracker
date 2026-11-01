@@ -10,6 +10,10 @@ const D = {
   adv: ["Ventaja", "Advantage"],
   dis: ["Desventaja", "Disadvantage"],
   advDisTitle: ["Ventaja o desventaja para la próxima tirada", "Advantage or disadvantage for the next roll"],
+  bonusTitle: [
+    "Modificador extra para la próxima tirada de d20 (ataque, prueba o salvación): un +1 de reliquia, un −2 de penalización. Se borra al tirar; clic en el valor lo pone en 0",
+    "Extra modifier for the next d20 roll (attack, check or save): a relic's +1, a −2 penalty. Cleared after the roll; click the value to reset it",
+  ],
   dice3dOn: [
     "Ves los dados 3D de todos en pantalla: clic para no verlos y que tus tiradas salgan al instante",
     "You see everyone's 3D dice on screen: click to hide them and make your rolls instant",

@@ -27,6 +27,7 @@ import { readBarsPref, writeBarsPref } from "./bars";
 import { useRolls } from "./useRolls";
 import { onSheet, sendSheet } from "./sheetWindow";
 import { longRest, shortRest } from "./rest";
+import { RollBonus } from "./components/RollBonus";
 
 export interface RollRequest {
   who: string;
@@ -120,7 +121,7 @@ export default function App() {
   const visibleLog = useMemo(() => log.filter((m) => canSeeWhisper(m.whisper, role, playerId)), [log, role, playerId]);
   // Modo, privacidad y las tiradas en sí se comparten con la ventana de la hoja
   const rolls = useRolls({ role, playerId, playerName });
-  const { mode, setMode, hidden, toggleHidden, whisper, toggleWhisper, dice3d, toggleDice3d } = rolls;
+  const { mode, setMode, hidden, toggleHidden, whisper, toggleWhisper, bonus, setBonus, dice3d, toggleDice3d } = rolls;
 
   const rollInitiative = async (c: Combatant) => {
     const msg = await rolls.roll({ who: c.name, what: t("initiative"), mod: initMod(c.sheet) });
@@ -204,6 +205,7 @@ export default function App() {
               {t(m)}
             </button>
           ))}
+          <RollBonus value={bonus} onChange={setBonus} />
           <button
             className={`chip ${dice3d ? "on" : ""}`}
             onClick={toggleDice3d}
@@ -288,7 +290,8 @@ export default function App() {
 
       <RollLog log={visibleLog} />
       <div className="hint">
-        {mode !== "normal" && `${t("hintNext")} ${t(mode).toLowerCase()} · `}
+        {(mode !== "normal" || bonus !== 0) &&
+          `${t("hintNext")} ${[mode !== "normal" && t(mode).toLowerCase(), bonus !== 0 && `★ ${bonus > 0 ? "+" : ""}${bonus}`].filter(Boolean).join(" ")} · `}
         {t("hintName")}
       </div>
       <ResizeHandle />

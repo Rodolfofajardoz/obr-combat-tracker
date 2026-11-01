@@ -25,7 +25,7 @@ export function useRolls({ role, playerId, playerName }: Me) {
   }, []);
 
   const isGM = role === "GM";
-  const { mode, hidden, whisper } = prefs;
+  const { mode, hidden, whisper, bonus } = prefs;
   // Un susurro viaja a todos pero cada ventana muestra solo los que le tocan: los del DM, todos
   const whisperTo = whisper && !isGM ? playerId : undefined;
 
@@ -42,32 +42,36 @@ export function useRolls({ role, playerId, playerName }: Me) {
   const roll = useCallback(
     async (req: RollRequest) => {
       const { dice, kept } = rollD20(mode);
+      // El modificador extra de la próxima tirada se suma al de la hoja y se gasta aquí
+      const mod = req.mod + bonus;
       const msg: RollMessage = {
         ...req,
+        mod,
         dice,
         kept,
-        total: kept + req.mod,
+        total: kept + mod,
         mode,
         by: playerName,
         at: Date.now(),
         hidden: hidden || undefined,
         whisper: whisperTo,
       };
-      // Ventaja/desventaja vale para una sola tirada
-      if (mode !== "normal") update({ mode: "normal" });
-      const bonus = req.mod ? ` ${req.mod > 0 ? "+" : "−"} ${Math.abs(req.mod)}` : "";
+      // Ventaja/desventaja y el modificador extra valen para una sola tirada
+      if (mode !== "normal" || bonus) update({ mode: "normal", bonus: 0 });
+      const sign = (n: number) => ` ${n > 0 ? "+" : "−"} ${Math.abs(n)}`;
+      const extra = (req.mod ? sign(req.mod) : "") + (bonus ? `${sign(bonus)} ★` : "");
       await showDice({
         notation: `${dice.length}d20`,
         values: dice,
         who: req.who,
         what: req.what,
         total: msg.total,
-        detail: (dice.length > 1 ? `[${dice.join(", ")}] → ${kept}` : `${kept}`) + bonus,
+        detail: (dice.length > 1 ? `[${dice.join(", ")}] → ${kept}` : `${kept}`) + extra,
       });
       await broadcastRoll(msg, hidden);
       return msg;
     },
-    [mode, playerName, hidden, whisperTo, showDice, update],
+    [mode, bonus, playerName, hidden, whisperTo, showDice, update],
   );
 
   /** Daño y otras expresiones: sin ventaja/desventaja, con dado 3D si está activo */
@@ -116,6 +120,8 @@ export function useRolls({ role, playerId, playerName }: Me) {
     toggleHidden: () => update({ hidden: !hidden }),
     whisper,
     toggleWhisper: () => update({ whisper: !whisper }),
+    bonus,
+    setBonus: (b: number) => update({ bonus: Math.max(-20, Math.min(20, b)) }),
     dice3d,
     toggleDice3d,
     roll,

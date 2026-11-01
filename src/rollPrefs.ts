@@ -11,9 +11,11 @@ export interface RollPrefs {
   mode: RollMode;
   hidden: boolean;
   whisper: boolean;
+  /** Modificador extra para la próxima tirada de d20 (un +1 de reliquia, un -2 de penalización); se borra al tirar */
+  bonus: number;
 }
 
-export const DEFAULT_PREFS: RollPrefs = { mode: "normal", hidden: false, whisper: false };
+export const DEFAULT_PREFS: RollPrefs = { mode: "normal", hidden: false, whisper: false, bonus: 0 };
 
 export function readRollPrefs(): RollPrefs {
   try {

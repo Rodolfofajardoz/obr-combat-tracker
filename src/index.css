@@ -66,6 +66,12 @@ h3 { margin: 12px 0 6px; font-size: 11px; text-transform: uppercase; letter-spac
 .chip.on.adv { background: var(--good); border-color: var(--good); }
 .chip.on.dis { background: var(--bad); border-color: var(--bad); }
 .turns { margin-left: auto; display: flex; gap: 4px; }
+/* modificador extra de la próxima tirada: − ★ +1 + */
+.bonus { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+.bonus button { padding: 2px 6px; font-size: 11px; border: none; border-radius: 0; background: transparent; }
+.bonus .val { min-width: 42px; font-weight: 600; color: var(--muted); }
+.bonus.on { border-color: var(--warn); }
+.bonus.on .val { background: var(--warn); color: var(--accent-fg); }
 
 /* Lista de iniciativa */
 .list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }

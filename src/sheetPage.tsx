@@ -4,6 +4,7 @@ import OBR, { Player } from "@owlbear-rodeo/sdk";
 import { Combatant, toCombatants } from "./obr";
 import { RollMode } from "./types";
 import { SheetPanel } from "./components/SheetPanel";
+import { RollBonus } from "./components/RollBonus";
 import { Profile, loadProfiles, onProfilesChange } from "./profiles";
 import { CatalogEntry, loadCatalog } from "./catalog";
 import { Settings, defaultSettings, loadSettings, onSettingsChange } from "./settings";
@@ -110,6 +111,7 @@ function SheetWindow({ id }: { id: string }) {
           {t(m)}
         </button>
       ))}
+      <RollBonus value={rolls.bonus} onChange={rolls.setBonus} />
       {isGM ? (
         <button className={`chip ${rolls.hidden ? "on dis" : ""}`} onClick={rolls.toggleHidden} title={rolls.hidden ? t("hiddenOn") : t("hiddenOff")}>
           🙈
