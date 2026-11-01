@@ -24,6 +24,14 @@ export function Row({ c, isTurn, full, mine, isGM, open, onToggle, onFocus, onRo
   const s = c.sheet;
   const [hpText, setHpText] = useState<string | null>(null);
   const [manaText, setManaText] = useState<string | null>(null);
+  // Iniciativa escrita a mano (doble clic en el número): acepta decimales para desempatar, vacío la borra
+  const [initText, setInitText] = useState<string | null>(null);
+  const commitInit = () => {
+    if (initText === null) return;
+    const n = parseFloat(initText.replace(",", "."));
+    updateSheet(c.id, { initiative: Number.isNaN(n) ? null : Math.round(n * 100) / 100 });
+    setInitText(null);
+  };
 
   const commitHp = () => {
     if (hpText === null) return;
@@ -42,14 +50,30 @@ export function Row({ c, isTurn, full, mine, isGM, open, onToggle, onFocus, onRo
 
   return (
     <li className={`row ${isTurn ? "turn" : ""} ${!c.visible ? "hidden-token" : ""} ${open ? "open" : ""} ${mine ? "mine" : ""}`}>
-      <button
-        className="init"
-        title={`${t("rollInit")} (d20 ${fmt(initMod(s))})`}
-        onClick={onRollInit}
-        disabled={!full}
-      >
-        {s.initiative ?? "—"}
-      </button>
+      {initText !== null ? (
+        <input
+          className="init"
+          autoFocus
+          value={initText}
+          onFocus={(e) => e.target.select()}
+          onChange={(e) => setInitText(e.target.value)}
+          onBlur={commitInit}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") (e.target as HTMLInputElement).blur();
+            if (e.key === "Escape") setInitText(null);
+          }}
+        />
+      ) : (
+        <button
+          className="init"
+          title={`${t("rollInit")} (d20 ${fmt(initMod(s))}) · ${t("initEdit")}`}
+          onClick={onRollInit}
+          onDoubleClick={() => full && setInitText(s.initiative === null ? "" : String(s.initiative))}
+          disabled={!full}
+        >
+          {s.initiative ?? "—"}
+        </button>
+      )}
 
       <div className="name-wrap">
         <button className="name" onClick={onFocus} title={t("showOnMap")}>

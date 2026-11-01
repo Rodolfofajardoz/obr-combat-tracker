@@ -38,6 +38,7 @@ const D = {
   // fila
   initiative: ["Iniciativa", "Initiative"],
   rollInit: ["Tirar iniciativa", "Roll initiative"],
+  initEdit: ["doble clic para escribirla (14.5 desempata; vacío la borra)", "double-click to type it (14.5 breaks ties; empty clears it)"],
   showOnMap: ["Ver en el mapa", "Show on map"],
   hiddenToken: ["Oculta para los jugadores", "Hidden from players"],
   assignedPlayer: ["Jugador asignado", "Assigned player"],
