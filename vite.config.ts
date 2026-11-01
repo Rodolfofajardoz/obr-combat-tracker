@@ -36,6 +36,9 @@ function manifest(): Plugin {
 export default defineConfig({
   plugins: [react(), manifest()],
   base,
+  // Sello de compilación: las páginas emergentes (hoja, dados, tarjeta) se piden con ?v=… para que
+  // GitHub Pages no sirva un HTML viejo de la caché después de publicar
+  define: { "import.meta.env.VITE_BUILD": JSON.stringify(Date.now().toString(36)) },
   // dice-box usa web workers y wasm: mejor que Vite no lo pre-empaquete
   optimizeDeps: { exclude: ["@3d-dice/dice-box"] },
   // allowedHosts: para exponer el servidor con el túnel de Cloudflare (npm run tunnel)

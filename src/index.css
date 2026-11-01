@@ -118,7 +118,8 @@ h3 { margin: 12px 0 6px; font-size: 11px; text-transform: uppercase; letter-spac
 .sheet header.drag:active { cursor: grabbing; }
 .sheet-window { padding: 8px; }
 .sheet-window .sheet { border: none; padding: 6px; }
-.sheet-tools { margin-bottom: 8px; }
+.sheet-tools { margin-bottom: 8px; flex-wrap: wrap; }
+.sheet-tools .hint.next { width: 100%; margin: 0; font-size: 11px; color: var(--warn); }
 .share { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 4px; }
 .abilities { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
 .ability.res .roll { border-color: var(--accent); }

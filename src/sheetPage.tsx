@@ -112,6 +112,11 @@ function SheetWindow({ id }: { id: string }) {
         </button>
       ))}
       <RollBonus value={rolls.bonus} onChange={rolls.setBonus} />
+      {(rolls.mode !== "normal" || rolls.bonus !== 0) && (
+        <span className="hint next">
+          {t("hintNext")} {[rolls.mode !== "normal" && t(rolls.mode).toLowerCase(), rolls.bonus !== 0 && `★ ${rolls.bonus > 0 ? "+" : ""}${rolls.bonus}`].filter(Boolean).join(" ")}
+        </span>
+      )}
       {isGM ? (
         <button className={`chip ${rolls.hidden ? "on dis" : ""}`} onClick={rolls.toggleHidden} title={rolls.hidden ? t("hiddenOn") : t("hiddenOff")}>
           🙈

@@ -6,8 +6,9 @@ import { DICE_DONE_CHANNEL, DICE_SETTLE_MS, DiceShow, canSeeWhisper, dicePopover
 import { DICE_SLOTS, Rect, Slots, diceSlotRect } from "./diceSlots";
 import { SHEET_H, SHEET_POPOVER_ID, SHEET_W, clampSheetPos, defaultSheetPos, onSheet, readSheetPos } from "./sheetWindow";
 
-const page = (name: string, payload: unknown) =>
-  `${import.meta.env.BASE_URL}${name}#${encodeURIComponent(JSON.stringify(payload))}`;
+/** URL de una página emergente, con el sello de compilación para saltarse la caché de Pages */
+const pageUrl = (name: string) => `${import.meta.env.BASE_URL}${name}?v=${import.meta.env.VITE_BUILD ?? "dev"}`;
+const page = (name: string, payload: unknown) => `${pageUrl(name)}#${encodeURIComponent(JSON.stringify(payload))}`;
 
 /** Un popover que ocupa justo el rectángulo pedido; el resto del mapa sigue libre */
 function openAt(id: string, url: string, r: Rect, hidePaper = true) {
@@ -46,7 +47,7 @@ function freeSlot(slot: number) {
 async function openSheet(id: string) {
   const [vw, vh] = await Promise.all([OBR.viewport.getWidth(), OBR.viewport.getHeight()]);
   const pos = clampSheetPos(readSheetPos() ?? defaultSheetPos(), vw, vh);
-  const url = `${import.meta.env.BASE_URL}sheet.html#${encodeURIComponent(id)}`;
+  const url = `${pageUrl("sheet.html")}#${encodeURIComponent(id)}`;
   openAt(SHEET_POPOVER_ID, url, { ...pos, width: SHEET_W, height: Math.min(SHEET_H, vh - pos.top - 16) }, false);
 }
 
