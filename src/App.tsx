@@ -26,6 +26,7 @@ import { applySavedSize } from "./resize";
 import { readBarsPref, writeBarsPref } from "./bars";
 import { useRolls } from "./useRolls";
 import { onSheet, sendSheet } from "./sheetWindow";
+import { longRest, shortRest } from "./rest";
 
 export interface RollRequest {
   who: string;
@@ -150,6 +151,14 @@ export default function App() {
     await setCombat({ round: 1, turnId: null });
   };
 
+  // Descanso para toda la lista (el DM): recursos, y en el largo también PG y maná
+  const restAll = async (kind: "short" | "long") => {
+    const patches: Record<string, Partial<Sheet>> = {};
+    for (const c of ordered) patches[c.id] = kind === "short" ? shortRest(c.sheet) : longRest(c.sheet);
+    await updateSheets(patches);
+    OBR.notification.show(t(kind === "short" ? "shortRestAllDone" : "longRestAllDone"));
+  };
+
   // ---- turnos ----
   const step = async (dir: 1 | -1) => {
     const list = ordered.filter((c) => c.sheet.initiative !== null);
@@ -264,6 +273,10 @@ export default function App() {
 
       {isGM && ordered.length > 0 && (
         <div className="gm-bar">
+          <span className="rests">
+            <button onClick={() => restAll("short")} title={t("shortRestAll")}>☕</button>
+            <button onClick={() => restAll("long")} title={t("longRestAll")}>🌙</button>
+          </span>
           <button onClick={rollMissing}>{t("rollMissing")}</button>
           <button className="danger" onClick={clearCombat}>{t("clearInit")}</button>
         </div>

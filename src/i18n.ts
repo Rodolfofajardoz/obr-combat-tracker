@@ -123,6 +123,34 @@ const D = {
   mana: ["MN", "MP"],
   manaTitle: ["Maná: escribe un número, o +5 / -3", "Mana: type a number, or +5 / -3"],
   maxMana: ["Maná máx.", "Max mana"],
+  // recursos y descansos
+  resource: ["Recurso", "Resource"],
+  addResource: [
+    "Agregar un recurso contable: forma salvaje, puntos de hechicería, inspiración, usos por descanso…",
+    "Add a countable resource: wild shape, sorcery points, inspiration, uses per rest…",
+  ],
+  resourceName: ["Nombre", "Name"],
+  resourceMax: ["Usos máximos", "Max uses"],
+  resetTitle: ["Cuándo se recupera", "When it recovers"],
+  resetShort: ["Descanso corto", "Short rest"],
+  resetLong: ["Descanso largo", "Long rest"],
+  spend: ["Clic para gastar o recuperar", "Click to spend or recover"],
+  edit: ["Editar", "Edit"],
+  ok: ["OK", "OK"],
+  shortRest: ["Descanso corto", "Short rest"],
+  longRest: ["Descanso largo", "Long rest"],
+  shortRestTitle: [
+    "Descanso corto: recupera los recursos marcados ☕. Los PG se curan a mano (dados de golpe)",
+    "Short rest: recovers the resources marked ☕. HP is healed by hand (hit dice)",
+  ],
+  longRestTitle: [
+    "Descanso largo: PG, maná y todos los recursos al máximo; PG temporales a 0",
+    "Long rest: HP, mana and every resource to max; temp HP to 0",
+  ],
+  shortRestAll: ["Descanso corto para toda la lista", "Short rest for everyone on the list"],
+  longRestAll: ["Descanso largo para toda la lista: PG, maná y recursos al máximo", "Long rest for everyone on the list: HP, mana and resources to max"],
+  shortRestAllDone: ["Descanso corto: toda la lista", "Short rest: everyone on the list"],
+  longRestAllDone: ["Descanso largo: toda la lista", "Long rest: everyone on the list"],
   // tiradas
   rolls: ["Tiradas", "Rolls"],
   // perfiles

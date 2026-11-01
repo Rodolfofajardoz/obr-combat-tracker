@@ -112,6 +112,17 @@ export interface Action {
   save?: string;
 }
 
+/** Cuándo se recupera un recurso: en descanso corto (y largo) o solo en descanso largo */
+export type ResetOn = "short" | "long";
+
+/** Un recurso contable de la clase o del statblock: forma salvaje, puntos de hechicería, inspiración, "1/Descanso corto"… */
+export interface Resource {
+  name: string;
+  cur: number;
+  max: number;
+  reset: ResetOn;
+}
+
 export interface Sheet {
   initiative: number | null;
   /** Bonificador extra a la iniciativa, aparte del modificador de DES */
@@ -137,6 +148,8 @@ export interface Sheet {
   casts: Record<string, number>;
   /** Acciones de statblock (mobs y PNJ del catálogo) */
   actions: Action[];
+  /** Recursos contables; si la clase no tiene ninguno, la lista va vacía y no se muestra */
+  resources: Resource[];
   /** Si es true, todos los jugadores ven CA, PG y la hoja completa */
   shared: boolean;
   /** Jugador dueño de la ficha (id de Owlbear): ve la hoja y tira por ella */
@@ -164,6 +177,7 @@ export const defaultSheet = (): Sheet => ({
   spells: [],
   casts: {},
   actions: [],
+  resources: [],
   shared: false,
   owner: null,
   ownerName: "",
@@ -225,6 +239,7 @@ export function readSheet(raw: unknown): Sheet | null {
     spells: Array.isArray(r.spells) ? r.spells : [],
     casts: r.casts && typeof r.casts === "object" ? r.casts : {},
     actions: Array.isArray(r.actions) ? r.actions : [],
+    resources: Array.isArray(r.resources) ? r.resources : [],
   };
 }
 

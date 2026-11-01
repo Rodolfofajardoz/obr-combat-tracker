@@ -21,6 +21,7 @@ import { ABILITY_LONG, ABILITY_SHORT, useT } from "../i18n";
 import { MARKERS, MARKER_GROUPS, MarkerGroup, markerLabel, toggleMarker } from "../markers";
 import { SpellsPanel } from "./SpellsPanel";
 import { ActionsPanel } from "./ActionsPanel";
+import { ResourcesPanel } from "./ResourcesPanel";
 import type { Settings } from "../settings";
 import type { ExprRequest } from "../App";
 
@@ -264,6 +265,9 @@ export function SheetPanel({ c, isGM, playerName, settings, profiles, catalog, p
         <Field label={t("prof")} value={s.prof} onChange={(v) => set({ prof: v })} />
         <Field label={t("initBonus")} value={s.initBonus} onChange={(v) => set({ initBonus: v })} hint={`${t("total")} ${fmt(initMod(s))}`} />
       </div>
+
+      {/* Recursos de clase (solo si los hay) y descansos */}
+      <ResourcesPanel c={c} />
 
       {/* Izquierda: conjuros · Derecha: habilidades con ancho fijo */}
       <div className="sheet-body">

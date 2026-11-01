@@ -161,6 +161,26 @@ button.icon.small { font-size: 11px; margin-top: 4px; }
 .field small { color: var(--muted); font-size: 10px; }
 .field.ro .val { font-size: 16px; font-weight: 700; padding: 3px 0; }
 .two-col { display: grid; grid-template-columns: 1fr 1.3fr; gap: 10px; }
+
+/* recursos contables y descansos */
+.resources { margin-top: 8px; }
+.res-list { list-style: none; margin: 0 0 6px; padding: 0; display: flex; flex-direction: column; gap: 3px; }
+.res-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto auto; align-items: center; gap: 6px; background: var(--bg3); border-radius: 6px; padding: 2px 6px; font-size: 12px; }
+.res-row .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.res-row .when { font-size: 11px; }
+.res-row .btns { display: flex; gap: 0; }
+.pips { display: flex; flex-wrap: wrap; gap: 2px; }
+.pips button { width: 18px; height: 18px; padding: 0; border-radius: 999px; font-size: 11px; line-height: 1; background: var(--bg2); color: var(--muted); }
+.pips button.on { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+.counter { display: flex; align-items: center; gap: 4px; }
+.counter button { padding: 0 6px; }
+.counter b { min-width: 44px; text-align: center; font-size: 12px; }
+.rest-bar { display: flex; align-items: center; gap: 6px; }
+.rest-bar button { font-size: 11px; }
+.rest-bar .icon.small { margin: 0 0 0 auto; }
+.res-form { display: grid; grid-template-columns: minmax(0, 1fr) 56px auto auto auto; gap: 4px; align-items: center; margin-top: 4px; }
+.res-form input[type=number] { width: 56px; }
+.gm-bar .rests { margin-right: auto; display: flex; gap: 4px; }
 .rolls { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
 .rolls li { display: flex; gap: 3px; }
 .rolls .prof { width: 24px; padding: 0; color: var(--muted); background: transparent; }

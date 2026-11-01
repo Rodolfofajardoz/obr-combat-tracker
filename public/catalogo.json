@@ -16,6 +16,14 @@
     "save": "CON DC 12"
    }
   ],
+  "resources": [
+   {
+    "name": "Silencio Breve",
+    "cur": 1,
+    "max": 1,
+    "reset": "short"
+   }
+  ],
   "abilities": {
    "str": 10,
    "dex": 14,
@@ -61,6 +69,7 @@
     "save": "Constitución DC 13"
    }
   ],
+  "resources": [],
   "abilities": {
    "str": 16,
    "dex": 12,
@@ -84,30 +93,46 @@
  {
   "name": "Copete",
   "source": "Copete",
-  "cr": "0",
+  "cr": "1/4",
   "actions": [
    {
-    "name": "Daga",
-    "desc": "Ataque cuerpo a cuerpo o a distancia: +4 al ataque, alcance 5 ft. o 20/60 ft., un objetivo. Impacto: 4 (1d4 + 2) daño perforante.",
+    "name": "Látigo +1",
+    "desc": "Ataque cuerpo a cuerpo: +5 al ataque, alcance 10 ft., un objetivo. Impacto: 5 (1d4 + 3) daño cortante.",
+    "toHit": 5,
+    "damage": "1d4+3"
+   },
+   {
+    "name": "Cimitarra",
+    "desc": "Ataque cuerpo a cuerpo: +4 al ataque, alcance 5 ft., un objetivo. Impacto: 5 (1d6 + 2) daño cortante.",
     "toHit": 4,
-    "damage": "1d4+2"
+    "damage": "1d6+2"
    }
   ],
+  "resources": [],
   "abilities": {
    "str": 8,
    "dex": 14,
-   "con": 10,
-   "int": 10,
+   "con": 12,
+   "int": 8,
    "wis": 12,
    "cha": 9
   },
-  "ac": 11,
-  "maxHp": 7,
+  "ac": 13,
+  "maxHp": 12,
   "prof": 2,
   "initBonus": 0,
-  "saveProf": {},
-  "skillProf": {},
-  "notes": "CR 0 · Small humanoid (goblinoid) · Vel. 30 ft.\nSentidos: darkvision 60 ft., passive Perception 11\nRasgos:\n• Demasiado Joven para el Odio: Copete tiene desventaja en su primera tirada de ataque en un combate. Después de fallar o ser herido, pierde esta desventaja.\n• Valentía Improvisada: Cuando una criatura aliada cae inconsciente a 10 pies o menos de Copete, puede moverse hasta su velocidad como reacción para ponerse a cubierto o ayudar a estabilizarla.\n• Escurridizo por Naturaleza: Copete puede realizar la acción de Desengancharse u Ocultarse como acción adicional en su turno.\nAcciones:\n• Daga: Ataque cuerpo a cuerpo o a distancia: +4 al ataque, alcance 5 ft. o 20/60 ft., un objetivo. Impacto: 4 (1d4 + 2) daño perforante."
+  "saveProf": {
+   "dex": true,
+   "int": true
+  },
+  "skillProf": {
+   "stealth": 1,
+   "sleight": 1,
+   "acrobatics": 1,
+   "perception": 1,
+   "insight": 1
+  },
+  "notes": "CR 1/4 · Small humanoid (goblinoid) · Vel. 30 ft.\nSentidos: darkvision 60 ft., passive Perception 13\nRasgos:\n• Útil: Copete puede realizar la acción de Ayudar como acción adicional.\n• Acción Astuta: En su turno, Copete puede Correr, Desengancharse u Ocultarse como acción adicional.\n• Demasiado Joven para el Odio: Copete tiene desventaja en su primera tirada de ataque en un combate. Después de fallar o ser herido, pierde esta desventaja. Desaparece al cruzar la Etapa II.\nAcciones:\n• Látigo +1: Ataque cuerpo a cuerpo: +5 al ataque, alcance 10 ft., un objetivo. Impacto: 5 (1d4 + 3) daño cortante.\n• Cimitarra: Ataque cuerpo a cuerpo: +4 al ataque, alcance 5 ft., un objetivo. Impacto: 5 (1d6 + 2) daño cortante."
  },
  {
   "name": "Copete, el Goblin Emo",
@@ -121,6 +146,7 @@
     "damage": "1d4+1"
    }
   ],
+  "resources": [],
   "abilities": {
    "str": 8,
    "dex": 14,
@@ -159,6 +185,7 @@
     "damage": "1d8+2"
    }
   ],
+  "resources": [],
   "abilities": {
    "str": 11,
    "dex": 14,
@@ -197,6 +224,7 @@
     "save": "a DC 14"
    }
   ],
+  "resources": [],
   "abilities": {
    "str": 17,
    "dex": 12,
@@ -238,6 +266,7 @@
     "save": "Sabiduría DC 17"
    }
   ],
+  "resources": [],
   "abilities": {
    "str": 20,
    "dex": 16,
@@ -269,6 +298,14 @@
     "name": "Grito Interno (1/Descanso corto)",
     "desc": "Todas las criaturas en un radio de 10 pies deben superar una tirada de Sabiduría (CD 12) o quedar aturdidas por un turno, escuchando un eco mental del Juicio.",
     "save": "DC 12"
+   }
+  ],
+  "resources": [
+   {
+    "name": "Grito Interno",
+    "cur": 1,
+    "max": 1,
+    "reset": "short"
    }
   ],
   "abilities": {
@@ -315,6 +352,7 @@
     "save": "Destreza DC 14"
    }
   ],
+  "resources": [],
   "abilities": {
    "str": 10,
    "dex": 16,
@@ -356,6 +394,7 @@
     "save": "Carisma DC 13"
    }
   ],
+  "resources": [],
   "abilities": {
    "str": 7,
    "dex": 14,
@@ -377,6 +416,7 @@
   "source": "Mobs WIP",
   "cr": "5",
   "actions": [],
+  "resources": [],
   "abilities": {
    "str": 18,
    "dex": 10,
@@ -410,6 +450,7 @@
     "save": "STR DC 14"
    }
   ],
+  "resources": [],
   "abilities": {
    "str": 18,
    "dex": 10,
@@ -443,6 +484,7 @@
     "save": "STR DC 14"
    }
   ],
+  "resources": [],
   "abilities": {
    "str": 18,
    "dex": 10,
@@ -476,6 +518,7 @@
     "save": "STR DC 14"
    }
   ],
+  "resources": [],
   "abilities": {
    "str": 18,
    "dex": 10,
@@ -514,6 +557,7 @@
     "save": "Fuerza DC 14"
    }
   ],
+  "resources": [],
   "abilities": {
    "str": 18,
    "dex": 10,
@@ -558,6 +602,14 @@
     "save": "Constitución DC 13"
    }
   ],
+  "resources": [
+   {
+    "name": "Pulso de Verdad",
+    "cur": 1,
+    "max": 1,
+    "reset": "short"
+   }
+  ],
   "abilities": {
    "str": 12,
    "dex": 14,
@@ -599,6 +651,7 @@
     "damage": "1d6+2"
    }
   ],
+  "resources": [],
   "abilities": {
    "str": 8,
    "dex": 14,
@@ -627,6 +680,7 @@
     "damage": "1d4+2"
    }
   ],
+  "resources": [],
   "abilities": {
    "str": 8,
    "dex": 14,
@@ -661,6 +715,7 @@
     "damage": "1d6+3"
    }
   ],
+  "resources": [],
   "abilities": {
    "str": 10,
    "dex": 16,
@@ -695,6 +750,7 @@
     "damage": "1d6+2"
    }
   ],
+  "resources": [],
   "abilities": {
    "str": 8,
    "dex": 15,
@@ -730,6 +786,7 @@
     "save": "STR DC 11"
    }
   ],
+  "resources": [],
   "abilities": {
    "str": 13,
    "dex": 12,
@@ -753,15 +810,29 @@
   "actions": [
    {
     "name": "Espada Corta",
-    "desc": "Ataque cuerpo a cuerpo: +4 al ataque, alcance 5 ft., un objetivo. Impacto: 5 (1d6 + 2) daño perforante.",
-    "toHit": 4,
+    "desc": "Ataque cuerpo a cuerpo: +6 al ataque, alcance 5 ft., un objetivo. Impacto: 5 (1d6 + 2) daño perforante.",
+    "toHit": 6,
     "damage": "1d6+2"
    },
    {
-    "name": "Jabalina",
-    "desc": "Ataque cuerpo a cuerpo o a distancia: +3 al ataque, alcance 5 ft. o 30/120 ft., un objetivo. Impacto: 4 (1d6 + 1) daño perforante.",
-    "toHit": 3,
-    "damage": "1d6+1"
+    "name": "Arco Corto",
+    "desc": "Ataque a distancia: +6 al ataque, alcance 80/320 ft., un objetivo. Impacto: 5 (1d6 + 2) daño perforante.",
+    "toHit": 6,
+    "damage": "1d6+2"
+   }
+  ],
+  "resources": [
+   {
+    "name": "Determinación Desesperada",
+    "cur": 1,
+    "max": 1,
+    "reset": "long"
+   },
+   {
+    "name": "Tomar Aliento",
+    "cur": 1,
+    "max": 1,
+    "reset": "short"
    }
   ],
   "abilities": {
@@ -773,18 +844,20 @@
    "cha": 10
   },
   "ac": 14,
-  "maxHp": 20,
+  "maxHp": 17,
   "prof": 2,
   "initBonus": 0,
   "saveProf": {
-   "str": true,
+   "dex": true,
    "con": true
   },
   "skillProf": {
    "athletics": 1,
-   "perception": 1
+   "perception": 1,
+   "animal": 1,
+   "survival": 1
   },
-  "notes": "CR 1/2 · Medium humanoid (human) · Vel. 30 ft.\nSentidos: passive Perception 12\nRasgos:\n• Todavía No Sabe Retroceder: Si un aliado cae a 0 PG a 30 ft. o menos, Hamcel tiene desventaja en su siguiente tirada de ataque: entra en pánico. Si en vez de atacar se mueve hacia el caído, no hay…\n• Determinación Desesperada (1/Sesión): La primera vez que Hamcel caería a 0 PG, queda a 1 PG en su lugar y gana la condición asustado hasta el final de su siguiente turno.\n• Tomar Aliento (1/Descanso corto): Como acción adicional, Hamcel recupera 1d10 + 2 PG.\n• Oleada de Acción (1/Descanso corto): En su turno, Hamcel puede realizar una acción adicional.\nAcciones:\n• Espada Corta: Ataque cuerpo a cuerpo: +4 al ataque, alcance 5 ft., un objetivo. Impacto: 5 (1d6 + 2) daño perforante.\n• Jabalina: Ataque cuerpo a cuerpo o a distancia: +3 al ataque, alcance 5 ft. o 30/120 ft., un objetivo. Impacto: 4 (1d6 + 1) daño perforante."
+  "notes": "CR 1/2 · Medium humanoid (human) · Vel. 30 ft.\nSentidos: passive Perception 12\nRasgos:\n• Rol Marcial — Atacante: Hamcel suma +2 a sus tiradas de ataque (ya incluido abajo).\n• Todavía No Sabe Retroceder: Si un aliado cae a 0 PG a 30 ft. o menos, Hamcel tiene desventaja en su siguiente tirada de ataque: entra en pánico. Si en vez de atacar se mueve hacia el caído, no hay…\n• Determinación Desesperada (1/Sesión): La primera vez que Hamcel caería a 0 PG, queda a 1 PG en su lugar y gana la condición asustado hasta el final de su siguiente turno.\n• Tomar Aliento (1/Descanso corto): Como acción adicional, Hamcel recupera 1d10 + 2 PG.\nAcciones:\n• Espada Corta: Ataque cuerpo a cuerpo: +6 al ataque, alcance 5 ft., un objetivo. Impacto: 5 (1d6 + 2) daño perforante.\n• Arco Corto: Ataque a distancia: +6 al ataque, alcance 80/320 ft., un objetivo. Impacto: 5 (1d6 + 2) daño perforante."
  },
  {
   "name": "Hobgoblin Jefe del Valle",
@@ -802,6 +875,7 @@
     "desc": "El jefe ordena a un aliado goblin atacar como reacción inmediata."
    }
   ],
+  "resources": [],
   "abilities": {
    "str": 15,
    "dex": 12,
@@ -832,6 +906,14 @@
    {
     "name": "Distraer y Desaparecer (1/Descanso corto)",
     "desc": "Ilyas impone desventaja a una tirada de Percepción de una criatura que pueda verlo y se mueve hasta 15 ft. sin provocar ataques de oportunidad, ocultándose si tiene cobertura o penumbra."
+   }
+  ],
+  "resources": [
+   {
+    "name": "Distraer y Desaparecer",
+    "cur": 1,
+    "max": 1,
+    "reset": "short"
    }
   ],
   "abilities": {
@@ -867,6 +949,7 @@
     "save": "SAB DC 13"
    }
   ],
+  "resources": [],
   "abilities": {
    "str": 12,
    "dex": 14,
@@ -908,6 +991,7 @@
     "save": "Sabiduría DC 13"
    }
   ],
+  "resources": [],
   "abilities": {
    "str": 16,
    "dex": 11,
@@ -943,6 +1027,7 @@
     "damage": "1d6+1"
    }
   ],
+  "resources": [],
   "abilities": {
    "str": 13,
    "dex": 12,
@@ -972,6 +1057,7 @@
     "save": "STR DC 11"
    }
   ],
+  "resources": [],
   "abilities": {
    "str": 12,
    "dex": 15,
@@ -1009,6 +1095,20 @@
     "name": "Zona de Silencio Controlado (Recarga 5–6)",
     "desc": "Syel crea una zona de 15 pies durante 1 minuto donde solo su voz se escucha. Los enemigos dentro deben hacer una tirada de Constitución CD 15 o quedar mudos durante 1 turno. Los aliados ganan ventaja en tiradas de Conce…",
     "save": "Constitución DC 15"
+   }
+  ],
+  "resources": [
+   {
+    "name": "Silencio Inverso",
+    "cur": 1,
+    "max": 1,
+    "reset": "long"
+   },
+   {
+    "name": "Revelación Inversa",
+    "cur": 1,
+    "max": 1,
+    "reset": "long"
    }
   ],
   "abilities": {
@@ -1062,6 +1162,14 @@
     "name": "Cerrojo (1/día)",
     "desc": "Gasta todos los Eslabones (mínimo 3). Declara en voz alta una condición sencilla y verificable dirigida a una criatura que pueda ver. Si acepta, se sella sin tirada; si no, salvación de Sabiduría CD 18. Al romper la con…",
     "save": "Sabiduría DC 18"
+   }
+  ],
+  "resources": [
+   {
+    "name": "Cerrojo",
+    "cur": 1,
+    "max": 1,
+    "reset": "long"
    }
   ],
   "abilities": {

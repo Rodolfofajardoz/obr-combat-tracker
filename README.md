@@ -77,6 +77,14 @@ Las criaturas del catálogo y del SRD traen sus **acciones** ya estructuradas (`
 
 **Susurro al DM:** los jugadores tienen en su lugar el botón **🤫**: mientras está encendido, sus tiradas (dados y registro) solo las ven ese jugador y el DM; los demás no reciben nada. En el registro, las tiradas privadas llevan el ícono a la derecha, junto al desglose, y un borde izquierdo de color: rojo las ocultas (🙈), morado los susurros (🤫). El mensaje viaja a todos con el id del jugador, y cada ventana decide si lo muestra (`canSeeWhisper` en `src/diceShow.ts`).
 
+## Recursos y descansos
+
+Debajo de los números de combate va la lista de **recursos contables**: forma salvaje, puntos de hechicería, inspiración bárdica, puntos de foco, usos de un rasgo… Cada uno es un nombre, un máximo y cuándo se recupera (☕ descanso corto o 🌙 descanso largo). Hasta 12 usos se dibujan como puntos (clic en uno para gastar o recuperar hasta ahí); con más, un contador − / +. Si la hoja no tiene recursos, no se muestra nada: solo el botoncito **+ Resource** para agregar el primero, y ✎ / ✕ en cada fila para editarlo o quitarlo.
+
+Los perfiles del catálogo y del SRD traen los suyos solos: `scripts/catalogo.py` y `src/actions.ts` leen el nombre de cada rasgo o acción y convierten `(1/Descanso corto)`, `(2/Sesión)`, `(1/Day)` o `(Recharges after a Short or Long Rest)` en un recurso (*Sesión* y *Día* cuentan como descanso largo; *Recarga 5–6* no, eso se tira). Al cargar el perfil empiezan llenos.
+
+Botones **☕ Short rest** y **🌙 Long rest** en cada hoja; en la barra del DM (abajo de la lista) los mismos para **toda la lista**. El corto rellena los recursos ☕ y nada más: los PG se curan a mano, porque la hoja no lleva dados de golpe. El largo pone PG y maná al máximo, PG temporales a 0, rellena todos los recursos y reinicia la cuenta de conjuros repetidos (según [[Sistema de Maná del Tejido]], el maná solo vuelve con descanso largo). Cada descanso avisa con una notificación de Owlbear.
+
 ### Los overlays y el mapa
 
 Dados y tarjeta son popovers de Owlbear, o sea iframes: el navegador no deja pasar clics a través de un iframe, ni por sus partes transparentes, así que el rectángulo que ocupa cada uno bloquea el mapa debajo mientras está abierto. Por eso cada uno ocupa solo lo que necesita (la bandeja es chica y la tarjeta mide su contenido), viven en los bordes y se cierran solos; el resto del mapa sigue libre para mover la cámara, hacer zoom y mover fichas.

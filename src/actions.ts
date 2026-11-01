@@ -1,4 +1,22 @@
-import type { Action } from "./types";
+import type { Action, Resource } from "./types";
+
+/**
+ * Si el nombre de un rasgo dice cuántas veces se usa — "Tomar Aliento (1/Descanso corto)", "Fury (2/Day)",
+ * "Leadership (Recharges after a Short or Long Rest)" — lo convierte en un recurso contable. "Recarga 5–6" no cuenta: eso se tira.
+ */
+const USES = /\((\d+)\s*\/\s*([^)]+)\)/i;
+const RECHARGES = /\(recharges? after a ([^)]+)\)/i;
+export function resourceFromName(name: string): Resource | undefined {
+  const uses = name.match(USES);
+  const rech = name.match(RECHARGES);
+  const when = (uses?.[2] ?? rech?.[1] ?? "").toLowerCase();
+  if (!when) return undefined;
+  const shortRest = /corto|short|combate|combat|encuentro|encounter/.test(when);
+  const longRest = /largo|long|sesi|session|d[ií]a|day|rest/.test(when);
+  if (!shortRest && !longRest) return undefined;
+  const max = Number(uses?.[1] ?? 1) || 1;
+  return { name: name.replace(USES, "").replace(RECHARGES, "").trim(), cur: max, max, reset: shortRest ? "short" : "long" };
+}
 
 /** Saca del texto de una acción lo que se puede tirar: bono de ataque, daño y salvación. Español e inglés. */
 const DICE = /\d+d\d+(?:\s*[+-]\s*\d+)?/gi;

@@ -69,6 +69,21 @@ def short(desc, n=170):
     d = re.sub(r"\s+", " ", str(desc or "")).strip()
     return d if len(d) <= n else d[:n - 1].rstrip() + "…"
 
+USES = re.compile(r"\((\d+)\s*/\s*([^)]+)\)", re.I)
+RECHARGES = re.compile(r"\(recharges? after a ([^)]+)\)", re.I)
+
+def resource_from_name(name):
+    """'Tomar Aliento (1/Descanso corto)' → recurso contable (mismas reglas que src/actions.ts). 'Recarga 5–6' no cuenta."""
+    uses = USES.search(name); rech = RECHARGES.search(name)
+    when = ((uses and uses.group(2)) or (rech and rech.group(1)) or "").lower()
+    if not when: return None
+    short_rest = re.search(r"corto|short|combate|combat|encuentro|encounter", when)
+    long_rest = re.search(r"largo|long|sesi|session|d[ií]a|day|rest", when)
+    if not short_rest and not long_rest: return None
+    mx = int(uses.group(1)) if uses else 1
+    clean = RECHARGES.sub("", USES.sub("", name)).strip()
+    return {"name": clean, "cur": mx, "max": mx, "reset": "short" if short_rest else "long"}
+
 def convert(sb, src):
     name = str(sb.get("name", "")).strip()
     if not name: return None
@@ -140,11 +155,20 @@ def convert(sb, src):
             a["save"] = f"{ability} DC {dc}" if ability and ability.lower() not in ("o", "or", "de", "the") else f"DC {dc}"
         actions.append(a)
 
+    # Rasgos y acciones con usos contados ("(1/Descanso corto)", "(1/Sesión)") → recursos de la hoja
+    resources = []
+    for key in ("traits", "actions", "bonus_actions", "reactions"):
+        for it in (sb.get(key) or []):
+            if not isinstance(it, dict): continue
+            r = resource_from_name(str(it.get("name", "")))
+            if r: resources.append(r)
+
     return {
         "name": name,
         "source": src,
         "cr": str(cr),
         "actions": actions,
+        "resources": resources,
         "abilities": abilities,
         "ac": first_int(sb.get("ac"), 10),
         "maxHp": first_int(sb.get("hp"), 10),

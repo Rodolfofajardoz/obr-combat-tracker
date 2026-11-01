@@ -10,6 +10,7 @@ import {
   Sheet,
   Spell,
   Action,
+  Resource,
   defaultSheet,
 } from "./types";
 import { ABILITY_LONG, ABILITY_SHORT } from "./i18n";
@@ -33,6 +34,8 @@ export interface Profile {
   resSaveProf?: boolean;
   spells?: Spell[];
   actions?: Action[];
+  /** Recursos con su máximo; al cargar el perfil empiezan llenos */
+  resources?: Resource[];
 }
 
 /** Sin acentos, sin mayúsculas, sin espacios sobrantes: para comparar nombres */
@@ -99,6 +102,7 @@ export function profileToSheet(p: Profile, base: Sheet = defaultSheet()): Sheet 
     spells: p.spells ?? base.spells,
     casts: {},
     actions: p.actions ?? base.actions,
+    resources: p.resources ? p.resources.map((r) => ({ ...r, cur: r.max })) : base.resources,
   };
 }
 
@@ -118,6 +122,7 @@ export function sheetToProfile(name: string, s: Sheet): Profile {
     resSaveProf: s.resSaveProf,
     spells: s.spells,
     actions: s.actions,
+    resources: s.resources,
   };
 }
 

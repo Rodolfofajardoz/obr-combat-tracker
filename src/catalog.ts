@@ -1,6 +1,6 @@
 import { Profile, findProfile, norm } from "./profiles";
-import { ABILITIES, Ability, Action, ProfLevel, SKILLS, mod } from "./types";
-import { parseAction } from "./actions";
+import { ABILITIES, Ability, Action, ProfLevel, Resource, SKILLS, mod } from "./types";
+import { parseAction, resourceFromName } from "./actions";
 
 /** Entrada del catálogo: un perfil más de dónde salió */
 export interface CatalogEntry extends Profile {
@@ -169,6 +169,10 @@ export function srdToProfile(m: Open5eMonster): CatalogEntry {
   const actions: Action[] = Array.isArray(m.actions)
     ? m.actions.map((a) => parseAction(a.name, a.desc, { toHit: a.attack_bonus, dice: a.damage_dice, bonus: a.damage_bonus }))
     : [];
+  // Rasgos con usos contados ("Leadership (Recharges after a Short or Long Rest)") se vuelven recursos
+  const resources = [...(Array.isArray(m.special_abilities) ? m.special_abilities : []), ...(Array.isArray(m.actions) ? m.actions : [])]
+    .map((a) => resourceFromName(a.name))
+    .filter((r): r is Resource => !!r);
 
   return {
     name: m.name,
@@ -183,6 +187,7 @@ export function srdToProfile(m: Open5eMonster): CatalogEntry {
     skillProf,
     notes,
     actions,
+    resources,
   };
 }
 
