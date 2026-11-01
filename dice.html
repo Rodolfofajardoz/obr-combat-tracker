@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dice</title>
+    <style>
+      :root { color-scheme: dark; }
+      html, body { margin: 0; width: 100%; height: 100%; background: transparent !important; overflow: hidden;
+        font-family: "Segoe UI", Roboto, system-ui, sans-serif; color: #efeaff; cursor: pointer; }
+      #dice { position: fixed; inset: 0; }
+      #dice canvas { width: 100% !important; height: 100% !important; }
+      .caption {
+        position: fixed; left: 50%; top: 16%; transform: translateX(-50%);
+        display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 10px 22px 12px;
+        background: rgba(23, 19, 31, .82); border: 1px solid #a98bff; border-radius: 14px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, .55), 0 0 26px rgba(169, 139, 255, .35);
+        text-shadow: 0 1px 3px #000; pointer-events: none; text-align: center;
+      }
+      .what { font-size: 15px; opacity: .9; }
+      .by { font-size: 11px; opacity: .6; letter-spacing: .06em; text-transform: uppercase; }
+      .total { font-size: 56px; font-weight: 800; line-height: 1; opacity: 0; transform: scale(.4); }
+      .detail { font-size: 13px; opacity: 0; }
+      .done .total { animation: pop .45s cubic-bezier(.2, 1.5, .3, 1) forwards; }
+      .done .detail { animation: show .3s .15s forwards; }
+      .out { animation: fade .4s ease-in forwards; }
+      @keyframes pop { to { opacity: 1; transform: none; } }
+      @keyframes show { to { opacity: .85; } }
+      @keyframes fade { to { opacity: 0; } }
+    </style>
+  </head>
+  <body>
+    <div id="dice"></div>
+    <div class="caption" id="caption">
+      <span class="by" id="by"></span>
+      <span class="what" id="what"></span>
+      <span class="total" id="total"></span>
+      <span class="detail" id="detail"></span>
+    </div>
+    <script type="module" src="/src/diceOverlay.ts"></script>
+  </body>
+</html>

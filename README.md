@@ -38,8 +38,8 @@ Imprime una URL tipo `https://algo.trycloudflare.com`. En Owlbear agrega `https:
    - **▼** abre la **hoja**: características, salvaciones, habilidades, estados y notas.
 4. En la hoja, cada característica, salvación y habilidad es un botón: **clic = tirada**. El resultado sale abajo en *Tiradas*, y lo ven todos en la sala.
 5. Arriba: **Normal / Ventaja / Desventaja** se aplica a la siguiente tirada y luego se apaga solo.
-   - **🎲 3D**: con esto encendido, cada tirada lanza un d20 físico dentro de la ventana (librería [dice-box](https://fantasticdice.games/)) y el bono se suma al resultado. Apágalo para tiradas instantáneas. Solo quien tira ve el dado; los demás ven el resultado en *Tiradas*.
-   - Los assets del dado viven en `public/assets/dice-box/` (copiados de `node_modules/@3d-dice/dice-box/dist/assets`).
+   - **Dados 3D para todos:** cada tirada (iniciativa, salvación, habilidad, ataque, daño) se tira primero al instante y luego se manda a toda la sala; en cada pantalla se abre `dice.html` a pantalla completa y los dados ruedan y caen justo en esos valores ([dice-box-threejs](https://github.com/3d-dice/dice-box-threejs), que permite fijar el resultado con `2d6@3,5`). Encima sale quién tiró, qué, y el total. Se cierra solo o con un clic. El registro espera ~3.5 s para no adelantar el resultado.
+   - **🎲 3D** decide si **tú** ves los dados (los tuyos y los de los demás); se guarda por navegador. Apagado, tus tiradas salen al instante en el registro. Las tiradas ocultas (🙈) solo ruedan en tu pantalla.
    - La interfaz va en **inglés**. (El diccionario en `src/i18n.ts` conserva el español; para volver a ofrecerlo basta con reponer el botón en `App.tsx`.)
    - **◢** en la esquina inferior derecha: arrástralo para cambiar el tamaño de la ventana. El tamaño se recuerda.
 6. Botones del DM: **Siguiente ▶** pasa el turno (y la cámara), **Tirar las que faltan** tira iniciativa a todas las fichas sin número, **Limpiar iniciativa** resetea la ronda.

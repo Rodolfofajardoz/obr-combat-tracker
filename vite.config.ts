@@ -46,6 +46,7 @@ export default defineConfig({
         main: resolve(__dirname, "index.html"),
         background: resolve(__dirname, "background.html"),
         card: resolve(__dirname, "card.html"),
+        dice: resolve(__dirname, "dice.html"),
       },
     },
   },

@@ -20,7 +20,7 @@ import { SheetPanel } from "./components/SheetPanel";
 import { RollLog } from "./components/RollLog";
 import { ProfilesPanel } from "./components/ProfilesPanel";
 import { Profile, loadProfiles, onProfilesChange } from "./profiles";
-import { clearDice3d, initDice3d, readDice3dPref, roll3d, roll3dGroups, writeDice3dPref } from "./dice3d";
+import { DICE_SETTLE_MS, DiceShow, broadcastDice, readDice3dPref, writeDice3dPref } from "./diceShow";
 import { CatalogEntry, loadCatalog } from "./catalog";
 import { Lang, LangContext, tr } from "./i18n";
 import { ResizeHandle } from "./components/ResizeHandle";
@@ -56,8 +56,6 @@ export default function App() {
   /** Los demás jugadores conectados (el propio no viene en party) */
   const [party, setParty] = useState<Player[]>([]);
   const [dice3d, setDice3d] = useState(readDice3dPref);
-  /** Tirada en curso o recién terminada, para la capa del dado 3D */
-  const [rolling, setRolling] = useState<{ what: string; msg?: RollMessage } | null>(null);
   const [settings, setSettings] = useState<Settings>(defaultSettings);
   const [bars, setBars] = useState(readBarsPref);
   /** Tiradas ocultas: solo las ve el DM que las hace */
@@ -72,11 +70,6 @@ export default function App() {
   // Interfaz solo en inglés (el diccionario conserva el español por si vuelve el botón)
   const lang: Lang = "en";
   const t = useCallback((k: Parameters<typeof tr>[1]) => tr(lang, k), [lang]);
-
-  // Precarga el dado 3D (wasm y texturas) para que la primera tirada no espere
-  useEffect(() => {
-    if (dice3d) initDice3d().catch(() => setDice3d(false));
-  }, [dice3d]);
 
   // Conexión con Owlbear
   useEffect(() => {
@@ -132,25 +125,19 @@ export default function App() {
   );
 
   // ---- tiradas ----
+  /** Manda los dados a la pantalla de todos; si aquí se ven en 3D, espera a que caigan antes de publicar el resultado */
+  const showDice = useCallback(
+    async (show: Omit<DiceShow, "by" | "hidden">) => {
+      if (!show.values.length) return;
+      await broadcastDice({ ...show, by: playerName, hidden: hidden || undefined }, hidden);
+      if (dice3d) await new Promise((r) => setTimeout(r, DICE_SETTLE_MS));
+    },
+    [playerName, hidden, dice3d],
+  );
+
   const roll = useCallback(
     async (req: RollRequest) => {
-      let dice: number[];
-      let kept: number;
-      if (dice3d) {
-        // Dado físico: la capa se muestra mientras rueda y se queda con el resultado
-        setRolling({ what: `${req.who} · ${req.what}` });
-        try {
-          dice = await roll3d(mode === "normal" ? 1 : 2);
-          kept = mode === "adv" ? Math.max(...dice) : mode === "dis" ? Math.min(...dice) : dice[0];
-        } catch {
-          // Si el 3D falla (sin WebGL, sin assets), cae al dado instantáneo
-          setDice3d(false);
-          writeDice3dPref(false);
-          ({ dice, kept } = rollD20(mode));
-        }
-      } else {
-        ({ dice, kept } = rollD20(mode));
-      }
+      const { dice, kept } = rollD20(mode);
       const msg: RollMessage = {
         ...req,
         dice,
@@ -161,42 +148,26 @@ export default function App() {
         at: Date.now(),
         hidden: hidden || undefined,
       };
-      if (dice3d) setRolling({ what: `${req.who} · ${req.what}`, msg });
-      await broadcastRoll(msg, hidden);
       setMode("normal");
+      const bonus = req.mod ? ` ${req.mod > 0 ? "+" : "−"} ${Math.abs(req.mod)}` : "";
+      await showDice({
+        notation: `${dice.length}d20`,
+        values: dice,
+        who: req.who,
+        what: req.what,
+        total: msg.total,
+        detail: (dice.length > 1 ? `[${dice.join(", ")}] → ${kept}` : `${kept}`) + bonus,
+      });
+      await broadcastRoll(msg, hidden);
       return msg;
     },
-    [mode, playerName, dice3d, hidden],
+    [mode, playerName, hidden, showDice],
   );
 
   /** Daño y otras expresiones: sin ventaja/desventaja, con dado 3D si está activo */
   const rollExpr = useCallback(
     async (req: ExprRequest) => {
-      let dice: number[];
-      let mod: number;
-      let total: number;
-      const parsed = parseExpr(req.expr);
-      if (dice3d && parsed.terms.length) {
-        setRolling({ what: `${req.who} · ${req.what}` });
-        try {
-          const groups = parsed.terms.map((t) => `${Math.abs(t.count)}d${t.sides}`);
-          dice = await roll3dGroups(groups);
-          // los dados salen en el mismo orden que los grupos; los negativos restan
-          let i = 0;
-          let sum = 0;
-          for (const t of parsed.terms) {
-            for (let k = 0; k < Math.abs(t.count); k++) sum += (t.count < 0 ? -1 : 1) * (dice[i++] ?? 0);
-          }
-          mod = parsed.mod;
-          total = sum + mod;
-        } catch {
-          setDice3d(false);
-          writeDice3dPref(false);
-          ({ dice, mod, total } = rollExprInstant(req.expr));
-        }
-      } else {
-        ({ dice, mod, total } = rollExprInstant(req.expr));
-      }
+      const { dice, mod, total } = rollExprInstant(req.expr);
       const msg: RollMessage = {
         who: req.who,
         what: req.what,
@@ -210,17 +181,20 @@ export default function App() {
         expr: req.expr,
         hidden: hidden || undefined,
       };
-      if (dice3d) setRolling({ what: `${req.who} · ${req.what}`, msg });
+      // Los dados salen en el orden de los grupos de la expresión
+      await showDice({
+        notation: parseExpr(req.expr).terms.map((t) => `${Math.abs(t.count)}d${t.sides}`).join("+"),
+        values: dice,
+        who: req.who,
+        what: req.what,
+        total,
+        detail: `${req.expr} → [${dice.join(", ")}]`,
+      });
       await broadcastRoll(msg, hidden);
       return msg;
     },
-    [playerName, dice3d, hidden],
+    [playerName, hidden, showDice],
   );
-
-  const dismissDice = () => {
-    clearDice3d();
-    setRolling(null);
-  };
 
   const toggleDice3d = () => {
     const next = !dice3d;
@@ -277,39 +251,9 @@ export default function App() {
 
   const open = openId ? combatants.find((c) => c.id === openId) : undefined;
 
-  // Capa del dado 3D: #dice-box tiene que existir SIEMPRE en el DOM (dice-box lo busca al crearse),
-  // por eso se renderiza también cuando no hay escena.
-  const diceLayer = (
-    <div className={`dice-layer ${rolling ? "on" : ""}`} onClick={rolling?.msg ? dismissDice : undefined}>
-      <div id="dice-box" />
-      {rolling && (
-        <div className="dice-caption">
-          <span className="what">{rolling.what}</span>
-          {rolling.msg ? (
-            <span className="result">
-              <b>{rolling.msg.total}</b>
-              <small>
-                {rolling.msg.expr
-                  ? `${rolling.msg.expr} → [${rolling.msg.dice.join(", ")}]`
-                  : rolling.msg.dice.length > 1
-                    ? `[${rolling.msg.dice.join(", ")}] → ${rolling.msg.kept}`
-                    : rolling.msg.kept}
-                {!rolling.msg.expr && rolling.msg.mod !== 0 && ` ${rolling.msg.mod > 0 ? "+" : "−"} ${Math.abs(rolling.msg.mod)}`}
-              </small>
-              <em>{t("clickToClose")}</em>
-            </span>
-          ) : (
-            <span className="result rolling">{t("rolling")}</span>
-          )}
-        </div>
-      )}
-    </div>
-  );
-
   if (!ready) {
     return (
       <LangContext.Provider value={lang}>
-        {diceLayer}
         <div className="empty">{t("noScene")}</div>
         <ResizeHandle />
       </LangContext.Provider>
@@ -319,7 +263,6 @@ export default function App() {
   return (
     <LangContext.Provider value={lang}>
     <div className="app">
-      {diceLayer}
       <header className="top">
         <div className="round">
           <span className="label">{t("round")}</span>

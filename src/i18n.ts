@@ -10,8 +10,11 @@ const D = {
   adv: ["Ventaja", "Advantage"],
   dis: ["Desventaja", "Disadvantage"],
   advDisTitle: ["Ventaja o desventaja para la próxima tirada", "Advantage or disadvantage for the next roll"],
-  dice3dOn: ["Dado 3D activado: clic para tiradas instantáneas", "3D dice on: click for instant rolls"],
-  dice3dOff: ["Activar dado 3D", "Turn on 3D dice"],
+  dice3dOn: [
+    "Ves los dados 3D de todos en pantalla: clic para no verlos y que tus tiradas salgan al instante",
+    "You see everyone's 3D dice on screen: click to hide them and make your rolls instant",
+  ],
+  dice3dOff: ["Ver los dados 3D de todos en pantalla", "Show everyone's 3D dice on screen"],
   profilesTitle: ["Perfiles guardados e importar desde Excel", "Saved profiles and Excel import"],
   prevTurn: ["Turno anterior", "Previous turn"],
   nextTurn: ["Siguiente", "Next"],
@@ -27,8 +30,6 @@ const D = {
   noScene: ["No hay ninguna escena abierta.", "No scene is open."],
   hintNext: ["Próxima tirada con", "Next roll with"],
   hintName: ["Clic en el nombre para ver la ficha en el mapa", "Click a name to show the token on the map"],
-  rolling: ["rodando…", "rolling…"],
-  clickToClose: ["clic para cerrar", "click to close"],
   resize: ["Arrastra para cambiar el tamaño de la ventana", "Drag to resize the window"],
   // fila
   initiative: ["Iniciativa", "Initiative"],
