@@ -1,5 +1,6 @@
 import OBR from "@owlbear-rodeo/sdk";
 import { CARD_POPOVER_ID, CastMessage, levelLabel } from "./spells";
+import { cardTheme, startFx } from "./cardFx";
 
 /** Tarjeta de conjuro: se abre como popover en la pantalla de todos cuando alguien lanza. */
 const LIFE_MS = 14000;
@@ -25,27 +26,39 @@ function render(m: CastMessage) {
   const tags = [level, sp.school, sp.concentration ? "Concentration" : "", sp.ritual ? "Ritual" : ""]
     .filter(Boolean)
     .join(" · ");
+  // Aura: colores, glifo y partículas según el daño que hace el conjuro o, si no, su escuela
+  const theme = cardTheme(sp);
   document.getElementById("root")!.innerHTML = `
-    <div class="card" id="card" style="--life:${LIFE_MS}ms">
-      <div class="caster">${esc(m.caster)} casts</div>
-      <h1>${esc(sp.name)}</h1>
-      <div class="sub">${esc(tags)}</div>
-      <div class="meta">
-        <span><b>Time</b>${esc(sp.time)}</span>
-        <span><b>Range</b>${esc(sp.range)}</span>
-        <span><b>Duration</b>${esc(sp.duration)}</span>
-        <span><b>Comp.</b>${esc(sp.components)}</span>
+    <div class="card" id="card" data-theme="${theme.key}" style="--life:${LIFE_MS}ms; --c1:${theme.c1}; --c2:${theme.c2}">
+      <canvas class="fx" id="fx"></canvas>
+      <div class="glyph">${theme.glyph}</div>
+      <div class="in">
+        <div class="caster">${esc(m.caster)} casts</div>
+        <h1>${esc(sp.name)}</h1>
+        <div class="sub">${esc(tags)}</div>
+        <div class="meta">
+          <span><b>Time</b>${esc(sp.time)}</span>
+          <span><b>Range</b>${esc(sp.range)}</span>
+          <span><b>Duration</b>${esc(sp.duration)}</span>
+          <span><b>Comp.</b>${esc(sp.components)}</span>
+        </div>
+        <div class="desc">${paras(sp.fullDesc || sp.desc)}${sp.higher ? `<div class="higher"><b>At higher levels.</b> ${esc(sp.higher)}</div>` : ""}</div>
+        <div class="foot"><span>${m.cost > 0 ? `<span class="cost">−${m.cost} MP</span>` : "Cantrip"}</span><span>click to close</span></div>
+        <div class="bar"><i></i></div>
       </div>
-      <div class="desc">${paras(sp.fullDesc || sp.desc)}${sp.higher ? `<div class="higher"><b>At higher levels.</b> ${esc(sp.higher)}</div>` : ""}</div>
-      <div class="foot"><span>${m.cost > 0 ? `<span class="cost">−${m.cost} MP</span>` : "Cantrip"}</span><span>click to close</span></div>
-      <div class="bar"><i></i></div>
     </div>`;
+  stopFx = startFx(document.getElementById("fx") as HTMLCanvasElement, theme);
 }
+
+let stopFx: () => void = () => {};
 
 function close() {
   const card = document.getElementById("card");
   card?.classList.add("out");
-  window.setTimeout(() => OBR.popover.close(CARD_POPOVER_ID), 350);
+  window.setTimeout(() => {
+    stopFx();
+    if (OBR.isAvailable) OBR.popover.close(CARD_POPOVER_ID);
+  }, 350);
 }
 
 const msg = read();

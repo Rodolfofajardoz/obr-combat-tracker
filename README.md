@@ -69,6 +69,19 @@ En la hoja, a la izquierda de las habilidades, va la lista de **Spells**. Se bus
 
 En la hoja solo se guarda el resumen de cada conjuro; la descripción completa se trae del SRD al lanzar.
 
+### Auras de la tarjeta
+
+Cada tarjeta lleva un **tema** (`src/cardFx.ts`): colores de borde, brillo y títulos, un glifo de marca de agua y partículas en un `<canvas>` detrás del texto. El tema sale primero de **lo que hace el conjuro** y, si no hace daño ni cura, de su **escuela**:
+
+| Tema | Cómo se detecta | Aura |
+|---|---|---|
+| fire / cold / lightning / thunder / acid / poison / necrotic / radiant / psychic / force | "X damage" en el texto (el primero que aparezca); si el texto no lo dice, pistas en el nombre (Ice Knife, Flame Blade…) | brasas que suben · nieve · chispas y un rayo ocasional · ondas de choque · gotas · burbujas · volutas de humo · destellos · ondas concéntricas · puntos en órbita |
+| prism | tres o más tipos de daño en la misma frase (Chromatic Orb) | estrellas que cambian de color |
+| heal | "regains … hit points" | motas verdes |
+| evocation / abjuration / illusion / enchantment / conjuration / divination / transmutation | la escuela | brasas · anillo de runas que gira · niebla tornasol · destellos rosa · órbita · estrellas · formas que se deforman |
+
+Las partículas son decorativas: hasta ~60 vivas, se precalientan para que la tarjeta aparezca ya con su aura, se detienen al cerrar y no existen si el sistema pide menos movimiento (`prefers-reduced-motion`). Las animaciones CSS por tema (parpadeo del título en lightning, cambio de tono del aura en illusion/prism) tampoco. Nada de esto sale del rectángulo de la tarjeta: es un popover, y Owlbear no deja dibujar fuera.
+
 ## Mobs: acciones tirables
 
 Las criaturas del catálogo y del SRD traen sus **acciones** ya estructuradas (`scripts/catalogo.py` y `src/actions.ts` leen el texto: `+6 al golpe` / `+4 to hit`, los dados de daño y la salvación `CD 14`). En la hoja de un mob, en vez de Spells sale **Actions**: cada una con **🎯 +6** (tira d20 + bono, respeta ventaja/desventaja) y **💥 2d6+3** (tira el daño; con dado 3D salen los dados reales). Pasar el cursor muestra el texto completo. Los daños alternativos (versátil: "…, o 1d10+3 a dos manos") se quedan con la primera opción. Los PJ siguen con su hoja y sus conjuros; un mob puede mostrar también Spells con el botoncito *+ Spells*.

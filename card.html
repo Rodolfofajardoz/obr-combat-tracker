@@ -9,33 +9,71 @@
       /* Pegada al borde de abajo: el popover vive en la esquina inferior derecha del mapa */
       body { display: flex; align-items: flex-end; justify-content: flex-end; padding: 8px; box-sizing: border-box; overflow: hidden; }
       #root { display: flex; justify-content: flex-end; width: 100%; }
-      /* Sin tope de alto: la tarjeta mide lo que mide y el popover se ajusta a ella (fit en card.ts) */
+      /*
+       * Sin tope de alto: la tarjeta mide lo que mide y el popover se ajusta a ella (fit en card.ts).
+       * --c1 / --c2 los pone el tema (src/cardFx.ts): tipo de daño del conjuro o, si no hace daño, su escuela.
+       */
       .card {
+        --c1: #a98bff; --c2: #dcd0ff;
         color-scheme: dark;
+        position: relative; overflow: hidden;
         width: 100%; max-width: 360px; box-sizing: border-box; padding: 14px 16px 12px;
-        background: linear-gradient(160deg, #2a2338 0%, #17131f 100%);
-        border: 1px solid #a98bff; border-radius: 14px;
-        box-shadow: 0 0 0 1px #000, 0 12px 40px rgba(0, 0, 0, .6), 0 0 30px rgba(169, 139, 255, .35);
+        background:
+          radial-gradient(120% 80% at 100% 0%, color-mix(in srgb, var(--c1) 22%, transparent) 0%, transparent 60%),
+          radial-gradient(90% 60% at 0% 100%, color-mix(in srgb, var(--c2) 12%, transparent) 0%, transparent 60%),
+          linear-gradient(160deg, #2a2338 0%, #17131f 100%);
+        border: 1px solid var(--c1); border-radius: 14px;
+        box-shadow: 0 0 0 1px #000, 0 12px 40px rgba(0, 0, 0, .6), 0 0 30px color-mix(in srgb, var(--c1) 40%, transparent);
         transform-origin: 100% 100%;
         animation: pop .55s cubic-bezier(.2, 1.4, .3, 1) both, glow 2.4s ease-in-out .5s infinite alternate;
         cursor: pointer;
       }
       .card.out { animation: fade .35s ease-in both; }
       @keyframes pop { 0% { opacity: 0; transform: scale(.6) rotateX(35deg) translateY(30px); } 100% { opacity: 1; transform: none; } }
-      @keyframes glow { from { box-shadow: 0 0 0 1px #000, 0 12px 40px rgba(0,0,0,.6), 0 0 18px rgba(169,139,255,.25); } to { box-shadow: 0 0 0 1px #000, 0 12px 40px rgba(0,0,0,.6), 0 0 42px rgba(169,139,255,.55); } }
+      @keyframes glow {
+        from { box-shadow: 0 0 0 1px #000, 0 12px 40px rgba(0,0,0,.6), 0 0 18px color-mix(in srgb, var(--c1) 30%, transparent); }
+        to   { box-shadow: 0 0 0 1px #000, 0 12px 40px rgba(0,0,0,.6), 0 0 46px color-mix(in srgb, var(--c1) 65%, transparent); }
+      }
       @keyframes fade { to { opacity: 0; transform: scale(.9) translateY(10px); } }
-      .caster { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #b9a9ee; }
+
+      /* El canvas de partículas vive detrás del texto; el glifo es una marca de agua */
+      .fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+      .glyph {
+        position: absolute; right: 10px; top: -6px; font-size: 92px; line-height: 1; pointer-events: none;
+        color: var(--c1); opacity: .09; filter: blur(.3px); user-select: none;
+        animation: breathe 5s ease-in-out infinite alternate;
+      }
+      @keyframes breathe { from { transform: scale(.96) rotate(-3deg); opacity: .07; } to { transform: scale(1.04) rotate(3deg); opacity: .13; } }
+      .in { position: relative; z-index: 1; }
+
+      /* Toques por tema: los de movimiento se desactivan si el sistema lo pide */
+      .card[data-theme="lightning"] .in h1 { animation: flicker 3.5s steps(1) infinite; }
+      @keyframes flicker { 0%, 92%, 100% { opacity: 1; } 93% { opacity: .55; } 94% { opacity: 1; } 96% { opacity: .7; } 97% { opacity: 1; } }
+      /* Ilusión y prisma: el aura cambia de color, el texto no */
+      .card[data-theme="illusion"] .fx, .card[data-theme="illusion"] .glyph,
+      .card[data-theme="prism"] .fx, .card[data-theme="prism"] .glyph { animation: hue 9s linear infinite; }
+      .card[data-theme="illusion"] .glyph, .card[data-theme="prism"] .glyph { animation: hue 9s linear infinite, breathe 5s ease-in-out infinite alternate; }
+      @keyframes hue { to { filter: hue-rotate(360deg); } }
+      .card[data-theme="radiant"] .in h1, .card[data-theme="divination"] .in h1 { text-shadow: 0 0 14px color-mix(in srgb, var(--c1) 70%, transparent); }
+      .card[data-theme="necrotic"] { background: radial-gradient(120% 80% at 100% 0%, rgba(90, 30, 130, .35) 0%, transparent 60%), linear-gradient(160deg, #1d1426 0%, #0d0a12 100%); }
+      .card[data-theme="fire"] .in h1 { text-shadow: 0 0 12px rgba(255, 122, 61, .6); }
+      @media (prefers-reduced-motion: reduce) {
+        .card, .card[data-theme] { animation: pop .3s ease-out both; }
+        .glyph, .card[data-theme="lightning"] .in h1 { animation: none; }
+      }
+
+      .caster { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: color-mix(in srgb, var(--c1) 70%, #fff); }
       h1 { margin: 2px 0 2px; font-size: 22px; line-height: 1.1; }
       .sub { font-size: 12px; color: #c9bfe6; font-style: italic; }
       .meta { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 10px; margin: 10px 0; font-size: 11px; color: #d8d0f0; }
-      .meta b { color: #a98bff; font-weight: 600; margin-right: 4px; }
+      .meta b { color: var(--c1); font-weight: 600; margin-right: 4px; }
       .desc { font-size: 12.5px; line-height: 1.45; max-height: 260px; overflow-y: auto; padding-right: 4px; }
       .desc p { margin: 0 0 6px; }
       .higher { margin-top: 6px; font-size: 11.5px; color: #c9bfe6; border-top: 1px solid #3b3350; padding-top: 6px; }
       .foot { display: flex; justify-content: space-between; margin-top: 10px; font-size: 11px; color: #9a8fc2; }
       .cost { color: #7fb8ff; font-weight: 700; }
       .bar { height: 3px; background: #3b3350; border-radius: 2px; margin-top: 6px; overflow: hidden; }
-      .bar i { display: block; height: 100%; width: 100%; background: #a98bff; transform-origin: left; animation: drain var(--life) linear forwards; }
+      .bar i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, var(--c1), var(--c2)); transform-origin: left; animation: drain var(--life) linear forwards; }
       @keyframes drain { to { transform: scaleX(0); } }
     </style>
   </head>
