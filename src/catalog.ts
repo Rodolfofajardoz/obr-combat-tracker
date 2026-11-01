@@ -6,7 +6,12 @@ import { parseAction, resourceFromName } from "./actions";
 export interface CatalogEntry extends Profile {
   source: string;
   cr: string;
+  /** PJ y aliados: nivel en vez de CR */
+  level?: number;
 }
+
+/** "CR 3" para criaturas, "lvl 3" para PJ y aliados */
+export const catalogTag = (e: CatalogEntry) => (e.level ? `lvl ${e.level}` : `CR ${e.cr}`);
 
 // ---------- catálogo de la campaña (public/catalogo.json, generado desde el vault) ----------
 
@@ -29,7 +34,7 @@ export function findAnyProfile(profiles: Profile[], catalog: Profile[], name: st
 export function filterCatalog(list: CatalogEntry[], query: string): CatalogEntry[] {
   const q = norm(query);
   if (!q) return list;
-  return list.filter((e) => norm(`${e.name} ${e.source} cr ${e.cr}`).includes(q));
+  return list.filter((e) => norm(`${e.name} ${e.source} ${catalogTag(e)}`).includes(q));
 }
 
 // ---------- SRD (Open5e) ----------

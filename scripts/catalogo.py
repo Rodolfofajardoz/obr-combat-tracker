@@ -1,10 +1,87 @@
-"""Extrae los statblocks (Fantasy Statblocks) del vault y genera public/catalogo.json para la extensión."""
-import io, sys, os, re, json, unicodedata
+"""Extrae los statblocks (Fantasy Statblocks) del vault y genera public/catalogo.json para la extensión.
+
+Campos extra que entiende, además de los de Fantasy Statblocks (para PJ y aliados):
+  level: 3            → bono de competencia por nivel; se muestra "lvl 3" en vez de CR
+  mana: 12            → maná máximo        resonance: 3 / res_save: true → Resonancia y su salvación
+  spells: [nombres]   → conjuros resueltos contra Open5e (SRD 5.2 de 2024 primero, luego 5.1) y guardados en scripts/spells-cache.json
+"""
+import io, sys, os, re, json, unicodedata, urllib.request, urllib.parse
 import yaml
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 VA = r"C:\Users\Rodol\OneDrive\Documents\El Juicio del Tejido"
-OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "public", "catalogo.json")
+HERE = os.path.dirname(os.path.abspath(__file__))
+OUT = os.path.join(os.path.dirname(HERE), "public", "catalogo.json")
+SPELL_CACHE = os.path.join(HERE, "spells-cache.json")
+
+# Conjuros que no están en Open5e (ni 5.1 ni 5.2): texto propio, resumido con nuestras palabras
+LOCAL_SPELLS = {
+    "blade ward": {"name": "Blade Ward", "slug": "local:blade-ward", "level": 0, "school": "Abjuration", "time": "1 action", "range": "Self",
+                   "duration": "Concentration, up to 1 minute", "components": "V, S", "concentration": True, "ritual": False,
+                   "desc": "You ward yourself. While the ward lasts, any creature that makes an attack roll against you subtracts 1d4 from the roll."},
+    "friends": {"name": "Friends", "slug": "local:friends", "level": 0, "school": "Enchantment", "time": "1 action", "range": "Self",
+                "duration": "Concentration, up to 1 minute", "components": "S, M (a bit of makeup)", "concentration": True, "ritual": False,
+                "desc": "Pick one creature that isn't hostile to you. For the duration you have advantage on every Charisma check aimed at it. When the spell ends it realizes you used magic on its mood and turns hostile; what it does about it depends on its nature."},
+}
+
+def _get(url):
+    with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "catalogo.py"}), timeout=25) as r:
+        return json.load(r)
+
+def _short(s, n):
+    d = re.sub(r"\s+", " ", str(s or "")).strip()
+    return d if len(d) <= n else d[:n - 1].rstrip() + "…"
+
+def _from_v2(s):
+    comps = ", ".join(c for c, on in (("V", s.get("verbal")), ("S", s.get("somatic")), ("M", s.get("material"))) if on)
+    if s.get("material_specified"): comps += f" ({_short(s['material_specified'], 60)})"
+    school = s.get("school"); school = school.get("name", "") if isinstance(school, dict) else str(school or "")
+    return {"name": s["name"], "slug": f"v2:{s['key']}", "level": int(s.get("level") or 0), "school": school, "time": s.get("casting_time", ""),
+            "range": s.get("range_text", ""), "duration": s.get("duration", ""), "components": comps,
+            "concentration": bool(s.get("concentration")), "ritual": bool(s.get("ritual")), "desc": _short(s.get("desc"), 280)}
+
+def _from_v1(s):
+    comps = s.get("components", "") + (f" ({_short(s['material'], 60)})" if s.get("material") else "")
+    return {"name": s["name"], "slug": s["slug"], "level": int(s.get("level_int") or 0), "school": s.get("school", ""), "time": s.get("casting_time", ""),
+            "range": s.get("range", ""), "duration": s.get("duration", ""), "components": comps,
+            "concentration": s.get("concentration") == "yes", "ritual": s.get("ritual") == "yes", "desc": _short(s.get("desc"), 280)}
+
+_cache = json.load(open(SPELL_CACHE, encoding="utf-8")) if os.path.exists(SPELL_CACHE) else {}
+_cache_dirty = False
+
+def resolve_spell(name):
+    """Mismo formato que src/spells.ts (toSpell): lo justo para la lista y el hover; la tarjeta completa se trae al lanzar."""
+    global _cache_dirty
+    key = norm(name)
+    if key in _cache: return _cache[key]
+    if key in LOCAL_SPELLS: return LOCAL_SPELLS[key]
+    found = None
+    try:
+        q = urllib.parse.quote(name)
+        for s in _get(f"https://api.open5e.com/v2/spells/?name__icontains={q}&document__key=srd-2024&limit=20").get("results", []):
+            if norm(s["name"]) == key: found = _from_v2(s); break
+        if not found:
+            for s in _get(f"https://api.open5e.com/v1/spells/?search={q}&document__slug=wotc-srd&limit=20").get("results", []):
+                if norm(s["name"]) == key: found = _from_v1(s); break
+    except Exception as e:
+        print(f"Open5e no respondió para «{name}»: {str(e)[:60]}")
+        return None
+    if found:
+        _cache[key] = found; _cache_dirty = True
+    else:
+        print(f"Conjuro no encontrado en Open5e: «{name}»")
+    return found
+
+def spell_names(raw):
+    """spells: ['Fire Bolt', 'Cantrips: Light, Guidance', {'Level 1': 'Bless, Sleep'}] → nombres sueltos"""
+    out = []
+    for it in raw or []:
+        vals = list(it.values()) if isinstance(it, dict) else [it]
+        for v in vals:
+            s = str(v)
+            if ":" in s and not re.match(r"^\s*[\w' -]+:\s*$", s): s = s.split(":", 1)[1]
+            out += [x.strip() for x in s.split(",") if x.strip()]
+    return out
 
 ABIL = ["str", "dex", "con", "int", "wis", "cha"]
 SAVE_NAMES = {
@@ -92,7 +169,9 @@ def convert(sb, src):
     stats = sb.get("stats") or [10] * 6
     abilities = {a: first_int(stats[i] if i < len(stats) else 10, 10) for i, a in enumerate(ABIL)}
     cr = sb.get("cr", 0)
-    prof = prof_from_cr(cr)
+    level = first_int(sb.get("level"), 0)
+    # PJ y aliados con nivel: competencia por nivel; criaturas: por CR
+    prof = 2 + (level - 1) // 4 if level > 0 else prof_from_cr(cr)
     notes_bits = []
     mismatches = []
 
@@ -120,7 +199,7 @@ def convert(sb, src):
             mismatches.append(f"{k} +{bonus}")
 
     head = " · ".join(x for x in [
-        f"CR {cr}" if cr not in (None, "") else "",
+        f"lvl {level}" if level > 0 else (f"CR {cr}" if cr not in (None, "") else ""),
         f"{sb.get('size', '')} {sb.get('type', '')}".strip(),
         f"Vel. {sb.get('speed')}" if sb.get("speed") else "",
     ] if x)
@@ -167,10 +246,10 @@ def convert(sb, src):
             r = resource_from_name(str(it.get("name", "")), it.get("desc", ""))
             if r: resources.append(r)
 
-    return {
+    out = {
         "name": name,
         "source": src,
-        "cr": str(cr),
+        "cr": str(cr) if level == 0 else "",
         "actions": actions,
         "resources": resources,
         "traits": traits,
@@ -183,6 +262,17 @@ def convert(sb, src):
         "skillProf": skill_prof,
         "notes": "\n".join(notes_bits)[:1500],
     }
+    if level > 0: out["level"] = level
+    if sb.get("mana") is not None: out["maxMana"] = first_int(sb.get("mana"), 0)
+    if sb.get("resonance") is not None:
+        out["resonance"] = first_int(sb.get("resonance"), 10)
+        out["resSaveProf"] = bool(sb.get("res_save"))
+    # Solo los bloques con nivel (PJ y aliados) traen listas de conjuros resolubles; en los mobs `spells` suele ser prosa
+    if sb.get("spells") and level > 0:
+        spells = [sp for sp in (resolve_spell(n) for n in spell_names(sb["spells"])) if sp]
+        spells.sort(key=lambda sp: (sp["level"], norm(sp["name"])))
+        out["spells"] = spells
+    return out
 
 found = {}
 order = []
@@ -201,7 +291,7 @@ for dp, dn, fn in os.walk(VA):
             p = convert(sb, f[:-3])
             if not p: continue
             key = norm(p["name"])
-            prefer = os.sep + "Creatures" + os.sep in path or os.sep + "NPCs" + os.sep in path
+            prefer = any(os.sep + d + os.sep in path for d in ("Creatures", "NPCs", "Players", "Deities"))
             if key not in found or (prefer and not found[key]["_pref"]):
                 p["_pref"] = prefer
                 found[key] = p
@@ -213,7 +303,10 @@ for k in order:
     cat.append(p)
 cat.sort(key=lambda p: norm(p["name"]))
 json.dump(cat, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+if _cache_dirty:
+    json.dump(_cache, open(SPELL_CACHE, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 print(f"{len(cat)} criaturas → {OUT} ({os.path.getsize(OUT)} bytes)\n")
-print(f"{'Nombre':38} {'CR':>4} {'CA':>3} {'PG':>4} {'Pf':>2}  salv            hab                         fuente")
+print(f"{'Nombre':38} {'CR':>5} {'CA':>3} {'PG':>4} {'Pf':>2}  salv            hab                         fuente")
 for p in cat:
-    print(f"{p['name'][:38]:38} {p['cr']:>4} {p['ac']:>3} {p['maxHp']:>4} {p['prof']:>2}  {','.join(p['saveProf']):15} {','.join(f'{k}{v}' for k,v in p['skillProf'].items())[:27]:27} {p['source'][:30]}")
+    tag = f"lvl{p['level']}" if p.get("level") else p["cr"]
+    print(f"{p['name'][:38]:38} {tag:>5} {p['ac']:>3} {p['maxHp']:>4} {p['prof']:>2}  {','.join(p['saveProf']):15} {','.join(f'{k}{v}' for k,v in p['skillProf'].items())[:27]:27} {p['source'][:30]}")

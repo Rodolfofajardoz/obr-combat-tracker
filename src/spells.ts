@@ -74,26 +74,80 @@ function toSpell(s: Open5eSpell): Spell {
   };
 }
 
+// SRD 5.2 (reglas 2024) vive en la API v2; sus slugs se guardan como "v2:<key>" para saber de dónde traer la tarjeta
+const SPELLS_V2_URL = "https://api.open5e.com/v2/spells/";
+
+interface Open5eSpellV2 {
+  key: string;
+  name: string;
+  level: number;
+  school: { name: string } | string;
+  casting_time: string;
+  range_text: string;
+  duration: string;
+  concentration: boolean;
+  ritual: boolean;
+  verbal: boolean;
+  somatic: boolean;
+  material: boolean;
+  material_specified: string;
+  desc: string;
+  higher_level: string;
+}
+
+function toSpellV2(s: Open5eSpellV2): Spell {
+  const comps = [s.verbal && "V", s.somatic && "S", s.material && "M"].filter(Boolean).join(", ");
+  return {
+    name: s.name,
+    slug: `v2:${s.key}`,
+    level: Number(s.level) || 0,
+    school: typeof s.school === "string" ? s.school : s.school?.name ?? "",
+    time: s.casting_time,
+    range: s.range_text,
+    duration: s.duration,
+    components: comps + (s.material_specified ? ` (${short(s.material_specified, 60)})` : ""),
+    concentration: !!s.concentration,
+    ritual: !!s.ritual,
+    desc: short(s.desc, 280),
+  };
+}
+
+/** Busca primero en el SRD 5.1 (v1); si no hay nada, en el SRD 5.2 de 2024 (v2), que trae Chromatic Orb, Ice Knife… */
 export async function searchSpells(query: string): Promise<Spell[]> {
   const q = query.trim();
   if (!q) return [];
   const r = await fetch(`${SPELLS_URL}?search=${encodeURIComponent(q)}&document__slug=wotc-srd&limit=20`);
   if (!r.ok) throw new Error(`Open5e respondió ${r.status}`);
   const data = (await r.json()) as { results: Open5eSpell[] };
-  return data.results.map(toSpell).sort((a, b) => a.level - b.level || a.name.localeCompare(b.name));
+  let list = data.results.map(toSpell);
+  if (!list.length) {
+    const r2 = await fetch(`${SPELLS_V2_URL}?name__icontains=${encodeURIComponent(q)}&document__key=srd-2024&limit=20`);
+    if (r2.ok) list = ((await r2.json()) as { results: Open5eSpellV2[] }).results.map(toSpellV2);
+  }
+  return list.sort((a, b) => a.level - b.level || a.name.localeCompare(b.name));
 }
 
 const fullCache = new Map<string, { fullDesc: string; higher: string }>();
 
-/** Descripción completa para la tarjeta; si el SRD no responde, usa la recortada */
+/** Descripción completa para la tarjeta; si el SRD no responde (o el conjuro es local), usa la de la hoja */
 export async function fetchSpellFull(spell: Spell): Promise<{ fullDesc: string; higher: string }> {
   const hit = fullCache.get(spell.slug);
   if (hit) return hit;
+  // "local:…": conjuros que no están en Open5e; la hoja guarda el texto completo
+  if (spell.slug.startsWith("local:")) return { fullDesc: spell.desc, higher: "" };
   try {
-    const r = await fetch(`${SPELLS_URL}${encodeURIComponent(spell.slug)}/`);
-    if (!r.ok) throw new Error(String(r.status));
-    const s = (await r.json()) as Open5eSpell;
-    const full = { fullDesc: short(s.desc, 1600), higher: short(s.higher_level, 400) };
+    let full: { fullDesc: string; higher: string };
+    if (spell.slug.startsWith("v2:")) {
+      const r = await fetch(`${SPELLS_V2_URL}${encodeURIComponent(spell.slug.slice(3))}/`);
+      if (!r.ok) throw new Error(String(r.status));
+      const s = (await r.json()) as Open5eSpellV2;
+      full = { fullDesc: short(s.desc, 1600), higher: short(s.higher_level, 400) };
+    } else {
+      const r = await fetch(`${SPELLS_URL}${encodeURIComponent(spell.slug)}/`);
+      if (!r.ok) throw new Error(String(r.status));
+      const s = (await r.json()) as Open5eSpell;
+      full = { fullDesc: short(s.desc, 1600), higher: short(s.higher_level, 400) };
+    }
     fullCache.set(spell.slug, full);
     return full;
   } catch {

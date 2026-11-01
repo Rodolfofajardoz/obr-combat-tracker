@@ -8,7 +8,7 @@ import {
   profilesToCsv,
   saveProfiles,
 } from "../profiles";
-import { CatalogEntry, filterCatalog, searchSrd } from "../catalog";
+import { CatalogEntry, catalogTag, filterCatalog, searchSrd } from "../catalog";
 import { ABILITIES, fmt, mod } from "../types";
 import { ABILITY_SHORT, useT } from "../i18n";
 
@@ -89,7 +89,7 @@ export function ProfilesPanel({ profiles, catalog, onClose }: Props) {
 
   // Copia sin los campos extra del catálogo
   const toProfile = (e: CatalogEntry): Profile => {
-    const { source: _s, cr: _c, ...p } = e;
+    const { source: _s, cr: _c, level: _l, ...p } = e;
     return p;
   };
 
@@ -98,7 +98,7 @@ export function ProfilesPanel({ profiles, catalog, onClose }: Props) {
   const EntryRow = ({ e }: { e: CatalogEntry }) => (
     <li>
       <b>{e.name}</b>
-      <span>CR {e.cr} · CA {e.ac} · PG {e.maxHp}</span>
+      <span>{catalogTag(e)} · CA {e.ac} · PG {e.maxHp}</span>
       <button
         className="icon"
         title={inRoom(e.name) ? t("inRoom") : t("copyToRoom")}

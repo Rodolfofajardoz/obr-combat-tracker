@@ -1216,6 +1216,150 @@
   "notes": "CR 4 · Medium humanoid (elf), druid · Vel. 30 ft.\nBonos de la nota que no cuadran con la fórmula: nature +5"
  },
  {
+  "name": "Gezlo Krunqwud",
+  "source": "Gezlo Krunqwud",
+  "cr": "",
+  "actions": [],
+  "resources": [
+   {
+    "name": "Lay on Hands",
+    "cur": 15,
+    "max": 15,
+    "reset": "long",
+    "note": "Bonus action: touch a creature and restore any number of HP from the pool (15 = 5 × level). Spend 5 points to remove the Poisoned condition instead."
+   },
+   {
+    "name": "Channel Divinity",
+    "cur": 2,
+    "max": 2,
+    "reset": "short",
+    "note": "Two uses; regains one on a Short Rest and all on a Long Rest. Options: Divine Sense (bonus action, 10 minutes: senses Celestials, Fiends and Undead within 60 ft.), Inspiring Smite (right after a Divine Smite, distribute 2d8 + 3 temporary HP among creatures within 30 ft.), Peerless Athlete (bonus ac…"
+   }
+  ],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "passive Perception 11",
+    "kind": "info"
+   },
+   {
+    "name": "Spellcasting",
+    "desc": "Charisma. Spell save DC 11, spell attack +3. Half caster: 9 mana (3 × level).",
+    "kind": "trait"
+   },
+   {
+    "name": "Lay on Hands (15/Long Rest)",
+    "desc": "Bonus action: touch a creature and restore any number of HP from the pool (15 = 5 × level). Spend 5 points to remove the Poisoned condition instead.",
+    "kind": "trait"
+   },
+   {
+    "name": "Paladin's Smite",
+    "desc": "Divine Smite is always prepared. Once per turn, when he hits with a melee weapon or an Unarmed Strike, he can spend a level-1 slot (2 mana) to add 2d8 radiant damage (3d8 against Fiends and Undead).",
+    "kind": "trait"
+   },
+   {
+    "name": "Channel Divinity (2/Short Rest)",
+    "desc": "Two uses; regains one on a Short Rest and all on a Long Rest. Options: Divine Sense (bonus action, 10 minutes: senses Celestials, Fiends and Undead within 60 ft.), Inspiring Smite (right after a Divine Smite, distribute 2d8 + 3 temporary HP among creatures within 30 ft.), Peerless Athlete (bonus action, 1 hour: advantage on Athletics and Acrobatics checks, long and high jumps +10 ft., carrying ca…",
+    "kind": "trait"
+   },
+   {
+    "name": "Natural Armor · Shell Defense · Hold Breath (Tortle)",
+    "desc": "AC 17 without armor. Shell Defense: as an action, withdraw into the shell: +4 AC, advantage on STR and CON saves, but Prone, speed 0, disadvantage on DEX saves and no actions until he leaves it (bonus action). Can hold his breath for 1 hour.",
+    "kind": "trait"
+   },
+   {
+    "name": "Sentinel (feat, reaction)",
+    "desc": "When a creature within 5 ft. attacks someone other than him, he can make an opportunity attack against it. A creature hit by his opportunity attack has its speed reduced to 0 for the rest of the turn; Disengage doesn't avoid his opportunity attacks.",
+    "kind": "trait"
+   }
+  ],
+  "abilities": {
+   "str": 16,
+   "dex": 10,
+   "con": 14,
+   "int": 8,
+   "wis": 13,
+   "cha": 12
+  },
+  "ac": 18,
+  "maxHp": 35,
+  "prof": 2,
+  "initBonus": 0,
+  "saveProf": {
+   "wis": true,
+   "cha": true
+  },
+  "skillProf": {
+   "athletics": 1,
+   "history": 1,
+   "religion": 1
+  },
+  "notes": "lvl 3 · Medium Tortle · Paladin 3 (Oath of Glory) · Hermit · Vel. 30 ft.",
+  "level": 3,
+  "maxMana": 9,
+  "resonance": 2,
+  "resSaveProf": false,
+  "spells": [
+   {
+    "name": "Bless",
+    "slug": "v2:srd-2024_bless",
+    "level": 1,
+    "school": "Enchantment",
+    "time": "action",
+    "range": "30 feet",
+    "duration": "1 minute",
+    "components": "V, S, M (a Holy Symbol worth 5+ GP)",
+    "concentration": true,
+    "ritual": false,
+    "desc": "You bless up to three creatures within range. Whenever a target makes an attack roll or a saving throw before the spell ends, the target adds 1d4 to the attack roll or save."
+   },
+   {
+    "name": "Divine Favor",
+    "slug": "v2:srd-2024_divine-favor",
+    "level": 1,
+    "school": "Transmutation",
+    "time": "bonus-action",
+    "range": "Self",
+    "duration": "1 minute",
+    "components": "V, S",
+    "concentration": false,
+    "ritual": false,
+    "desc": "Until the spell ends, your attacks with weapons deal an extra 1d4 Radiant damage on a hit."
+   },
+   {
+    "name": "Guiding Bolt",
+    "slug": "v2:srd-2024_guiding-bolt",
+    "level": 1,
+    "school": "Evocation",
+    "time": "action",
+    "range": "120 feet",
+    "duration": "1 round",
+    "components": "V, S",
+    "concentration": false,
+    "ritual": false,
+    "desc": "You hurl a bolt of light toward a creature within range. Make a ranged spell attack against the target. On a hit, it takes 4d6 Radiant damage, and the next attack roll made against it before the end of your next turn has Advantage."
+   },
+   {
+    "name": "Heroism",
+    "slug": "v2:srd-2024_heroism",
+    "level": 1,
+    "school": "Enchantment",
+    "time": "action",
+    "range": "Touch",
+    "duration": "1 minute",
+    "components": "V, S",
+    "concentration": true,
+    "ritual": false,
+    "desc": "A willing creature you touch is imbued with bravery. Until the spell ends, the creature is immune to the Frightened condition and gains Temporary Hit Points equal to your spellcasting ability modifier at the start of each of its turns."
+   }
+  ]
+ },
+ {
   "name": "Goblin",
   "source": "Cueva Goblin de las Colinas del Norte",
   "cr": "1/4",
@@ -1939,21 +2083,457 @@
   "notes": "CR 1/4 · Medium bestia · Vel. 40 ft."
  },
  {
+  "name": "Ludo Patus",
+  "source": "Ludo Patus",
+  "cr": "",
+  "actions": [],
+  "resources": [
+   {
+    "name": "Eldritch Cannon — O.M.A.R.",
+    "cur": 1,
+    "max": 1,
+    "reset": "long",
+    "note": "Action: create the cannon (AC 18, 15 HP, Small or Tiny) within 5 ft. for 1 hour. Bonus action to activate it: Flamethrower (15-ft. cone, DEX save DC 14, 2d8 fire, half on success), Force Ballista (ranged spell attack +6, range 120 ft., 2d8 force and the target is pushed 5 ft.) or Protector (1d8 + 4…"
+   }
+  ],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "darkvision 60 ft., passive Perception 10",
+    "kind": "info"
+   },
+   {
+    "name": "Spellcasting",
+    "desc": "Intelligence. Spell save DC 14, spell attack +6. Half caster: 9 mana (3 × level). Needs a spellcasting focus (tools or an infused item).",
+    "kind": "trait"
+   },
+   {
+    "name": "Eldritch Cannon — O.M.A.R. (1/Long Rest)",
+    "desc": "Action: create the cannon (AC 18, 15 HP, Small or Tiny) within 5 ft. for 1 hour. Bonus action to activate it: Flamethrower (15-ft. cone, DEX save DC 14, 2d8 fire, half on success), Force Ballista (ranged spell attack +6, range 120 ft., 2d8 force and the target is pushed 5 ft.) or Protector (1d8 + 4 temporary HP to each creature of his choice within 10 ft.). Free once per Long Rest; afterwards it…",
+    "kind": "trait"
+   },
+   {
+    "name": "Magical Tinkering",
+    "desc": "Touch a Tiny nonmagical object to give it a minor magical property (light, a recorded message, an odor, a static image). Up to 4 objects at a time.",
+    "kind": "trait"
+   },
+   {
+    "name": "Replicate Magic Item",
+    "desc": "After a Long Rest, craft replicas of a few common magic items from his list (see sheet); they last until his next Long Rest.",
+    "kind": "trait"
+   },
+   {
+    "name": "Gnomish Cunning · Darkvision 60 ft.",
+    "desc": "Advantage on Intelligence, Wisdom and Charisma saving throws.",
+    "kind": "trait"
+   }
+  ],
+  "abilities": {
+   "str": 8,
+   "dex": 15,
+   "con": 13,
+   "int": 18,
+   "wis": 10,
+   "cha": 12
+  },
+  "ac": 17,
+  "maxHp": 24,
+  "prof": 2,
+  "initBonus": 0,
+  "saveProf": {
+   "int": true,
+   "con": true
+  },
+  "skillProf": {
+   "arcana": 2,
+   "history": 1,
+   "investigation": 1,
+   "sleight": 1
+  },
+  "notes": "lvl 3 · Small Rock Gnome · Artificer 3 (Artillerist) · Clockwork Grifter · Vel. 30 ft.",
+  "level": 3,
+  "maxMana": 9,
+  "resonance": 1,
+  "resSaveProf": false,
+  "spells": [
+   {
+    "name": "Acid Splash",
+    "slug": "v2:srd-2024_acid-splash",
+    "level": 0,
+    "school": "Evocation",
+    "time": "action",
+    "range": "60 feet",
+    "duration": "instantaneous",
+    "components": "V, S",
+    "concentration": false,
+    "ritual": false,
+    "desc": "You create an acidic bubble at a point within range, where it explodes in a 5-foot-radius Sphere. Each creature in that Sphere must succeed on a Dexterity saving throw or take 1d6 Acid damage."
+   },
+   {
+    "name": "Fire Bolt",
+    "slug": "v2:srd-2024_fire-bolt",
+    "level": 0,
+    "school": "Evocation",
+    "time": "action",
+    "range": "120 feet",
+    "duration": "instantaneous",
+    "components": "V, S",
+    "concentration": false,
+    "ritual": false,
+    "desc": "You hurl a mote of fire at a creature or an object within range. Make a ranged spell attack against the target. On a hit, the target takes 1d10 Fire damage. A flammable object hit by this spell starts burning if it isn't being worn or carried."
+   },
+   {
+    "name": "Mending",
+    "slug": "v2:srd-2024_mending",
+    "level": 0,
+    "school": "Transmutation",
+    "time": "1minute",
+    "range": "Touch",
+    "duration": "instantaneous",
+    "components": "V, S, M (two lodestones)",
+    "concentration": false,
+    "ritual": false,
+    "desc": "This spell repairs a single break or tear in an object you touch, such as a broken chain link, two halves of a broken key, a torn cloak, or a leaking wineskin. As long as the break or tear is no larger than 1 foot in any dimension, you mend it, leaving no trace of the former dam…"
+   },
+   {
+    "name": "Prestidigitation",
+    "slug": "v2:srd-2024_prestidigitation",
+    "level": 0,
+    "school": "Transmutation",
+    "time": "action",
+    "range": "10 feet",
+    "duration": "1 hour",
+    "components": "V, S",
+    "concentration": false,
+    "ritual": false,
+    "desc": "You create a magical effect within range. Choose the effect from the options below. If you cast this spell multiple times, you can have up to three of its non-instantaneous effects active at a time. **_Sensory Effect._** You create an instantaneous, harmless sensory effect, such…"
+   },
+   {
+    "name": "Cure Wounds",
+    "slug": "v2:srd-2024_cure-wounds",
+    "level": 1,
+    "school": "Abjuration",
+    "time": "action",
+    "range": "Touch",
+    "duration": "instantaneous",
+    "components": "V, S",
+    "concentration": false,
+    "ritual": false,
+    "desc": "A creature you touch regains a number of Hit Points equal to 2d8 plus your spellcasting ability modifier."
+   },
+   {
+    "name": "Faerie Fire",
+    "slug": "v2:srd-2024_faerie-fire",
+    "level": 1,
+    "school": "Evocation",
+    "time": "action",
+    "range": "60 feet",
+    "duration": "1 minute",
+    "components": "V",
+    "concentration": true,
+    "ritual": false,
+    "desc": "Objects in a 20-foot Cube within range are outlined in blue, green, or violet light (your choice). Each creature in the Cube is also outlined if it fails a Dexterity saving throw. For the duration, objects and affected creatures shed Dim Light in a 10-foot radius and can't benef…"
+   },
+   {
+    "name": "False Life",
+    "slug": "v2:srd-2024_false-life",
+    "level": 1,
+    "school": "Necromancy",
+    "time": "action",
+    "range": "Self",
+    "duration": "instantaneous",
+    "components": "V, S, M (a drop of alcohol)",
+    "concentration": false,
+    "ritual": false,
+    "desc": "You gain 2d4 + 4 Temporary Hit Points."
+   },
+   {
+    "name": "Identify",
+    "slug": "v2:srd-2024_identify",
+    "level": 1,
+    "school": "Divination",
+    "time": "1minute",
+    "range": "Touch",
+    "duration": "instantaneous",
+    "components": "V, S, M (a pearl worth 100+ GP)",
+    "concentration": false,
+    "ritual": true,
+    "desc": "You touch an object throughout the spell's casting. If the object is a magic item or some other magical object, you learn its properties and how to use them, whether it requires Attunement, and how many charges it has, if any. You learn whether any ongoing spells are affecting t…"
+   },
+   {
+    "name": "Shield",
+    "slug": "v2:srd-2024_shield",
+    "level": 1,
+    "school": "Abjuration",
+    "time": "reaction",
+    "range": "Self",
+    "duration": "1 round",
+    "components": "V, S",
+    "concentration": false,
+    "ritual": false,
+    "desc": "An imperceptible barrier of magical force protects you. Until the start of your next turn, you have a +5 bonus to AC, including against the triggering attack, and you take no damage from Magic Missile."
+   },
+   {
+    "name": "Thunderwave",
+    "slug": "v2:srd-2024_thunderwave",
+    "level": 1,
+    "school": "Evocation",
+    "time": "action",
+    "range": "Self",
+    "duration": "instantaneous",
+    "components": "V, S",
+    "concentration": false,
+    "ritual": false,
+    "desc": "You unleash a wave of thunderous energy. Each creature in a 15-foot Cube originating from you makes a Constitution saving throw. On a failed save, a creature takes 2d8 Thunder damage and is pushed 10 feet away from you. On a successful save, a creature takes half as much damage…"
+   }
+  ]
+ },
+ {
+  "name": "Selene Aster",
+  "source": "Selene Aster",
+  "cr": "",
+  "actions": [],
+  "resources": [
+   {
+    "name": "Innate Sorcery",
+    "cur": 2,
+    "max": 2,
+    "reset": "long",
+    "note": "Bonus action, 1 minute: her spell save DC rises by 1 and she has advantage on attack rolls of Sorcerer spells."
+   },
+   {
+    "name": "Font of Magic — Sorcery Points",
+    "cur": 3,
+    "max": 3,
+    "reset": "long",
+    "note": "Spend Sorcery Points on Metamagic, or convert them to mana and back (as the table agrees). All points return on a Long Rest."
+   }
+  ],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "passive Perception 13",
+    "kind": "info"
+   },
+   {
+    "name": "Spellcasting",
+    "desc": "Charisma. Spell save DC 13 (14 while Innate Sorcery is active), spell attack +5. Full caster: 12 mana (4 × level).",
+    "kind": "trait"
+   },
+   {
+    "name": "Innate Sorcery (2/Long Rest)",
+    "desc": "Bonus action, 1 minute: her spell save DC rises by 1 and she has advantage on attack rolls of Sorcerer spells.",
+    "kind": "trait"
+   },
+   {
+    "name": "Font of Magic — Sorcery Points (3/Long Rest)",
+    "desc": "Spend Sorcery Points on Metamagic, or convert them to mana and back (as the table agrees). All points return on a Long Rest.",
+    "kind": "trait"
+   },
+   {
+    "name": "Metamagic",
+    "desc": "Two Metamagic options known (see sheet). Each costs Sorcery Points when applied to a spell.",
+    "kind": "trait"
+   },
+   {
+    "name": "Magic Initiate — Cleric (feat)",
+    "desc": "Light and Sacred Flame at will; Bless once per Long Rest for free (or with mana). Spellcasting ability: Charisma.",
+    "kind": "trait"
+   },
+   {
+    "name": "Resourceful · Skillful (Human)",
+    "desc": "Gains Heroic Inspiration after each Long Rest.",
+    "kind": "trait"
+   }
+  ],
+  "abilities": {
+   "str": 8,
+   "dex": 13,
+   "con": 16,
+   "int": 10,
+   "wis": 12,
+   "cha": 16
+  },
+  "ac": 11,
+  "maxHp": 22,
+  "prof": 2,
+  "initBonus": 0,
+  "saveProf": {
+   "con": true,
+   "cha": true
+  },
+  "skillProf": {
+   "history": 1,
+   "insight": 1,
+   "perception": 1,
+   "sleight": 1,
+   "deception": 1,
+   "persuasion": 1
+  },
+  "notes": "lvl 3 · Medium Human · Sorcerer 3 (Moon) · Charlatan · Vel. 30 ft.",
+  "level": 3,
+  "maxMana": 12,
+  "resonance": 2,
+  "resSaveProf": false,
+  "spells": [
+   {
+    "name": "Blade Ward",
+    "slug": "local:blade-ward",
+    "level": 0,
+    "school": "Abjuration",
+    "time": "1 action",
+    "range": "Self",
+    "duration": "Concentration, up to 1 minute",
+    "components": "V, S",
+    "concentration": true,
+    "ritual": false,
+    "desc": "You ward yourself. While the ward lasts, any creature that makes an attack roll against you subtracts 1d4 from the roll."
+   },
+   {
+    "name": "Fire Bolt",
+    "slug": "v2:srd-2024_fire-bolt",
+    "level": 0,
+    "school": "Evocation",
+    "time": "action",
+    "range": "120 feet",
+    "duration": "instantaneous",
+    "components": "V, S",
+    "concentration": false,
+    "ritual": false,
+    "desc": "You hurl a mote of fire at a creature or an object within range. Make a ranged spell attack against the target. On a hit, the target takes 1d10 Fire damage. A flammable object hit by this spell starts burning if it isn't being worn or carried."
+   },
+   {
+    "name": "Friends",
+    "slug": "local:friends",
+    "level": 0,
+    "school": "Enchantment",
+    "time": "1 action",
+    "range": "Self",
+    "duration": "Concentration, up to 1 minute",
+    "components": "S, M (a bit of makeup)",
+    "concentration": true,
+    "ritual": false,
+    "desc": "Pick one creature that isn't hostile to you. For the duration you have advantage on every Charisma check aimed at it. When the spell ends it realizes you used magic on its mood and turns hostile; what it does about it depends on its nature."
+   },
+   {
+    "name": "Light",
+    "slug": "v2:srd-2024_light",
+    "level": 0,
+    "school": "Evocation",
+    "time": "action",
+    "range": "Touch",
+    "duration": "1 hour",
+    "components": "V, M (a firefly or phosphorescent moss)",
+    "concentration": false,
+    "ritual": false,
+    "desc": "You touch one Large or smaller object that isn't being worn or carried by someone else. Until the spell ends, the object sheds Bright Light in a 20-foot radius and Dim Light for an additional 20 feet. The light can be colored as you like. Covering the object with something opaqu…"
+   },
+   {
+    "name": "Sacred Flame",
+    "slug": "v2:srd-2024_sacred-flame",
+    "level": 0,
+    "school": "Evocation",
+    "time": "action",
+    "range": "60 feet",
+    "duration": "instantaneous",
+    "components": "V, S",
+    "concentration": false,
+    "ritual": false,
+    "desc": "Flame-like radiance descends on a creature that you can see within range. The target must succeed on a Dexterity saving throw or take 1d8 Radiant damage. The target gains no benefit from Half Cover or Three-Quarters Cover for this save."
+   },
+   {
+    "name": "Bless",
+    "slug": "v2:srd-2024_bless",
+    "level": 1,
+    "school": "Enchantment",
+    "time": "action",
+    "range": "30 feet",
+    "duration": "1 minute",
+    "components": "V, S, M (a Holy Symbol worth 5+ GP)",
+    "concentration": true,
+    "ritual": false,
+    "desc": "You bless up to three creatures within range. Whenever a target makes an attack roll or a saving throw before the spell ends, the target adds 1d4 to the attack roll or save."
+   },
+   {
+    "name": "Chromatic Orb",
+    "slug": "v2:srd-2024_chromatic-orb",
+    "level": 1,
+    "school": "Evocation",
+    "time": "action",
+    "range": "90 feet",
+    "duration": "instantaneous",
+    "components": "V, S, M (a diamond worth 50+ GP)",
+    "concentration": false,
+    "ritual": false,
+    "desc": "You hurl an orb of energy at a target within range. Choose Acid, Cold, Fire, Lightning, Poison, or Thunder for the type of orb you create, and then make a ranged spell attack against the target. On a hit, the target takes 3d8 damage of the chosen type. If you roll the same numbe…"
+   },
+   {
+    "name": "Ice Knife",
+    "slug": "v2:srd-2024_ice-knife",
+    "level": 1,
+    "school": "Conjuration",
+    "time": "action",
+    "range": "60 feet",
+    "duration": "instantaneous",
+    "components": "S, M (a drop of water or a piece of ice)",
+    "concentration": false,
+    "ritual": false,
+    "desc": "You create a shard of ice and fling it at one creature within range. Make a ranged spell attack against the target. On a hit, the target takes 1d10 Piercing damage. Hit or miss, the shard then explodes. The target and each creature within 5 feet of it must succeed on a Dexterity…"
+   },
+   {
+    "name": "Magic Missile",
+    "slug": "v2:srd-2024_magic-missile",
+    "level": 1,
+    "school": "Evocation",
+    "time": "action",
+    "range": "120 feet",
+    "duration": "instantaneous",
+    "components": "V, S",
+    "concentration": false,
+    "ritual": false,
+    "desc": "You create three glowing darts of magical force. Each dart strikes a creature of your choice that you can see within range. A dart deals 1d4 + 1 Force damage to its target. The darts all strike simultaneously, and you can direct them to hit one creature or several."
+   },
+   {
+    "name": "Sleep",
+    "slug": "v2:srd-2024_sleep",
+    "level": 1,
+    "school": "Enchantment",
+    "time": "action",
+    "range": "60 feet",
+    "duration": "1 minute",
+    "components": "V, S, M (a pinch of sand or rose petals)",
+    "concentration": true,
+    "ritual": false,
+    "desc": "Each creature of your choice in a 5-foot-radius Sphere centered on a point within range must succeed on a Wisdom saving throw or have the Incapacitated condition until the end of its next turn, at which point it must repeat the save. If the target fails the second save, the targ…"
+   }
+  ]
+ },
+ {
   "name": "Solanar",
   "source": "Solanar",
   "cr": "0",
   "actions": [
    {
     "name": "Flame Seed",
-    "desc": "Ranged Weapon Attack: +5 to hit, range 60 ft., one target. Hit: 1d6 + 2 fire damage.",
-    "toHit": 5,
+    "desc": "Ranged Weapon Attack: +6 to hit, range 60 ft., one target. Hit: 1d6 + 2 fire damage.",
+    "toHit": 6,
     "damage": "1d6+2"
    },
    {
     "name": "Fiery Teleportation",
-    "desc": "Solanar and each willing creature of his choice within 5 ft. teleport up to 30 ft. (Threshold I) to unoccupied spaces Soleil can see. Each creature within 5 ft. of the space he left must succeed on a DEX save DC 13 or t…",
+    "desc": "Solanar and each willing creature of his choice within 5 ft. teleport up to 30 ft. (Threshold I) to unoccupied spaces Soleil can see. Each creature within 5 ft. of the space he left must succeed on a DEX save DC 14 or t…",
     "damage": "1d6+2",
-    "save": "save DC 13"
+    "save": "save DC 14"
    }
   ],
   "resources": [],
@@ -1985,7 +2565,7 @@
    },
    {
     "name": "Summoning",
-    "desc": "Soleil summons him as an action, spending a Wild Shape use and 3 mana; once per long rest she can summon him without spending Wild Shape (Threshold I). He appears in a space within 30 ft.; each creature within 10 ft. (except Soleil) must succeed on a DEX save DC 13 or take 2d6 fire damage.",
+    "desc": "Soleil summons him as an action, spending a Wild Shape use and 3 mana; once per long rest she can summon him without spending Wild Shape (Threshold I). He appears in a space within 30 ft.; each creature within 10 ft. (except Soleil) must succeed on a DEX save DC 14 or take 2d6 fire damage.",
     "kind": "trait"
    },
    {
@@ -2014,6 +2594,293 @@
   "saveProf": {},
   "skillProf": {},
   "notes": "CR 0 · Small elemental (Breath of the Root) · Vel. 30 ft., fly 30 ft. (hover)"
+ },
+ {
+  "name": "Soleil Rowan",
+  "source": "Soleil Rowan",
+  "cr": "",
+  "actions": [],
+  "resources": [
+   {
+    "name": "Wild Shape",
+    "cur": 2,
+    "max": 2,
+    "reset": "short",
+    "note": "Bonus action: become a known Beast (CR 1/4 or lower, no Fly Speed) for up to 1 hour. Regain one use on a Short Rest and all on a Long Rest."
+   }
+  ],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "35 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "darkvision 60 ft., passive Perception 16",
+    "kind": "info"
+   },
+   {
+    "name": "Spellcasting",
+    "desc": "Wisdom. Spell save DC 14, spell attack +6. Full caster: 12 mana (4 × level).",
+    "kind": "trait"
+   },
+   {
+    "name": "Wild Shape (2/Short Rest)",
+    "desc": "Bonus action: become a known Beast (CR 1/4 or lower, no Fly Speed) for up to 1 hour. Regain one use on a Short Rest and all on a Long Rest.",
+    "kind": "trait"
+   },
+   {
+    "name": "Wild Companion",
+    "desc": "Expend a Wild Shape use to cast Find Familiar without material components. The familiar is a Fey and vanishes at your next Long Rest.",
+    "kind": "trait"
+   },
+   {
+    "name": "Summon Wildfire Spirit",
+    "desc": "Expend a Wild Shape use (and 3 mana) to summon Solanar within 30 ft. Each creature within 10 ft. of him (except Soleil) must succeed on a DEX save DC 14 or take 2d6 fire damage. See Solanar for his block and the Threshold I bonuses.",
+    "kind": "trait"
+   },
+   {
+    "name": "Circle Spells",
+    "desc": "Burning Hands, Cure Wounds, Flaming Sphere and Scorching Ray are always prepared.",
+    "kind": "trait"
+   },
+   {
+    "name": "Fey Ancestry · Trance · Darkvision 60 ft.",
+    "desc": "Advantage on saves to avoid or end the Charmed condition; magic can't put her to sleep. A Long Rest takes her 4 hours of trance.",
+    "kind": "trait"
+   },
+   {
+    "name": "Healer (feat)",
+    "desc": "Battle Medic: as an action, spend a Healer's Kit use on a creature within 5 ft.; it can spend one Hit Point Die and regain that roll + 2. Healing Rerolls: reroll a 1 on any healing die she rolls.",
+    "kind": "trait"
+   }
+  ],
+  "abilities": {
+   "str": 8,
+   "dex": 16,
+   "con": 12,
+   "int": 12,
+   "wis": 18,
+   "cha": 10
+  },
+  "ac": 16,
+  "maxHp": 26,
+  "prof": 2,
+  "initBonus": 0,
+  "saveProf": {
+   "int": true,
+   "wis": true
+  },
+  "skillProf": {
+   "nature": 2,
+   "animal": 1,
+   "medicine": 1,
+   "perception": 1,
+   "survival": 1
+  },
+  "notes": "lvl 3 · Medium Wood Elf · Druid 3 (Circle of Wildfire) · Hermit · Vel. 35 ft.\nBonos de la nota que no cuadran con la fórmula: nature +7",
+  "level": 3,
+  "maxMana": 12,
+  "resonance": 3,
+  "resSaveProf": false,
+  "spells": [
+   {
+    "name": "Druidcraft",
+    "slug": "v2:srd-2024_druidcraft",
+    "level": 0,
+    "school": "Transmutation",
+    "time": "action",
+    "range": "30 feet",
+    "duration": "instantaneous",
+    "components": "V, S",
+    "concentration": false,
+    "ritual": false,
+    "desc": "Whispering to the spirits of nature, you create one of the following effects within range. - ***Weather Sensor.*** You create a Tiny, harmless sensory effect that predicts what the weather will be at your location for the next 24 hours. The effect might manifest as a golden orb…"
+   },
+   {
+    "name": "Guidance",
+    "slug": "v2:srd-2024_guidance",
+    "level": 0,
+    "school": "Divination",
+    "time": "action",
+    "range": "Touch",
+    "duration": "1 minute",
+    "components": "V, S",
+    "concentration": true,
+    "ritual": false,
+    "desc": "You touch a willing creature and choose a skill. Until the spell ends, the creature adds 1d4 to any ability check using the chosen skill."
+   },
+   {
+    "name": "Produce Flame",
+    "slug": "v2:srd-2024_produce-flame",
+    "level": 0,
+    "school": "Conjuration",
+    "time": "bonus-action",
+    "range": "Self",
+    "duration": "10 minutes",
+    "components": "V, S",
+    "concentration": false,
+    "ritual": false,
+    "desc": "A flickering flame appears in your hand and remains there for the duration. While there, the flame emits no heat and ignites nothing, and it sheds Bright Light in a 20-foot radius and Dim Light for an additional 20 feet. The spell ends if you cast it again. Until the spell ends,…"
+   },
+   {
+    "name": "Spare the Dying",
+    "slug": "v2:srd-2024_spare-the-dying",
+    "level": 0,
+    "school": "Necromancy",
+    "time": "action",
+    "range": "15 feet",
+    "duration": "instantaneous",
+    "components": "V, S",
+    "concentration": false,
+    "ritual": false,
+    "desc": "Choose a creature within range that has 0 Hit Points and isn't dead. The creature becomes Stable."
+   },
+   {
+    "name": "Burning Hands",
+    "slug": "v2:srd-2024_burning-hands",
+    "level": 1,
+    "school": "Evocation",
+    "time": "action",
+    "range": "Self",
+    "duration": "instantaneous",
+    "components": "V, S",
+    "concentration": false,
+    "ritual": false,
+    "desc": "A thin sheet of flames shoots forth from you. Each creature in a 15-foot Cone makes a Dexterity saving throw, taking 3d6 Fire damage on a failed save or half as much damage on a successful one. Flammable objects in the Cone that aren't being worn or carried start burning."
+   },
+   {
+    "name": "Cure Wounds",
+    "slug": "v2:srd-2024_cure-wounds",
+    "level": 1,
+    "school": "Abjuration",
+    "time": "action",
+    "range": "Touch",
+    "duration": "instantaneous",
+    "components": "V, S",
+    "concentration": false,
+    "ritual": false,
+    "desc": "A creature you touch regains a number of Hit Points equal to 2d8 plus your spellcasting ability modifier."
+   },
+   {
+    "name": "Detect Magic",
+    "slug": "v2:srd-2024_detect-magic",
+    "level": 1,
+    "school": "Divination",
+    "time": "action",
+    "range": "Self",
+    "duration": "10 minutes",
+    "components": "V, S",
+    "concentration": true,
+    "ritual": true,
+    "desc": "For the duration, you sense the presence of magical effects within 30 feet of yourself. If you sense such effects, you can take the Magic action to see a faint aura around any visible creature or object in the area that bears the magic, and if an effect was created by a spell, y…"
+   },
+   {
+    "name": "Detect Poison and Disease",
+    "slug": "v2:srd-2024_detect-poison-and-disease",
+    "level": 1,
+    "school": "Divination",
+    "time": "action",
+    "range": "Self",
+    "duration": "10 minutes",
+    "components": "V, S, M (a yew leaf)",
+    "concentration": true,
+    "ritual": true,
+    "desc": "For the duration, you sense the location of poisons, poisonous or venomous creatures, and magical contagions within 30 feet of yourself. You sense the kind of poison, creature, or contagion in each case. The spell is blocked by 1 foot of stone, dirt, or wood; 1 inch of metal; or…"
+   },
+   {
+    "name": "Healing Word",
+    "slug": "v2:srd-2024_healing-word",
+    "level": 1,
+    "school": "Abjuration",
+    "time": "bonus-action",
+    "range": "60 feet",
+    "duration": "instantaneous",
+    "components": "V",
+    "concentration": false,
+    "ritual": false,
+    "desc": "A creature of your choice that you can see within range regains Hit Points equal to 2d4 plus your spellcasting ability modifier."
+   },
+   {
+    "name": "Longstrider",
+    "slug": "v2:srd-2024_longstrider",
+    "level": 1,
+    "school": "Transmutation",
+    "time": "action",
+    "range": "Touch",
+    "duration": "1 hour",
+    "components": "V, S, M (a pinch of dirt)",
+    "concentration": false,
+    "ritual": false,
+    "desc": "You touch a creature. The target's Speed increases by 10 feet until the spell ends."
+   },
+   {
+    "name": "Speak with Animals",
+    "slug": "v2:srd-2024_speak-with-animals",
+    "level": 1,
+    "school": "Divination",
+    "time": "action",
+    "range": "Self",
+    "duration": "10 minutes",
+    "components": "V, S",
+    "concentration": false,
+    "ritual": true,
+    "desc": "For the duration, you can comprehend and verbally communicate with Beasts, and you can use any of the Influence action's skill options with them. Most Beasts have little to say about topics that don't pertain to survival or companionship, but at minimum, a Beast can give you inf…"
+   },
+   {
+    "name": "Flaming Sphere",
+    "slug": "v2:srd-2024_flaming-sphere",
+    "level": 2,
+    "school": "Conjuration",
+    "time": "action",
+    "range": "60 feet",
+    "duration": "1 minute",
+    "components": "V, S, M (a ball of wax)",
+    "concentration": true,
+    "ritual": false,
+    "desc": "You create a 5-foot-diameter sphere of fire in an unoccupied space on the ground within range. It lasts for the duration. Any creature that ends its turn within 5 feet of the sphere makes a Dexterity saving throw, taking 2d6 Fire damage on a failed save or half as much damage on…"
+   },
+   {
+    "name": "Heat Metal",
+    "slug": "v2:srd-2024_heat-metal",
+    "level": 2,
+    "school": "Transmutation",
+    "time": "action",
+    "range": "60 feet",
+    "duration": "1 minute",
+    "components": "V, S, M (a piece of iron and a flame)",
+    "concentration": true,
+    "ritual": false,
+    "desc": "Choose a manufactured metal object, such as a metal weapon or a suit of Heavy or Medium metal armor, that you can see within range. You cause the object to glow red-hot. Any creature in physical contact with the object takes 2d8 Fire damage when you cast the spell. Until the spe…"
+   },
+   {
+    "name": "Locate Animals or Plants",
+    "slug": "v2:srd-2024_locate-animals-or-plants",
+    "level": 2,
+    "school": "Divination",
+    "time": "action",
+    "range": "Self",
+    "duration": "instantaneous",
+    "components": "V, S, M (fur from a bloodhound)",
+    "concentration": false,
+    "ritual": true,
+    "desc": "Describe or name a specific kind of Beast, Plant creature, or nonmagical plant. You learn the direction and distance to the closest creature or plant of that kind within 5 miles, if any are present."
+   },
+   {
+    "name": "Scorching Ray",
+    "slug": "v2:srd-2024_scorching-ray",
+    "level": 2,
+    "school": "Evocation",
+    "time": "action",
+    "range": "120 feet",
+    "duration": "instantaneous",
+    "components": "V, S",
+    "concentration": false,
+    "ritual": false,
+    "desc": "You hurl three fiery rays. You can hurl them at one target within range or at several. Make a ranged spell attack for each ray. On a hit, the target takes 2d6 Fire damage."
+   }
+  ]
  },
  {
   "name": "Syel Vehr, La que Repitió Mal",
@@ -2249,5 +3116,144 @@
    "history": 1
   },
   "notes": "CR 9 · Medium humanoid (human), noble · Vel. 30 ft."
+ },
+ {
+  "name": "Wyatt",
+  "source": "Wyatt",
+  "cr": "",
+  "actions": [],
+  "resources": [
+   {
+    "name": "Focus Points",
+    "cur": 3,
+    "max": 3,
+    "reset": "short",
+    "note": "Flurry of Blows (1 FP: two Unarmed Strikes as a bonus action), Patient Defense (Disengage as a bonus action; 1 FP: Disengage and Dodge), Step of the Wind (Dash as a bonus action; 1 FP: Dash and Disengage, jump distance doubled)."
+   },
+   {
+    "name": "Uncanny Metabolism",
+    "cur": 1,
+    "max": 1,
+    "reset": "long",
+    "note": "When he rolls Initiative, he can regain all expended Focus Points and regain HP equal to his level + a Martial Arts die roll."
+   }
+  ],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "passive Perception 14",
+    "kind": "info"
+   },
+   {
+    "name": "Martial Arts (1d6) · Unarmored Defense",
+    "desc": "Unarmed Strikes and Monk weapons use DEX and deal 1d6; Bonus Unarmed Strike once per turn; Unarmed Strikes can grapple or shove. AC = 10 + DEX + WIS without armor or shield.",
+    "kind": "trait"
+   },
+   {
+    "name": "Focus Points (3/Short Rest)",
+    "desc": "Flurry of Blows (1 FP: two Unarmed Strikes as a bonus action), Patient Defense (Disengage as a bonus action; 1 FP: Disengage and Dodge), Step of the Wind (Dash as a bonus action; 1 FP: Dash and Disengage, jump distance doubled).",
+    "kind": "trait"
+   },
+   {
+    "name": "Uncanny Metabolism (1/Long Rest)",
+    "desc": "When he rolls Initiative, he can regain all expended Focus Points and regain HP equal to his level + a Martial Arts die roll.",
+    "kind": "trait"
+   },
+   {
+    "name": "Deflect Attacks (reaction)",
+    "desc": "When hit by an attack that deals bludgeoning, piercing or slashing damage, reduce it by 1d10 + 3 + 3. If reduced to 0, he can spend 1 FP to redirect it: DEX save DC 13 against a creature within 5 ft. (or 60 ft. for a ranged attack) or take two Martial Arts dice of the original damage type.",
+    "kind": "trait"
+   },
+   {
+    "name": "Hand of Harm · Hand of Healing (Warrior of Mercy)",
+    "desc": "Hand of Harm (1 FP, once per turn): when he hits with an Unarmed Strike, add 1d6 + 2 necrotic damage. Hand of Healing (1 FP): as an action, touch a creature and heal 1d6 + 2; as part of Flurry of Blows he can replace one strike with this at no extra cost.",
+    "kind": "trait"
+   },
+   {
+    "name": "Magic Initiate — Wizard (feat)",
+    "desc": "Blade Ward and Fire Bolt at will; Chromatic Orb once per Long Rest (that is the 2 mana). Spellcasting ability: Wisdom (spell attack +4, DC 12).",
+    "kind": "trait"
+   },
+   {
+    "name": "Resourceful · Skillful (Human)",
+    "desc": "Gains Heroic Inspiration after each Long Rest.",
+    "kind": "trait"
+   }
+  ],
+  "abilities": {
+   "str": 10,
+   "dex": 16,
+   "con": 13,
+   "int": 8,
+   "wis": 15,
+   "cha": 13
+  },
+  "ac": 15,
+  "maxHp": 29,
+  "prof": 2,
+  "initBonus": 0,
+  "saveProf": {
+   "str": true,
+   "dex": true
+  },
+  "skillProf": {
+   "athletics": 1,
+   "stealth": 1,
+   "perception": 1,
+   "intimidation": 1,
+   "performance": 1,
+   "persuasion": 1
+  },
+  "notes": "lvl 3 · Medium Human · Monk 3 (Warrior of Mercy) · Soldier · Vel. 30 ft.",
+  "level": 3,
+  "maxMana": 2,
+  "resonance": 2,
+  "resSaveProf": false,
+  "spells": [
+   {
+    "name": "Blade Ward",
+    "slug": "local:blade-ward",
+    "level": 0,
+    "school": "Abjuration",
+    "time": "1 action",
+    "range": "Self",
+    "duration": "Concentration, up to 1 minute",
+    "components": "V, S",
+    "concentration": true,
+    "ritual": false,
+    "desc": "You ward yourself. While the ward lasts, any creature that makes an attack roll against you subtracts 1d4 from the roll."
+   },
+   {
+    "name": "Fire Bolt",
+    "slug": "v2:srd-2024_fire-bolt",
+    "level": 0,
+    "school": "Evocation",
+    "time": "action",
+    "range": "120 feet",
+    "duration": "instantaneous",
+    "components": "V, S",
+    "concentration": false,
+    "ritual": false,
+    "desc": "You hurl a mote of fire at a creature or an object within range. Make a ranged spell attack against the target. On a hit, the target takes 1d10 Fire damage. A flammable object hit by this spell starts burning if it isn't being worn or carried."
+   },
+   {
+    "name": "Chromatic Orb",
+    "slug": "v2:srd-2024_chromatic-orb",
+    "level": 1,
+    "school": "Evocation",
+    "time": "action",
+    "range": "90 feet",
+    "duration": "instantaneous",
+    "components": "V, S, M (a diamond worth 50+ GP)",
+    "concentration": false,
+    "ritual": false,
+    "desc": "You hurl an orb of energy at a target within range. Choose Acid, Cold, Fire, Lightning, Poison, or Thunder for the type of orb you create, and then make a ranged spell attack against the target. On a hit, the target takes 3d8 damage of the chosen type. If you roll the same numbe…"
+   }
+  ]
  }
 ]

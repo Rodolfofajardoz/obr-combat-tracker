@@ -15,7 +15,7 @@ import {
 } from "../types";
 import type { RollRequest } from "../App";
 import { Profile, mergeProfiles, profileToSheet, saveProfiles, sheetToProfile } from "../profiles";
-import type { CatalogEntry } from "../catalog";
+import { CatalogEntry, catalogTag } from "../catalog";
 import type { Player } from "@owlbear-rodeo/sdk";
 import { ABILITY_LONG, ABILITY_SHORT, useT } from "../i18n";
 import { MARKERS, MARKER_GROUPS, MarkerGroup, markerLabel, toggleMarker } from "../markers";
@@ -212,7 +212,7 @@ export function SheetPanel({ c, isGM, playerName, settings, profiles, catalog, p
             {catalog.length > 0 && (
               <optgroup label={t("groupCampaign")}>
                 {catalog.map((p) => (
-                  <option key={p.name} value={`cat:${p.name}`}>{p.name} (CR {p.cr})</option>
+                  <option key={p.name} value={`cat:${p.name}`}>{p.name} ({catalogTag(p)})</option>
                 ))}
               </optgroup>
             )}
