@@ -171,7 +171,7 @@ export function srdToProfile(m: Open5eMonster): CatalogEntry {
     : [];
   // Rasgos con usos contados ("Leadership (Recharges after a Short or Long Rest)") se vuelven recursos
   const resources = [...(Array.isArray(m.special_abilities) ? m.special_abilities : []), ...(Array.isArray(m.actions) ? m.actions : [])]
-    .map((a) => resourceFromName(a.name))
+    .map((a) => resourceFromName(a.name, a.desc))
     .filter((r): r is Resource => !!r);
 
   return {

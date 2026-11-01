@@ -21,7 +21,8 @@
     "name": "Silencio Breve",
     "cur": 1,
     "max": 1,
-    "reset": "short"
+    "reset": "short",
+    "note": "Una criatura a 30 ft. debe superar salvación de CON CD 12 o queda incapaz de hablar hasta el inicio del siguiente turno del Acólito."
    }
   ],
   "abilities": {
@@ -96,14 +97,14 @@
   "cr": "1/4",
   "actions": [
    {
-    "name": "Látigo +1",
-    "desc": "Ataque cuerpo a cuerpo: +5 al ataque, alcance 10 ft., un objetivo. Impacto: 5 (1d4 + 3) daño cortante.",
+    "name": "Whip +1",
+    "desc": "Melee Weapon Attack: +5 to hit, reach 10 ft., one target. Hit: 5 (1d4 + 3) slashing damage.",
     "toHit": 5,
     "damage": "1d4+3"
    },
    {
-    "name": "Cimitarra",
-    "desc": "Ataque cuerpo a cuerpo: +4 al ataque, alcance 5 ft., un objetivo. Impacto: 5 (1d6 + 2) daño cortante.",
+    "name": "Scimitar",
+    "desc": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) slashing damage.",
     "toHit": 4,
     "damage": "1d6+2"
    }
@@ -132,7 +133,7 @@
    "perception": 1,
    "insight": 1
   },
-  "notes": "CR 1/4 · Small humanoid (goblinoid) · Vel. 30 ft.\nSentidos: darkvision 60 ft., passive Perception 13\nRasgos:\n• Útil: Copete puede realizar la acción de Ayudar como acción adicional.\n• Acción Astuta: En su turno, Copete puede Correr, Desengancharse u Ocultarse como acción adicional.\n• Demasiado Joven para el Odio: Copete tiene desventaja en su primera tirada de ataque en un combate. Después de fallar o ser herido, pierde esta desventaja. Desaparece al cruzar la Etapa II.\nAcciones:\n• Látigo +1: Ataque cuerpo a cuerpo: +5 al ataque, alcance 10 ft., un objetivo. Impacto: 5 (1d4 + 3) daño cortante.\n• Cimitarra: Ataque cuerpo a cuerpo: +4 al ataque, alcance 5 ft., un objetivo. Impacto: 5 (1d6 + 2) daño cortante."
+  "notes": "CR 1/4 · Small humanoid (goblinoid) · Vel. 30 ft.\nSentidos: darkvision 60 ft., passive Perception 13\nRasgos:\n• Helpful: Copete can take the Help action as a bonus action.\n• Cunning Action: On his turn, Copete can take the Dash, Disengage, or Hide action as a bonus action.\n• Too Young for Hatred: Copete has disadvantage on his first attack roll in a combat. After missing or being hurt, he loses this disadvantage. Goes away when he crosses Stage II.\nAcciones:\n• Whip +1: Melee Weapon Attack: +5 to hit, reach 10 ft., one target. Hit: 5 (1d4 + 3) slashing damage.\n• Scimitar: Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) slashing damage."
  },
  {
   "name": "Custodio de la Guardia del Voto",
@@ -276,7 +277,8 @@
     "name": "Grito Interno",
     "cur": 1,
     "max": 1,
-    "reset": "short"
+    "reset": "short",
+    "note": "Todas las criaturas en un radio de 10 pies deben superar una tirada de Sabiduría (CD 12) o quedar aturdidas por un turno, escuchando un eco mental del Juicio."
    }
   ],
   "abilities": {
@@ -578,7 +580,8 @@
     "name": "Pulso de Verdad",
     "cur": 1,
     "max": 1,
-    "reset": "short"
+    "reset": "short",
+    "note": "La Reliquia del Sol libera un estallido de luz blanca. Todas las criaturas a 20 ft. de Erynd deben superar una salvación de Constitución CD 13. Fallo: 3d6 daño de fuego y desventaja en tiradas de ataque hasta el final de su siguiente turno. Éxito: mitad de daño y sin desventaja."
    }
   ],
   "abilities": {
@@ -780,30 +783,32 @@
   "cr": "1/2",
   "actions": [
    {
-    "name": "Espada Corta",
-    "desc": "Ataque cuerpo a cuerpo: +6 al ataque, alcance 5 ft., un objetivo. Impacto: 5 (1d6 + 2) daño perforante.",
+    "name": "Shortsword",
+    "desc": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) piercing damage.",
     "toHit": 6,
     "damage": "1d6+2"
    },
    {
-    "name": "Arco Corto",
-    "desc": "Ataque a distancia: +6 al ataque, alcance 80/320 ft., un objetivo. Impacto: 5 (1d6 + 2) daño perforante.",
+    "name": "Shortbow",
+    "desc": "Ranged Weapon Attack: +6 to hit, range 80/320 ft., one target. Hit: 5 (1d6 + 2) piercing damage.",
     "toHit": 6,
     "damage": "1d6+2"
    }
   ],
   "resources": [
    {
-    "name": "Determinación Desesperada",
+    "name": "Desperate Resolve",
     "cur": 1,
     "max": 1,
-    "reset": "long"
+    "reset": "long",
+    "note": "The first time Hamcel would drop to 0 HP, he drops to 1 HP instead and is frightened until the end of his next turn."
    },
    {
-    "name": "Tomar Aliento",
+    "name": "Second Wind",
     "cur": 1,
     "max": 1,
-    "reset": "short"
+    "reset": "short",
+    "note": "As a bonus action, Hamcel regains 1d10 + 2 HP."
    }
   ],
   "abilities": {
@@ -828,7 +833,7 @@
    "animal": 1,
    "survival": 1
   },
-  "notes": "CR 1/2 · Medium humanoid (human) · Vel. 30 ft.\nSentidos: passive Perception 12\nRasgos:\n• Rol Marcial — Atacante: Hamcel suma +2 a sus tiradas de ataque (ya incluido abajo).\n• Todavía No Sabe Retroceder: Si un aliado cae a 0 PG a 30 ft. o menos, Hamcel tiene desventaja en su siguiente tirada de ataque: entra en pánico. Si en vez de atacar se mueve hacia el caído, no hay…\n• Determinación Desesperada (1/Sesión): La primera vez que Hamcel caería a 0 PG, queda a 1 PG en su lugar y gana la condición asustado hasta el final de su siguiente turno.\n• Tomar Aliento (1/Descanso corto): Como acción adicional, Hamcel recupera 1d10 + 2 PG.\nAcciones:\n• Espada Corta: Ataque cuerpo a cuerpo: +6 al ataque, alcance 5 ft., un objetivo. Impacto: 5 (1d6 + 2) daño perforante.\n• Arco Corto: Ataque a distancia: +6 al ataque, alcance 80/320 ft., un objetivo. Impacto: 5 (1d6 + 2) daño perforante."
+  "notes": "CR 1/2 · Medium humanoid (human) · Vel. 30 ft.\nSentidos: passive Perception 12\nRasgos:\n• Martial Role — Attacker: Hamcel adds +2 to his attack rolls (already included below).\n• Doesn't Know How to Fall Back Yet: If an ally drops to 0 HP within 30 ft. of Hamcel, he has disadvantage on his next attack roll: he panics. If he moves toward the fallen ally instead of attacking, there…\n• Desperate Resolve (1/Session): The first time Hamcel would drop to 0 HP, he drops to 1 HP instead and is frightened until the end of his next turn.\n• Second Wind (1/Short Rest): As a bonus action, Hamcel regains 1d10 + 2 HP.\nAcciones:\n• Shortsword: Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) piercing damage.\n• Shortbow: Ranged Weapon Attack: +6 to hit, range 80/320 ft., one target. Hit: 5 (1d6 + 2) piercing damage."
  },
  {
   "name": "Hobgoblin Jefe del Valle",
@@ -884,7 +889,8 @@
     "name": "Distraer y Desaparecer",
     "cur": 1,
     "max": 1,
-    "reset": "short"
+    "reset": "short",
+    "note": "Ilyas impone desventaja a una tirada de Percepción de una criatura que pueda verlo y se mueve hasta 15 ft. sin provocar ataques de oportunidad, ocultándose si tiene cobertura o penumbra."
    }
   ],
   "abilities": {
@@ -1073,13 +1079,15 @@
     "name": "Silencio Inverso",
     "cur": 1,
     "max": 1,
-    "reset": "long"
+    "reset": "long",
+    "note": "Syel puede crear una zona de 20 pies centrada en sí misma durante 1 minuto. Las criaturas dentro quedan silenciadas a menos que ella lo permita. Los conjuros con componentes verbales fallan en esa zona si el lanzador no supera una tirada de Sabiduría CD 15."
    },
    {
     "name": "Revelación Inversa",
     "cur": 1,
     "max": 1,
-    "reset": "long"
+    "reset": "long",
+    "note": "Syel elige hasta 2 criaturas a 30 pies. Deben hacer una salvación de Sabiduría CD 15. En fallo, quedan aturdidas hasta el final de su siguiente turno. En éxito, sufren 7 (2d6) daño psíquico."
    }
   ],
   "abilities": {
@@ -1140,7 +1148,8 @@
     "name": "Cerrojo",
     "cur": 1,
     "max": 1,
-    "reset": "long"
+    "reset": "long",
+    "note": "Gasta todos los Eslabones (mínimo 3). Declara en voz alta una condición sencilla y verificable dirigida a una criatura que pueda ver. Si acepta, se sella sin tirada; si no, salvación de Sabiduría CD 18. Al romper la condición, la criatura sufre daño psíquico igual a 10 por Eslabón gastado y queda A…"
    }
   ],
   "abilities": {

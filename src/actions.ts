@@ -6,7 +6,7 @@ import type { Action, Resource } from "./types";
  */
 const USES = /\((\d+)\s*\/\s*([^)]+)\)/i;
 const RECHARGES = /\(recharges? after a ([^)]+)\)/i;
-export function resourceFromName(name: string): Resource | undefined {
+export function resourceFromName(name: string, desc = ""): Resource | undefined {
   const uses = name.match(USES);
   const rech = name.match(RECHARGES);
   const when = (uses?.[2] ?? rech?.[1] ?? "").toLowerCase();
@@ -15,7 +15,9 @@ export function resourceFromName(name: string): Resource | undefined {
   const longRest = /largo|long|sesi|session|d[ií]a|day|rest/.test(when);
   if (!shortRest && !longRest) return undefined;
   const max = Number(uses?.[1] ?? 1) || 1;
-  return { name: name.replace(USES, "").replace(RECHARGES, "").trim(), cur: max, max, reset: shortRest ? "short" : "long" };
+  const r: Resource = { name: name.replace(USES, "").replace(RECHARGES, "").trim(), cur: max, max, reset: shortRest ? "short" : "long" };
+  if (desc.trim()) r.note = short(desc, 300);
+  return r;
 }
 
 /** Saca del texto de una acción lo que se puede tirar: bono de ataque, daño y salvación. Español e inglés. */

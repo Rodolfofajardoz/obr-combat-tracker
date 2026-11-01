@@ -17,7 +17,7 @@ export function ResourcesPanel({ c }: Props) {
   const { t } = useT();
   const s = c.sheet;
   // idx -1 = nuevo; si no, el recurso que se edita
-  const [form, setForm] = useState<{ idx: number; name: string; max: number; reset: ResetOn } | null>(null);
+  const [form, setForm] = useState<{ idx: number; name: string; max: number; reset: ResetOn; note: string } | null>(null);
 
   const save = (list: Resource[]) => updateSheet(c.id, { resources: list });
   const setCur = (i: number, cur: number) =>
@@ -27,8 +27,9 @@ export function ResourcesPanel({ c }: Props) {
     if (!form || !form.name.trim()) return;
     const max = Math.max(1, form.max);
     const list = [...s.resources];
-    if (form.idx >= 0) list[form.idx] = { ...list[form.idx], name: form.name.trim(), max, reset: form.reset, cur: Math.min(list[form.idx].cur, max) };
-    else list.push({ name: form.name.trim(), max, reset: form.reset, cur: max });
+    const note = form.note.trim() || undefined;
+    if (form.idx >= 0) list[form.idx] = { ...list[form.idx], name: form.name.trim(), max, reset: form.reset, note, cur: Math.min(list[form.idx].cur, max) };
+    else list.push({ name: form.name.trim(), max, reset: form.reset, note, cur: max });
     save(list);
     setForm(null);
   };
@@ -43,7 +44,16 @@ export function ResourcesPanel({ c }: Props) {
         <ul className="res-list">
           {s.resources.map((r, i) => (
             <li key={r.name + i} className="res-row">
-              <span className="name" title={r.name}>{r.name}</span>
+              <span className="name">{r.name}</span>
+              {/* Al pasar el cursor: nombre y la nota de qué hace */}
+              <div className="spell-hover">
+                <b>{r.name}</b>
+                <div className="meta">
+                  <span>{r.cur} / {r.max}</span>
+                  <span>{r.reset === "short" ? `☕ ${t("resetShort")}` : `🌙 ${t("resetLong")}`}</span>
+                </div>
+                {r.note && <p>{r.note}</p>}
+              </div>
               {r.max <= MAX_PIPS ? (
                 <span className="pips" title={t("spend")}>
                   {Array.from({ length: r.max }, (_, k) => (
@@ -61,7 +71,7 @@ export function ResourcesPanel({ c }: Props) {
               )}
               <span className="when" title={t("resetTitle")}>{r.reset === "short" ? "☕" : "🌙"}</span>
               <span className="btns">
-                <button className="icon" title={t("edit")} onClick={() => setForm({ idx: i, name: r.name, max: r.max, reset: r.reset })}>✎</button>
+                <button className="icon" title={t("edit")} onClick={() => setForm({ idx: i, name: r.name, max: r.max, reset: r.reset, note: r.note ?? "" })}>✎</button>
                 <button className="icon" title={t("remove")} onClick={() => remove(i)}>✕</button>
               </span>
             </li>
@@ -73,7 +83,7 @@ export function ResourcesPanel({ c }: Props) {
         <button onClick={() => rest("short")} title={t("shortRestTitle")}>☕ {t("shortRest")}</button>
         <button onClick={() => rest("long")} title={t("longRestTitle")}>🌙 {t("longRest")}</button>
         {!form && (
-          <button className="icon small" title={t("addResource")} onClick={() => setForm({ idx: -1, name: "", max: 1, reset: "long" })}>
+          <button className="icon small" title={t("addResource")} onClick={() => setForm({ idx: -1, name: "", max: 1, reset: "long", note: "" })}>
             + {t("resource")}
           </button>
         )}
@@ -101,6 +111,13 @@ export function ResourcesPanel({ c }: Props) {
           </select>
           <button className="primary" onClick={submit}>{t("ok")}</button>
           <button className="icon" onClick={() => setForm(null)}>✕</button>
+          <textarea
+            className="note"
+            rows={2}
+            placeholder={t("resourceNote")}
+            value={form.note}
+            onChange={(e) => setForm({ ...form, note: e.target.value })}
+          />
         </div>
       )}
     </div>

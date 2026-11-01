@@ -121,6 +121,8 @@ export interface Resource {
   cur: number;
   max: number;
   reset: ResetOn;
+  /** Qué hace: se ve al pasar el cursor. Los del catálogo traen el texto del rasgo */
+  note?: string;
 }
 
 export interface Sheet {

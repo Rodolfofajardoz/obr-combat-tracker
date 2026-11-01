@@ -131,6 +131,7 @@ const D = {
   ],
   resourceName: ["Nombre", "Name"],
   resourceMax: ["Usos máximos", "Max uses"],
+  resourceNote: ["Nota: qué hace (se ve al pasar el cursor)", "Note: what it does (shown on hover)"],
   resetTitle: ["Cuándo se recupera", "When it recovers"],
   resetShort: ["Descanso corto", "Short rest"],
   resetLong: ["Descanso largo", "Long rest"],

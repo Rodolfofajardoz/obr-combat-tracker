@@ -72,8 +72,8 @@ def short(desc, n=170):
 USES = re.compile(r"\((\d+)\s*/\s*([^)]+)\)", re.I)
 RECHARGES = re.compile(r"\(recharges? after a ([^)]+)\)", re.I)
 
-def resource_from_name(name):
-    """'Tomar Aliento (1/Descanso corto)' → recurso contable (mismas reglas que src/actions.ts). 'Recarga 5–6' no cuenta."""
+def resource_from_name(name, desc=""):
+    """'Second Wind (1/Short Rest)' → recurso contable (mismas reglas que src/actions.ts). 'Recarga 5–6' no cuenta."""
     uses = USES.search(name); rech = RECHARGES.search(name)
     when = ((uses and uses.group(2)) or (rech and rech.group(1)) or "").lower()
     if not when: return None
@@ -82,7 +82,9 @@ def resource_from_name(name):
     if not short_rest and not long_rest: return None
     mx = int(uses.group(1)) if uses else 1
     clean = RECHARGES.sub("", USES.sub("", name)).strip()
-    return {"name": clean, "cur": mx, "max": mx, "reset": "short" if short_rest else "long"}
+    r = {"name": clean, "cur": mx, "max": mx, "reset": "short" if short_rest else "long"}
+    if str(desc or "").strip(): r["note"] = short(desc, 300)
+    return r
 
 def convert(sb, src):
     name = str(sb.get("name", "")).strip()
@@ -160,7 +162,7 @@ def convert(sb, src):
     for key in ("traits", "actions", "bonus_actions", "reactions"):
         for it in (sb.get(key) or []):
             if not isinstance(it, dict): continue
-            r = resource_from_name(str(it.get("name", "")))
+            r = resource_from_name(str(it.get("name", "")), it.get("desc", ""))
             if r: resources.append(r)
 
     return {
