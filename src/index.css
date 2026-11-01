@@ -183,6 +183,22 @@ button.icon.small { font-size: 11px; margin-top: 4px; }
 .res-form input[type=number] { width: 56px; }
 .res-form .note { grid-column: 1 / -1; font-size: 11px; resize: vertical; }
 .gm-bar .rests { margin-right: auto; display: flex; gap: 4px; }
+
+/* rasgos de lectura */
+.trait-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 3px; }
+.trait-list.info { margin-bottom: 4px; }
+.trait { background: var(--bg3); border-radius: 6px; padding: 3px 6px; font-size: 11px; line-height: 1.35; }
+.trait .btns { display: inline-flex; margin-left: auto; opacity: 0; }
+.trait:hover .btns { opacity: 1; }
+.trait.info { display: flex; align-items: baseline; gap: 4px; color: var(--muted); background: transparent; padding: 0 2px; }
+.trait.info b { color: var(--fg); white-space: nowrap; }
+.trait-head { display: flex; align-items: center; gap: 6px; font-size: 12px; }
+.trait .tag { font-size: 9px; text-transform: uppercase; letter-spacing: .04em; color: var(--accent); border: 1px solid var(--accent); border-radius: 999px; padding: 0 5px; }
+.trait.reaction .tag { color: var(--warn); border-color: var(--warn); }
+.trait.legendary .tag { color: var(--bad); border-color: var(--bad); }
+.trait p { margin: 2px 0 0; white-space: pre-wrap; }
+.trait-form { display: grid; grid-template-columns: minmax(0, 1fr) auto auto auto; gap: 4px; align-items: center; margin-top: 4px; }
+.trait-form .note { grid-column: 1 / -1; font-size: 11px; resize: vertical; }
 .rolls { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
 .rolls li { display: flex; gap: 3px; }
 .rolls .prof { width: 24px; padding: 0; color: var(--muted); background: transparent; }

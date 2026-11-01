@@ -125,13 +125,15 @@ def convert(sb, src):
         f"Vel. {sb.get('speed')}" if sb.get("speed") else "",
     ] if x)
     if head: notes_bits.append(head)
-    for label, key in [("Resist.", "damage_resistances"), ("Inmune", "damage_immunities"), ("Vulnerable", "damage_vulnerabilities"), ("Inmune a", "condition_immunities"), ("Sentidos", "senses")]:
-        if sb.get(key): notes_bits.append(f"{label}: {sb[key]}")
-    for label, key in [("Rasgos", "traits"), ("Acciones", "actions"), ("Acción adicional", "bonus_actions"), ("Reacciones", "reactions"), ("Legendarias", "legendary_actions")]:
-        items = sb.get(key) or []
-        if isinstance(items, list) and items:
-            lines = [f"• {it.get('name', '')}: {short(it.get('desc'))}" for it in items if isinstance(it, dict)]
-            if lines: notes_bits.append(f"{label}:\n" + "\n".join(lines))
+    # Rasgos de lectura: datos fijos (velocidad, sentidos, inmunidades) y pasivas / acciones adicionales / reacciones / legendarias.
+    # Van estructurados a la hoja (panel Traits); las notas quedan para el encabezado y los avisos.
+    traits = []
+    for label, key in [("Speed", "speed"), ("Senses", "senses"), ("Resistances", "damage_resistances"), ("Immunities", "damage_immunities"), ("Vulnerabilities", "damage_vulnerabilities"), ("Condition immunities", "condition_immunities")]:
+        if sb.get(key): traits.append({"name": label, "desc": re.sub(r"\s+", " ", str(sb[key])).strip(), "kind": "info"})
+    for kind, key in [("trait", "traits"), ("bonus", "bonus_actions"), ("reaction", "reactions"), ("legendary", "legendary_actions")]:
+        for it in (sb.get(key) or []):
+            if not isinstance(it, dict) or not it.get("name"): continue
+            traits.append({"name": str(it["name"]).strip(), "desc": short(it.get("desc"), 400), "kind": kind})
     if mismatches:
         notes_bits.append("Bonos de la nota que no cuadran con la fórmula: " + ", ".join(mismatches))
 
@@ -171,6 +173,7 @@ def convert(sb, src):
         "cr": str(cr),
         "actions": actions,
         "resources": resources,
+        "traits": traits,
         "abilities": abilities,
         "ac": first_int(sb.get("ac"), 10),
         "maxHp": first_int(sb.get("hp"), 10),

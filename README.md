@@ -77,6 +77,10 @@ Las criaturas del catálogo y del SRD traen sus **acciones** ya estructuradas (`
 
 **Susurro al DM:** los jugadores tienen en su lugar el botón **🤫**: mientras está encendido, sus tiradas (dados y registro) solo las ven ese jugador y el DM; los demás no reciben nada. En el registro, las tiradas privadas llevan el ícono a la derecha, junto al desglose, y un borde izquierdo de color: rojo las ocultas (🙈), morado los susurros (🤫). El mensaje viaja a todos con el id del jugador, y cada ventana decide si lo muestra (`canSeeWhisper` en `src/diceShow.ts`).
 
+## Rasgos de lectura (Traits)
+
+Arriba de Actions/Spells va **Traits**: lo que no se tira ni se gasta pero hay que saber para jugar la ficha. Dos partes: los **datos fijos** en una línea cada uno (Speed, Senses, Resistances, Immunities, Vulnerabilities, Condition immunities) y los **rasgos** con su texto completo, etiquetados cuando no son pasivas: *Bonus action*, *Reaction*, *Legendary*. Así un mob que nunca usaste (Pack Tactics, Multiattack, Nimble Escape, inmune a fuego…) se lee entero desde la hoja. Catálogo y SRD los traen solos (`traits`, `bonus_actions`, `reactions`, `legendary_actions` del statblock; `special_abilities` y demás de Open5e); el botoncito **+ Trait** agrega los propios, con nombre, tipo y texto, y ✎ / ✕ editan o quitan. Las notas de cada criatura ya no repiten esa lista: quedan para el encabezado (CR, tamaño, tipo) y los avisos.
+
 ## Recursos y descansos
 
 Debajo de los números de combate va la lista de **recursos contables**: forma salvaje, puntos de hechicería, inspiración bárdica, puntos de foco, usos de un rasgo… Cada uno es un nombre, un máximo, cuándo se recupera (☕ descanso corto o 🌙 descanso largo) y una nota opcional con qué hace; al pasar el cursor por la fila sale el nombre, los usos y esa nota. Hasta 12 usos se dibujan como puntos (clic en uno para gastar o recuperar hasta ahí); con más, un contador − / +. Si la hoja no tiene recursos, no se muestra nada: solo el botoncito **+ Resource** para agregar el primero, y ✎ / ✕ en cada fila para editarlo o quitarlo.

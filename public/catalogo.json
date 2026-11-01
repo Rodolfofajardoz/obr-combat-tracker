@@ -25,6 +25,28 @@
     "note": "Una criatura a 30 ft. debe superar salvación de CON CD 12 o queda incapaz de hablar hasta el inicio del siguiente turno del Acólito."
    }
   ],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "passive Perception 11",
+    "kind": "info"
+   },
+   {
+    "name": "Fanático del Equilibrio",
+    "desc": "Tiene ventaja en la primera tirada de salvación contra ser asustado o hechizado.",
+    "kind": "trait"
+   },
+   {
+    "name": "Objetivo Primario — Escape",
+    "desc": "Si el Líder está vivo, el Acólito prioriza acciones de Ayuda, Desenganche o Distracción en vez de atacar.",
+    "kind": "trait"
+   }
+  ],
   "abilities": {
    "str": 10,
    "dex": 14,
@@ -39,7 +61,7 @@
   "initBonus": 0,
   "saveProf": {},
   "skillProf": {},
-  "notes": "CR 1/4 · Medium humanoid (any race) · Vel. 30 ft.\nSentidos: passive Perception 11\nRasgos:\n• Fanático del Equilibrio: Tiene ventaja en la primera tirada de salvación contra ser asustado o hechizado.\n• Objetivo Primario — Escape: Si el Líder está vivo, el Acólito prioriza acciones de Ayuda, Desenganche o Distracción en vez de atacar.\nAcciones:\n• Cimitarra: Ataque cuerpo a cuerpo: +4 al ataque, alcance 5 ft., un objetivo. Impacto: 1d6+2 daño cortante.\n• Silencio Breve (1/Descanso Corto): Una criatura a 30 ft. debe superar salvación de CON CD 12 o queda incapaz de hablar hasta el inicio del siguiente turno del Acólito."
+  "notes": "CR 1/4 · Medium humanoid (any race) · Vel. 30 ft."
  },
  {
   "name": "Bestia del Eco Torcido",
@@ -71,6 +93,48 @@
    }
   ],
   "resources": [],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "40 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "darkvision 60 ft., passive Perception 13",
+    "kind": "info"
+   },
+   {
+    "name": "Resistances",
+    "desc": "psychic",
+    "kind": "info"
+   },
+   {
+    "name": "Condition immunities",
+    "desc": "frightened",
+    "kind": "info"
+   },
+   {
+    "name": "Aura de Distorsión",
+    "desc": "Las criaturas que comiencen su turno a 5 ft. de la Bestia deben superar una salvación de Sabiduría CD 12. En fallo, tienen desventaja en su siguiente tirada de ataque antes del final de su turno. En éxito, son inmunes a esta aura hasta el inicio de su siguiente turno.",
+    "kind": "trait"
+   },
+   {
+    "name": "Reacción al Fuego Arcano",
+    "desc": "Si la Bestia recibe daño radiante o daño de fuego mágico, obtiene +2 al daño en su siguiente ataque antes del final de su próximo turno.",
+    "kind": "trait"
+   },
+   {
+    "name": "Paso Sombrío del Bosque",
+    "desc": "La Bestia se desplaza hasta 15 ft. a un espacio que pueda ver entre árboles o sombras sin provocar ataques de oportunidad.",
+    "kind": "bonus"
+   },
+   {
+    "name": "Golpe Reflejo",
+    "desc": "Cuando una criatura falla un ataque cuerpo a cuerpo contra la Bestia estando a 5 ft., la Bestia puede realizar un ataque de Zarpazo contra esa criatura.",
+    "kind": "reaction"
+   }
+  ],
   "abilities": {
    "str": 16,
    "dex": 12,
@@ -89,7 +153,7 @@
   "skillProf": {
    "perception": 1
   },
-  "notes": "CR 3 · Medium aberration · Vel. 40 ft.\nResist.: psychic\nInmune a: frightened\nSentidos: darkvision 60 ft., passive Perception 13\nRasgos:\n• Aura de Distorsión: Las criaturas que comiencen su turno a 5 ft. de la Bestia deben superar una salvación de Sabiduría CD 12. En fallo, tienen desventaja en su siguiente tirada de ataque an…\n• Reacción al Fuego Arcano: Si la Bestia recibe daño radiante o daño de fuego mágico, obtiene +2 al daño en su siguiente ataque antes del final de su próximo turno.\nAcciones:\n• Multiataque: La Bestia realiza dos ataques: uno con Cornamenta Espiral y uno con Zarpazo.\n• Cornamenta Espiral: Ataque cuerpo a cuerpo: +5 al ataque, alcance 5 ft., un objetivo. Impacto: 2d6 + 3 daño perforante. Si la Bestia se movió al menos 20 ft. en línea recta antes del ataque…\n• Zarpazo Desgarrador: Ataque cuerpo a cuerpo: +5 al ataque, alcance 5 ft., un objetivo. Impacto: 2d6 + 3 daño cortante. El objetivo reduce su velocidad en 10 ft. hasta el inicio del siguiente…\n• Exhalación de Presión (Recarga 5–6): La Bestia exhala una onda de presión en un cono de 15 ft. Las criaturas en el área deben realizar una salvación de Constitución CD 13. En fallo: 2d6 daño psíquico y su v…\nAcción adicional:\n• Paso Sombrío del Bosque: La Bestia se desplaza hasta 15 ft. a un espacio que pueda ver entre árboles o sombras sin provocar ataques de oportunidad.\nReacciones:\n• Golpe Reflejo: Cuando una criatura falla un ataque cuerpo a cuerpo contra la Bestia estando a 5 ft., la Bestia puede realizar"
+  "notes": "CR 3 · Medium aberration · Vel. 40 ft."
  },
  {
   "name": "Copete",
@@ -109,7 +173,42 @@
     "damage": "1d6+2"
    }
   ],
-  "resources": [],
+  "resources": [
+   {
+    "name": "Fury of the Small",
+    "cur": 1,
+    "max": 1,
+    "reset": "short",
+    "note": "When Copete damages a creature larger than him that has hurt an ally this combat, he adds his proficiency bonus (+2) to the damage."
+   }
+  ],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "darkvision 60 ft., passive Perception 13",
+    "kind": "info"
+   },
+   {
+    "name": "Helpful",
+    "desc": "Copete can take the Help action as a bonus action.",
+    "kind": "trait"
+   },
+   {
+    "name": "Cunning Action",
+    "desc": "On his turn, Copete can take the Dash, Disengage, or Hide action as a bonus action.",
+    "kind": "trait"
+   },
+   {
+    "name": "Fury of the Small (1/Short Rest)",
+    "desc": "When Copete damages a creature larger than him that has hurt an ally this combat, he adds his proficiency bonus (+2) to the damage.",
+    "kind": "trait"
+   }
+  ],
   "abilities": {
    "str": 8,
    "dex": 14,
@@ -133,7 +232,7 @@
    "perception": 1,
    "insight": 1
   },
-  "notes": "CR 1/4 · Small humanoid (goblinoid) · Vel. 30 ft.\nSentidos: darkvision 60 ft., passive Perception 13\nRasgos:\n• Helpful: Copete can take the Help action as a bonus action.\n• Cunning Action: On his turn, Copete can take the Dash, Disengage, or Hide action as a bonus action.\n• Too Young for Hatred: Copete has disadvantage on his first attack roll in a combat. After missing or being hurt, he loses this disadvantage. Goes away when he crosses Stage II.\nAcciones:\n• Whip +1: Melee Weapon Attack: +5 to hit, reach 10 ft., one target. Hit: 5 (1d4 + 3) slashing damage.\n• Scimitar: Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) slashing damage."
+  "notes": "CR 1/4 · Small humanoid (goblinoid) · Vel. 30 ft."
  },
  {
   "name": "Custodio de la Guardia del Voto",
@@ -158,6 +257,28 @@
    }
   ],
   "resources": [],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "passive Perception 15",
+    "kind": "info"
+   },
+   {
+    "name": "Oído y Vista Agudos",
+    "desc": "Ventaja en pruebas de Sabiduría (Percepción) basadas en oído o vista.",
+    "kind": "trait"
+   },
+   {
+    "name": "El que cuenta cabezas",
+    "desc": "Como acción bonus marca a una criatura visible. El siguiente ataque de un aliado contra ella tiene ventaja.",
+    "kind": "trait"
+   }
+  ],
   "abilities": {
    "str": 11,
    "dex": 14,
@@ -176,7 +297,7 @@
    "stealth": 2,
    "survival": 2
   },
-  "notes": "CR 1/2 · Medium humanoide (humano) · Vel. 30 ft.\nSentidos: passive Perception 15\nRasgos:\n• Oído y Vista Agudos: Ventaja en pruebas de Sabiduría (Percepción) basadas en oído o vista.\n• El que cuenta cabezas: Como acción bonus marca a una criatura visible. El siguiente ataque de un aliado contra ella tiene ventaja.\nAcciones:\n• Multiataque: Hace dos ataques cuerpo a cuerpo o dos a distancia.\n• Espada corta: +4 al ataque, alcance 5 ft. Impacto: 1d6+2 perforante.\n• Arco largo: +4 al ataque, alcance 150/600. Impacto: 1d8+2 perforante."
+  "notes": "CR 1/2 · Medium humanoide (humano) · Vel. 30 ft."
  },
  {
   "name": "Eco del Veredicto",
@@ -197,6 +318,53 @@
    }
   ],
   "resources": [],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "darkvision 60 ft., passive Perception 14",
+    "kind": "info"
+   },
+   {
+    "name": "Resistances",
+    "desc": "radiant, necrotic; bludgeoning, piercing, and slashing from nonmagical attacks",
+    "kind": "info"
+   },
+   {
+    "name": "Vulnerabilities",
+    "desc": "thunder",
+    "kind": "info"
+   },
+   {
+    "name": "Condition immunities",
+    "desc": "poisoned, charmed, blinded, exhaustion",
+    "kind": "info"
+   },
+   {
+    "name": "Resonance of Judgment",
+    "desc": "At the start of its turn, any creature within 10 ft. of the Eco that has lied, betrayed, or harmed an ally within the last 24 hours must succeed on a DC 14 Wisdom saving throw or take 1d8 psychic damage and have disadvantage on its next attack roll.",
+    "kind": "trait"
+   },
+   {
+    "name": "Aura of Balance",
+    "desc": "Healing effects within 20 ft. of the Eco restore only half as many hit points, but critical hits also deal only half damage.",
+    "kind": "trait"
+   },
+   {
+    "name": "Body of Living Salt",
+    "desc": "When the Eco takes slashing or piercing damage, shards of salt burst outward. Each creature within 5 ft. must succeed on a DC 13 Dexterity saving throw or take 1d8 slashing damage.",
+    "kind": "trait"
+   },
+   {
+    "name": "Reflected Sentence",
+    "desc": "When a creature within 30 ft. deals damage to the Eco, it must succeed on a DC 14 Charisma saving throw or take half of the damage it just dealt. The Eco can use this reaction once per turn.",
+    "kind": "reaction"
+   }
+  ],
   "abilities": {
    "str": 17,
    "dex": 12,
@@ -218,7 +386,7 @@
    "religion": 1,
    "perception": 1
   },
-  "notes": "CR 4 · Medium resonant construct · Vel. 30 ft.\nResist.: radiant, necrotic; bludgeoning, piercing, and slashing from nonmagical attacks\nVulnerable: thunder\nInmune a: poisoned, charmed, blinded, exhaustion\nSentidos: darkvision 60 ft., passive Perception 14\nRasgos:\n• Resonance of Judgment: At the start of its turn, any creature within 10 ft. of the Eco that has lied, betrayed, or harmed an ally within the last 24 hours must succeed on a DC 14 Wisdom saving…\n• Aura of Balance: Healing effects within 20 ft. of the Eco restore only half as many hit points, but critical hits also deal only half damage.\n• Body of Living Salt: When the Eco takes slashing or piercing damage, shards of salt burst outward. Each creature within 5 ft. must succeed on a DC 13 Dexterity saving throw or take 1d8 slash…\nAcciones:\n• Verdict Strike: Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 11 (2d8 + 3) radiant damage.\n• Pulse of Guilt (Recharge 5–6): The Eco releases a wave of psychic energy in a 15-ft. radius. Each creature in that area must make a DC 14 Wisdom saving throw. On a failed save, a creature takes 3d10 p…\nReacciones:\n• Reflected Sentence: When a creature within 30 ft. deals damage to the Eco, it must succeed on a DC 14 Charisma saving throw or take half of the damage it just dealt. The Eco can use this re…"
+  "notes": "CR 4 · Medium resonant construct · Vel. 30 ft."
  },
  {
   "name": "Eco Desgarrado – Fragmento",
@@ -239,6 +407,53 @@
    }
   ],
   "resources": [],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "40 ft., climb 30 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "blindsight 60 ft., passive Perception 16",
+    "kind": "info"
+   },
+   {
+    "name": "Resistances",
+    "desc": "necrotic, psychic, radiant; nonmagical weapons",
+    "kind": "info"
+   },
+   {
+    "name": "Immunities",
+    "desc": "poison",
+    "kind": "info"
+   },
+   {
+    "name": "Condition immunities",
+    "desc": "charmed, frightened, poisoned",
+    "kind": "info"
+   },
+   {
+    "name": "Aura de Desenlace",
+    "desc": "Criaturas sin Resonancia en 30 pies hacen salvación de Sabiduría CD 15 o tienen desventaja en ataques y pruebas hasta su siguiente turno.",
+    "kind": "trait"
+   },
+   {
+    "name": "Instinto Direccional",
+    "desc": "Ataca instintivamente estructuras, objetos y seres ligados a la civilización o al orden social.",
+    "kind": "trait"
+   },
+   {
+    "name": "Debilidad a Vibraciones Únicas",
+    "desc": "Por cada portador de signo cercano, el Eco tiene -1 a AC y tiradas de ataque (mínimo -5).",
+    "kind": "trait"
+   },
+   {
+    "name": "Desvanecerse entre Hilos",
+    "desc": "Como acción, se teletransporta 60 pies y obtiene resistencia a todo daño hasta el inicio de su siguiente turno.",
+    "kind": "trait"
+   }
+  ],
   "abilities": {
    "str": 20,
    "dex": 16,
@@ -253,7 +468,7 @@
   "initBonus": 0,
   "saveProf": {},
   "skillProf": {},
-  "notes": "CR 11 · Large aberration · Vel. 40 ft., climb 30 ft.\nResist.: necrotic, psychic, radiant; nonmagical weapons\nInmune: poison\nInmune a: charmed, frightened, poisoned\nSentidos: blindsight 60 ft., passive Perception 16\nRasgos:\n• Aura de Desenlace: Criaturas sin Resonancia en 30 pies hacen salvación de Sabiduría CD 15 o tienen desventaja en ataques y pruebas hasta su siguiente turno.\n• Instinto Direccional: Ataca instintivamente estructuras, objetos y seres ligados a la civilización o al orden social.\n• Debilidad a Vibraciones Únicas: Por cada portador de signo cercano, el Eco tiene -1 a AC y tiradas de ataque (mínimo -5).\n• Desvanecerse entre Hilos: Como acción, se teletransporta 60 pies y obtiene resistencia a todo daño hasta el inicio de su siguiente turno.\nAcciones:\n• Látigo Sombrío (Multiataque x2): Ataque +8, alcance 10 pies. 2d10+5 psíquico + 3d6 necrótico.\n• Grito Distorsionado (Recarga 5–6): Criaturas en 30 pies hacen salvación de Sabiduría CD 17 o quedan aturdidas 1 turno y sufren 6d8 psíquico."
+  "notes": "CR 11 · Large aberration · Vel. 40 ft., climb 30 ft."
  },
  {
   "name": "Eco Silente",
@@ -281,6 +496,38 @@
     "note": "Todas las criaturas en un radio de 10 pies deben superar una tirada de Sabiduría (CD 12) o quedar aturdidas por un turno, escuchando un eco mental del Juicio."
    }
   ],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "20 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "blindsight 30 ft., passive Perception 10",
+    "kind": "info"
+   },
+   {
+    "name": "Resistances",
+    "desc": "necrotic, psychic",
+    "kind": "info"
+   },
+   {
+    "name": "Condition immunities",
+    "desc": "charmed, frightened, prone",
+    "kind": "info"
+   },
+   {
+    "name": "Presencia Rota",
+    "desc": "Una vez por turno, cuando una criatura a 5 pies de este eco falle una tirada de salvación, gana desventaja en su próxima prueba de Carisma o Sabiduría (el juicio la debilita emocionalmente).",
+    "kind": "trait"
+   },
+   {
+    "name": "Silencio Reactivo",
+    "desc": "Si recibe daño radiante o verbalizado por conjuros, su siguiente ataque es con ventaja.",
+    "kind": "trait"
+   }
+  ],
   "abilities": {
    "str": 12,
    "dex": 6,
@@ -295,7 +542,7 @@
   "initBonus": 0,
   "saveProf": {},
   "skillProf": {},
-  "notes": "CR 1/4 · Medium construct · Vel. 20 ft.\nResist.: necrotic, psychic\nInmune a: charmed, frightened, prone\nSentidos: blindsight 30 ft., passive Perception 10\nRasgos:\n• Presencia Rota: Una vez por turno, cuando una criatura a 5 pies de este eco falle una tirada de salvación, gana desventaja en su próxima prueba de Carisma o Sabiduría (el juicio la debi…\n• Silencio Reactivo: Si recibe daño radiante o verbalizado por conjuros, su siguiente ataque es con ventaja.\nAcciones:\n• Golpe Ritual: Ataque cuerpo a cuerpo: +4 al golpe, alcance 5 ft., un objetivo. Impacto: 7 (1d10 + 2) daño contundente.\n• Grito Interno (1/Descanso corto): Todas las criaturas en un radio de 10 pies deben superar una tirada de Sabiduría (CD 12) o quedar aturdidas por un turno, escuchando un eco mental del Juicio."
+  "notes": "CR 1/4 · Medium construct · Vel. 20 ft."
  },
  {
   "name": "El Clockmaster",
@@ -326,6 +573,58 @@
    }
   ],
   "resources": [],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "visión en la oscuridad 60 ft., Percepción pasiva 15",
+    "kind": "info"
+   },
+   {
+    "name": "Resistances",
+    "desc": "fuerza",
+    "kind": "info"
+   },
+   {
+    "name": "🪙 Fichas de la Casa (2)",
+    "desc": "Reemplaza a Resistencia Legendaria. Si falla una salvación, puede gastar una ficha para tener éxito. Las fichas están a la vista sobre la mesa. Un PJ que gana una apuesta a número en la Ruleta le roba una; ese PJ puede gastarla para repetir cualquier d20 propio.",
+    "kind": "trait"
+   },
+   {
+    "name": "Amo del Reloj",
+    "desc": "Es inmune a los efectos dañinos de su propia Ruleta de las Horas, salvo que un efecto diga lo contrario (ver Hora X).",
+    "kind": "trait"
+   },
+   {
+    "name": "💀 La casa dobla la apuesta",
+    "desc": "Cuando queda en 60 PG o menos, la Ruleta gira dos veces por ronda (iniciativa 20 y 10). Si el horno de C32 fue apagado, sigue girando una sola vez.",
+    "kind": "trait"
+   },
+   {
+    "name": "Paso Entre Segundos",
+    "desc": "Se teletransporta hasta 20 ft. a un espacio desocupado que pueda ver.",
+    "kind": "bonus"
+   },
+   {
+    "name": "🎲 ¿Doble o nada?",
+    "desc": "Reemplaza a Rebobinar. Cuando un ataque de una criatura que puede ver lo golpea, le ofrece el trato. Acepta: el atacante vuelve a tirar el daño; si sale más alto hace el doble, si sale más bajo o igual no hace daño. Rechaza: el Clockmaster rebobina, +2 a la CA contra ese ataque, que puede fallar.",
+    "kind": "reaction"
+   },
+   {
+    "name": "Proyectil de Manecilla — La casa cobra",
+    "desc": "Hace un ataque de Proyectil de Manecilla, pero solo contra una criatura que perdió una apuesta en el último giro de la Ruleta.",
+    "kind": "legendary"
+   },
+   {
+    "name": "Barrido del Péndulo",
+    "desc": "Línea de 30 ft. × 10 ft. desde el péndulo central. Cada criatura en la línea hace una salvación de Destreza CD 14. Falla: 9 (2d8) de daño contundente y es empujada hasta 10 ft. en la dirección del barrido. Éxito: mitad de daño. El Clockmaster también lo sufre si está en el camino.",
+    "kind": "legendary"
+   }
+  ],
   "abilities": {
    "str": 10,
    "dex": 16,
@@ -348,7 +647,7 @@
    "investigation": 1,
    "perception": 1
   },
-  "notes": "CR 6 · Mediano Humanoide · Vel. 30 ft.\nResist.: fuerza\nSentidos: visión en la oscuridad 60 ft., Percepción pasiva 15\nRasgos:\n• 🪙 Fichas de la Casa (2): Reemplaza a Resistencia Legendaria. Si falla una salvación, puede gastar una ficha para tener éxito. Las fichas están a la vista sobre la mesa. Un PJ que gana una apuest…\n• Amo del Reloj: Es inmune a los efectos dañinos de su propia Ruleta de las Horas, salvo que un efecto diga lo contrario (ver Hora X).\n• 💀 La casa dobla la apuesta: Cuando queda en 60 PG o menos, la Ruleta gira dos veces por ronda (iniciativa 20 y 10). Si el horno de C32 fue apagado, sigue girando una sola vez.\nAcciones:\n• Multiataque: Hace dos ataques, con Hoja Crónica o Proyectil de Manecilla en cualquier combinación.\n• Hoja Crónica: Ataque cuerpo a cuerpo: +6 al golpe, alcance 5 ft., un objetivo. Impacto: 10 (2d6 + 3) de daño cortante más 3 (1d6) de daño de fuerza.\n• Proyectil de Manecilla: Ataque a distancia: +7 al golpe, alcance 120 ft., un objetivo. Impacto: 11 (2d6 + 4) de daño de fuerza, y la velocidad del objetivo baja 10 ft. hasta el inicio del sigui…\n• Manos del Tiempo (recarga 5–6): Cono de 20 ft. Cada criatura en el área debe hacer una salvación de Destreza CD 14. Falla: 13 (3d8) de daño de fuerza y es empujada hasta 10 ft. Éxito: mitad de daño.\nAcción adicional:\n• Paso Entre Segundos: Se teletransporta hasta 20 ft. a un espacio desocupado que pueda ver.\nReacciones:\n• 🎲 ¿Doble o nada?: Reemplaza a Rebobinar. Cuando un ataque de una criatura que p"
+  "notes": "CR 6 · Mediano Humanoide · Vel. 30 ft."
  },
  {
   "name": "El Crupier",
@@ -368,6 +667,48 @@
    }
   ],
   "resources": [],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "0 ft., vuelo 40 ft. (flota)",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "visión en la oscuridad 60 ft., Percepción pasiva 11",
+    "kind": "info"
+   },
+   {
+    "name": "Resistances",
+    "desc": "ácido, fuego, rayo, trueno; contundente, perforante y cortante de ataques no mágicos",
+    "kind": "info"
+   },
+   {
+    "name": "Immunities",
+    "desc": "frío, necrótico, veneno",
+    "kind": "info"
+   },
+   {
+    "name": "Condition immunities",
+    "desc": "hechizado, agotamiento, asustado, agarrado, paralizado, petrificado, envenenado, derribado, apresado",
+    "kind": "info"
+   },
+   {
+    "name": "Movimiento incorpóreo",
+    "desc": "Puede atravesar criaturas y objetos como si fueran terreno difícil. Si termina su turno dentro de un objeto, recibe 5 (1d10) de daño de fuerza.",
+    "kind": "trait"
+   },
+   {
+    "name": "La mesa está abierta",
+    "desc": "Antes del combate, cualquier criatura puede sentarse a jugar una mano (ver C27). Mientras la mano dure, el Crupier no ataca.",
+    "kind": "trait"
+   },
+   {
+    "name": "Reparto",
+    "desc": "Lanza una carta espectral a una criatura a 30 ft. que pueda ver. Salvación de Sabiduría CD 13 o tiene desventaja en su próxima tirada de ataque.",
+    "kind": "bonus"
+   }
+  ],
   "abilities": {
    "str": 7,
    "dex": 14,
@@ -382,7 +723,7 @@
   "initBonus": 0,
   "saveProf": {},
   "skillProf": {},
-  "notes": "CR 4 · Mediano no-muerto (eco) · Vel. 0 ft., vuelo 40 ft. (flota)\nResist.: ácido, fuego, rayo, trueno; contundente, perforante y cortante de ataques no mágicos\nInmune: frío, necrótico, veneno\nInmune a: hechizado, agotamiento, asustado, agarrado, paralizado, petrificado, envenenado, derribado, apresado\nSentidos: visión en la oscuridad 60 ft., Percepción pasiva 11\nRasgos:\n• Movimiento incorpóreo: Puede atravesar criaturas y objetos como si fueran terreno difícil. Si termina su turno dentro de un objeto, recibe 5 (1d10) de daño de fuerza.\n• La mesa está abierta: Antes del combate, cualquier criatura puede sentarse a jugar una mano (ver C27). Mientras la mano dure, el Crupier no ataca.\nAcciones:\n• Toque del Paño: Ataque cuerpo a cuerpo con arma: +5 al golpe, alcance 5 ft., un objetivo. Impacto: 13 (3d6 + 3) de daño necrótico.\n• Cambiar de Mano (recarga 6): Un humanoide a 5 ft. que pueda ver hace una salvación de Carisma CD 13. Falla: el Crupier desaparece dentro de su cuerpo y lo controla; el poseído ve todo pero ataca a s…\nAcción adicional:\n• Reparto: Lanza una carta espectral a una criatura a 30 ft. que pueda ver. Salvación de Sabiduría CD 13 o tiene desventaja en su próxima tirada de ataque."
+  "notes": "CR 4 · Mediano no-muerto (eco) · Vel. 0 ft., vuelo 40 ft. (flota)"
  },
  {
   "name": "El Custodio del Peso Colgado",
@@ -390,6 +731,33 @@
   "cr": "5",
   "actions": [],
   "resources": [],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft. (levitación parcial)",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "darkvision 60 ft., passive Perception 12",
+    "kind": "info"
+   },
+   {
+    "name": "Resistances",
+    "desc": "bludgeoning, piercing, slashing (solo Fase I–II)",
+    "kind": "info"
+   },
+   {
+    "name": "Immunities",
+    "desc": "charm, frightened",
+    "kind": "info"
+   },
+   {
+    "name": "Condition immunities",
+    "desc": "charmed, frightened, restrained",
+    "kind": "info"
+   }
+  ],
   "abilities": {
    "str": 18,
    "dex": 10,
@@ -408,7 +776,7 @@
    "wis": true
   },
   "skillProf": {},
-  "notes": "CR 5 · Large construct (ritual, humanoid origin) · Vel. 30 ft. (levitación parcial)\nResist.: bludgeoning, piercing, slashing (solo Fase I–II)\nInmune: charm, frightened\nInmune a: charmed, frightened, restrained\nSentidos: darkvision 60 ft., passive Perception 12\nBonos de la nota que no cuadran con la fórmula: salv. CON +6"
+  "notes": "CR 5 · Large construct (ritual, humanoid origin) · Vel. 30 ft. (levitación parcial)\nBonos de la nota que no cuadran con la fórmula: salv. CON +6"
  },
  {
   "name": "El Custodio del Peso Colgado — Fase I (El Designado)",
@@ -424,6 +792,53 @@
    }
   ],
   "resources": [],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft. (levitación parcial)",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "darkvision 60 ft., passive Perception 12",
+    "kind": "info"
+   },
+   {
+    "name": "Resistances",
+    "desc": "bludgeoning, piercing, slashing",
+    "kind": "info"
+   },
+   {
+    "name": "Immunities",
+    "desc": "charm, frightened",
+    "kind": "info"
+   },
+   {
+    "name": "Condition immunities",
+    "desc": "charmed, frightened, restrained",
+    "kind": "info"
+   },
+   {
+    "name": "El Peso Nunca Desaparece",
+    "desc": "El daño y las consecuencias nunca se anulan: siempre se transfieren, redistribuyen o recaen en alguien.",
+    "kind": "trait"
+   },
+   {
+    "name": "Peso Compartido",
+    "desc": "Cuando el Custodio recibe daño, elige otra criatura a 30 ft. Esa criatura recibe la mitad del daño. Si solo hay PJs, el daño se transfiere al PJ más cercano.",
+    "kind": "trait"
+   },
+   {
+    "name": "Debilidad — Sacrificio Voluntario",
+    "desc": "Una vez por ronda, si un PJ realiza un Sacrificio Voluntario declarado, el rasgo Peso Compartido no funciona hasta el inicio del siguiente turno del Custodio.",
+    "kind": "trait"
+   },
+   {
+    "name": "Yo Cargo con Eso (1/Ronda)",
+    "desc": "Cuando una criatura a 30 ft. va a caer a 0 HP o falla una salvación importante, el Custodio intercepta el daño o condición y gana 1 Marca de Peso (máx. 4).",
+    "kind": "reaction"
+   }
+  ],
   "abilities": {
    "str": 18,
    "dex": 10,
@@ -442,7 +857,7 @@
    "wis": true
   },
   "skillProf": {},
-  "notes": "CR 5 · Large construct (ritual, humanoid origin) · Vel. 30 ft. (levitación parcial)\nResist.: bludgeoning, piercing, slashing\nInmune: charm, frightened\nInmune a: charmed, frightened, restrained\nSentidos: darkvision 60 ft., passive Perception 12\nRasgos:\n• El Peso Nunca Desaparece: El daño y las consecuencias nunca se anulan: siempre se transfieren, redistribuyen o recaen en alguien.\n• Peso Compartido: Cuando el Custodio recibe daño, elige otra criatura a 30 ft. Esa criatura recibe la mitad del daño. Si solo hay PJs, el daño se transfiere al PJ más cercano.\n• Debilidad — Sacrificio Voluntario: Una vez por ronda, si un PJ realiza un Sacrificio Voluntario declarado, el rasgo Peso Compartido no funciona hasta el inicio del siguiente turno del Custodio.\nAcciones:\n• Lazo del Sacrificio: Ataque cuerpo a cuerpo o a distancia corta: +7 al ataque, alcance 20 ft., un objetivo. Impacto: 2d6 + 4 daño contundente. El objetivo queda Restringido (STR CD 14 al fin…\nReacciones:\n• Yo Cargo con Eso (1/Ronda): Cuando una criatura a 30 ft. va a caer a 0 HP o falla una salvación importante, el Custodio intercepta el daño o condición y gana 1 Marca de Peso (máx. 4).\nBonos de la nota que no cuadran con la fórmula: salv. CON +6"
+  "notes": "CR 5 · Large construct (ritual, humanoid origin) · Vel. 30 ft. (levitación parcial)\nBonos de la nota que no cuadran con la fórmula: salv. CON +6"
  },
  {
   "name": "El Custodio del Peso Colgado — Fase II (El Peso Compartido)",
@@ -458,6 +873,53 @@
    }
   ],
   "resources": [],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft. (levitación parcial)",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "darkvision 60 ft., passive Perception 12",
+    "kind": "info"
+   },
+   {
+    "name": "Resistances",
+    "desc": "bludgeoning, piercing, slashing",
+    "kind": "info"
+   },
+   {
+    "name": "Immunities",
+    "desc": "charm, frightened",
+    "kind": "info"
+   },
+   {
+    "name": "Condition immunities",
+    "desc": "charmed, frightened, restrained",
+    "kind": "info"
+   },
+   {
+    "name": "El Peso Nunca Desaparece",
+    "desc": "El daño y las consecuencias nunca se anulan: siempre se transfieren, redistribuyen o recaen en alguien.",
+    "kind": "trait"
+   },
+   {
+    "name": "Red de Sacrificio",
+    "desc": "Al inicio del turno del Custodio, elige 2 PJs. Quedan vinculados hasta el inicio de su siguiente turno. El daño a uno se transfiere 50% al otro. Si se separan más de 20 ft, ambos reciben 1d6 daño psíquico.",
+    "kind": "trait"
+   },
+   {
+    "name": "Sacrificio Forzado",
+    "desc": "Una vez por ronda, cuando un PJ se cura o evita caer a 0 HP, otro PJ al azar recibe 1d8 daño necrótico.",
+    "kind": "trait"
+   },
+   {
+    "name": "Debilidad — Sacrificio Voluntario",
+    "desc": "Una vez por ronda, si un PJ realiza un Sacrificio Voluntario declarado, cualquier rasgo de transferencia de daño del Custodio no funciona hasta el inicio de su siguiente turno.",
+    "kind": "trait"
+   }
+  ],
   "abilities": {
    "str": 18,
    "dex": 10,
@@ -476,7 +938,7 @@
    "wis": true
   },
   "skillProf": {},
-  "notes": "CR 5 · Large construct (ritual, humanoid origin) · Vel. 30 ft. (levitación parcial)\nResist.: bludgeoning, piercing, slashing\nInmune: charm, frightened\nInmune a: charmed, frightened, restrained\nSentidos: darkvision 60 ft., passive Perception 12\nRasgos:\n• El Peso Nunca Desaparece: El daño y las consecuencias nunca se anulan: siempre se transfieren, redistribuyen o recaen en alguien.\n• Red de Sacrificio: Al inicio del turno del Custodio, elige 2 PJs. Quedan vinculados hasta el inicio de su siguiente turno. El daño a uno se transfiere 50% al otro. Si se separan más de 20…\n• Sacrificio Forzado: Una vez por ronda, cuando un PJ se cura o evita caer a 0 HP, otro PJ al azar recibe 1d8 daño necrótico.\n• Debilidad — Sacrificio Voluntario: Una vez por ronda, si un PJ realiza un Sacrificio Voluntario declarado, cualquier rasgo de transferencia de daño del Custodio no funciona hasta el inicio de su siguiente…\nAcciones:\n• Golpe del Ancla: Ataque cuerpo a cuerpo: +7 al ataque, alcance 5 ft., un objetivo. Impacto: 2d10 + 4 daño contundente. El objetivo queda Anclado (velocidad 0; puede repetir STR CD 14 al…\nBonos de la nota que no cuadran con la fórmula: salv. CON +6"
+  "notes": "CR 5 · Large construct (ritual, humanoid origin) · Vel. 30 ft. (levitación parcial)\nBonos de la nota que no cuadran con la fórmula: salv. CON +6"
  },
  {
   "name": "El Custodio del Peso Colgado — Fase II (Los Colgados)",
@@ -492,6 +954,68 @@
    }
   ],
   "resources": [],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft. (levitación parcial)",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "darkvision 60 ft., passive Perception 12",
+    "kind": "info"
+   },
+   {
+    "name": "Condition immunities",
+    "desc": "charmed, frightened, restrained, unconscious",
+    "kind": "info"
+   },
+   {
+    "name": "El Peso Nunca Desaparece",
+    "desc": "El daño y las consecuencias nunca se anulan: siempre se transfieren, redistribuyen o recaen en alguien.",
+    "kind": "trait"
+   },
+   {
+    "name": "Red de Sacrificio",
+    "desc": "Al inicio del turno del Custodio, elige 2 PJs. Quedan vinculados hasta el inicio de su siguiente turno. El daño a uno se transfiere 50% al otro. Si se separan más de 20 ft, ambos reciben 1d6 daño psíquico.",
+    "kind": "trait"
+   },
+   {
+    "name": "Los Colgados",
+    "desc": "Cada vez que un PJ se cura o evita caer a 0 HP, uno de los cadáveres suspendidos revienta. Criaturas a 5 ft.: salvación DES CD 13 o 1d6 daño perforante.",
+    "kind": "trait"
+   },
+   {
+    "name": "El Custodio No Duerme",
+    "desc": "Inmune a Sleep y a quedar inconsciente por magia.",
+    "kind": "trait"
+   },
+   {
+    "name": "Debilidad — Sacrificio Voluntario",
+    "desc": "Una vez por ronda, si un PJ realiza un Sacrificio Voluntario declarado, Red de Sacrificio no funciona hasta el inicio del siguiente turno del Custodio.",
+    "kind": "trait"
+   },
+   {
+    "name": "Yo Cargo con Eso (1/Ronda)",
+    "desc": "Cuando una criatura a 30 ft. va a caer a 0 HP o falla una salvación importante, el Custodio intercepta el daño o condición y gana 1 Marca de Peso (máx. 4).",
+    "kind": "reaction"
+   },
+   {
+    "name": "Acciones de Cuerda (2/Ronda)",
+    "desc": "El Custodio puede usar 2 Acciones de Cuerda por ronda, al final del turno de otra criatura.",
+    "kind": "legendary"
+   },
+   {
+    "name": "Tirón",
+    "desc": "Una criatura a 30 ft. hace salvación de Fuerza CD 13 o es arrastrada 10 ft. hacia el Custodio.",
+    "kind": "legendary"
+   },
+   {
+    "name": "Ancla",
+    "desc": "Una criatura Restringida o Anclada recibe 1d8 daño contundente.",
+    "kind": "legendary"
+   }
+  ],
   "abilities": {
    "str": 18,
    "dex": 10,
@@ -510,7 +1034,7 @@
    "wis": true
   },
   "skillProf": {},
-  "notes": "CR 5 · Large construct (ritual, humanoid origin) · Vel. 30 ft. (levitación parcial)\nInmune a: charmed, frightened, restrained, unconscious\nSentidos: darkvision 60 ft., passive Perception 12\nRasgos:\n• El Peso Nunca Desaparece: El daño y las consecuencias nunca se anulan: siempre se transfieren, redistribuyen o recaen en alguien.\n• Red de Sacrificio: Al inicio del turno del Custodio, elige 2 PJs. Quedan vinculados hasta el inicio de su siguiente turno. El daño a uno se transfiere 50% al otro. Si se separan más de 20…\n• Los Colgados: Cada vez que un PJ se cura o evita caer a 0 HP, uno de los cadáveres suspendidos revienta. Criaturas a 5 ft.: salvación DES CD 13 o 1d6 daño perforante.\n• El Custodio No Duerme: Inmune a Sleep y a quedar inconsciente por magia.\n• Debilidad — Sacrificio Voluntario: Una vez por ronda, si un PJ realiza un Sacrificio Voluntario declarado, Red de Sacrificio no funciona hasta el inicio del siguiente turno del Custodio.\nAcciones:\n• Golpe del Ancla: Ataque cuerpo a cuerpo: +7 al ataque, alcance 5 ft., un objetivo. Impacto: 2d10 + 4 daño contundente. El objetivo queda Anclado (velocidad 0; puede repetir STR CD 14 al…\nReacciones:\n• Yo Cargo con Eso (1/Ronda): Cuando una criatura a 30 ft. va a caer a 0 HP o falla una salvación importante, el Custodio intercepta el daño o condición y gana 1 Marca de Peso (máx. 4).\nLegendarias:\n• Acciones de Cuerda (2/Ronda): El Custodio puede usar 2 Acciones de Cuerda por ronda, al final del turno de otra criatura.\n• Tirón: Una"
+  "notes": "CR 5 · Large construct (ritual, humanoid origin) · Vel. 30 ft. (levitación parcial)\nBonos de la nota que no cuadran con la fórmula: salv. CON +6"
  },
  {
   "name": "El Custodio del Peso Colgado — Fase III (El Colapso)",
@@ -531,6 +1055,33 @@
    }
   ],
   "resources": [],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "darkvision 60 ft., passive Perception 12",
+    "kind": "info"
+   },
+   {
+    "name": "Immunities",
+    "desc": "charm, frightened",
+    "kind": "info"
+   },
+   {
+    "name": "Condition immunities",
+    "desc": "charmed, frightened, restrained",
+    "kind": "info"
+   },
+   {
+    "name": "Colapso del Mártir",
+    "desc": "El Custodio pierde todas las resistencias y rasgos de transferencia de daño. Gana +2 al daño y ventaja en el primer ataque de cada turno.",
+    "kind": "trait"
+   }
+  ],
   "abilities": {
    "str": 18,
    "dex": 10,
@@ -549,7 +1100,7 @@
    "wis": true
   },
   "skillProf": {},
-  "notes": "CR 5 · Large construct (ritual, humanoid origin) · Vel. 30 ft.\nInmune: charm, frightened\nInmune a: charmed, frightened, restrained\nSentidos: darkvision 60 ft., passive Perception 12\nRasgos:\n• Colapso del Mártir: El Custodio pierde todas las resistencias y rasgos de transferencia de daño. Gana +2 al daño y ventaja en el primer ataque de cada turno.\nAcciones:\n• Golpe del Ancla: Ataque cuerpo a cuerpo: +7 al ataque, alcance 5 ft., un objetivo. Impacto: 2d10 + 6 daño contundente.\n• Arrastre Final (Recarga 6): Todas las criaturas a 30 ft. deben hacer una salvación de Fuerza CD 14. Fallo: 2d10 daño contundente + 2d6 daño psíquico y quedan Prone. Éxito: mitad de daño y no quedan…\nBonos de la nota que no cuadran con la fórmula: salv. CON +6"
+  "notes": "CR 5 · Large construct (ritual, humanoid origin) · Vel. 30 ft.\nBonos de la nota que no cuadran con la fórmula: salv. CON +6"
  },
  {
   "name": "Erynd Thalos, Guardián del Umbral Verde",
@@ -584,6 +1135,63 @@
     "note": "La Reliquia del Sol libera un estallido de luz blanca. Todas las criaturas a 20 ft. de Erynd deben superar una salvación de Constitución CD 13. Fallo: 3d6 daño de fuego y desventaja en tiradas de ataque hasta el final de su siguiente turno. Éxito: mitad de daño y sin desventaja."
    }
   ],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "darkvision 60 ft., passive Perception 16",
+    "kind": "info"
+   },
+   {
+    "name": "Resistances",
+    "desc": "fire",
+    "kind": "info"
+   },
+   {
+    "name": "Condition immunities",
+    "desc": "frightened",
+    "kind": "info"
+   },
+   {
+    "name": "Reliquia del Sol — La Verdad que Arde",
+    "desc": "Erynd porta una reliquia solar inestable. Mientras la empuña, obtiene resistencia al daño de fuego y puede canalizar efectos de revelación y castigo. La reliquia no está sincronizada: cuando Erynd cae a 25 HP o menos, pierde esta resistencia y todos los daños de fuego que inflige se reducen en 1d6.",
+    "kind": "trait"
+   },
+   {
+    "name": "Fuego Revelador",
+    "desc": "Las criaturas no pueden beneficiarse de invisibilidad, ocultamiento mágico o ventaja por estar escondidas dentro de 10 ft. de Erynd. Las criaturas que intentan esconderse en esta área fallan automáticamente.",
+    "kind": "trait"
+   },
+   {
+    "name": "La Verdad Duele",
+    "desc": "Una vez por turno, cuando una criatura falla un ataque contra Erynd, recibe 1d4 daño de fuego y pierde su reacción hasta el inicio de su siguiente turno.",
+    "kind": "trait"
+   },
+   {
+    "name": "Guardián del Umbral",
+    "desc": "Las criaturas hostiles que intentan salir del área de combate (radio de 60 ft. desde Erynd) deben superar una salvación de Fuerza CD 13. En fallo, su velocidad se reduce a 0 hasta el final de ese turno.",
+    "kind": "trait"
+   },
+   {
+    "name": "Control Territorial",
+    "desc": "Erynd emite un aura de control solar en un radio de 15 ft. alrededor de él. La primera vez en un turno que una criatura hostil entra al aura o inicia su turno dentro de ella, debe superar una salvación de Destreza CD 13 o sufre 1d6 daño de fuego.",
+    "kind": "trait"
+   },
+   {
+    "name": "Paso del Umbral",
+    "desc": "Erynd se mueve hasta 20 ft. sin provocar ataques de oportunidad. El punto desde donde se desplaza se convierte en una zona afectada por Control Territorial hasta el inicio de su siguiente turno.",
+    "kind": "bonus"
+   },
+   {
+    "name": "El Sol Observa (1/Turno)",
+    "desc": "Cuando una criatura a 30 ft. reduce a otra criatura a 0 HP, esa criatura recibe 1d6 daño de fuego. Erynd obtiene ventaja en su siguiente tirada de ataque.",
+    "kind": "reaction"
+   }
+  ],
   "abilities": {
    "str": 12,
    "dex": 14,
@@ -605,7 +1213,7 @@
    "perception": 1,
    "survival": 1
   },
-  "notes": "CR 4 · Medium humanoid (elf), druid · Vel. 30 ft.\nResist.: fire\nInmune a: frightened\nSentidos: darkvision 60 ft., passive Perception 16\nRasgos:\n• Reliquia del Sol — La Verdad que Arde: Erynd porta una reliquia solar inestable. Mientras la empuña, obtiene resistencia al daño de fuego y puede canalizar efectos de revelación y castigo. La reliquia no está…\n• Fuego Revelador: Las criaturas no pueden beneficiarse de invisibilidad, ocultamiento mágico o ventaja por estar escondidas dentro de 10 ft. de Erynd. Las criaturas que intentan esconders…\n• La Verdad Duele: Una vez por turno, cuando una criatura falla un ataque contra Erynd, recibe 1d4 daño de fuego y pierde su reacción hasta el inicio de su siguiente turno.\n• Guardián del Umbral: Las criaturas hostiles que intentan salir del área de combate (radio de 60 ft. desde Erynd) deben superar una salvación de Fuerza CD 13. En fallo, su velocidad se reduce…\n• Control Territorial: Erynd emite un aura de control solar en un radio de 15 ft. alrededor de él. La primera vez en un turno que una criatura hostil entra al aura o inicia su turno dentro de…\nAcciones:\n• Látigo Solar: Ataque cuerpo a cuerpo o a distancia corta: +4 al ataque, alcance 15 ft., un objetivo. Impacto: 2d6 + 2 daño de fuego. Hasta el final de su siguiente turno, el objetivo…\n• Raíces del Juicio (Recarga 5–6): Raíces incandescentes emergen del suelo en un radio de 15 ft. centrado en un punto visible. Las criaturas en el área deben hacer una salvación de Fuerza CD 13. Fal"
+  "notes": "CR 4 · Medium humanoid (elf), druid · Vel. 30 ft.\nBonos de la nota que no cuadran con la fórmula: nature +5"
  },
  {
   "name": "Goblin",
@@ -626,6 +1234,23 @@
    }
   ],
   "resources": [],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "darkvision 60 ft., passive Perception 9",
+    "kind": "info"
+   },
+   {
+    "name": "Nimble Escape",
+    "desc": "El goblin puede usar Disengage o Hide como acción bonus.",
+    "kind": "trait"
+   }
+  ],
   "abilities": {
    "str": 8,
    "dex": 14,
@@ -640,7 +1265,7 @@
   "initBonus": 0,
   "saveProf": {},
   "skillProf": {},
-  "notes": "CR 1/4 · Small humanoide (goblinoide) · Vel. 30 ft.\nSentidos: darkvision 60 ft., passive Perception 9\nRasgos:\n• Nimble Escape: El goblin puede usar Disengage o Hide como acción bonus.\nAcciones:\n• Scimitar: +4 al ataque, 1d6+2 cortante.\n• Shortbow: +4 al ataque, alcance 80/320, 1d6+2 perforante."
+  "notes": "CR 1/4 · Small humanoide (goblinoide) · Vel. 30 ft."
  },
  {
   "name": "Goblin Minion",
@@ -655,6 +1280,23 @@
    }
   ],
   "resources": [],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "darkvision 60 ft., passive Perception 9",
+    "kind": "info"
+   },
+   {
+    "name": "Nimble Escape",
+    "desc": "El goblin puede usar Disengage o Hide como acción bonus.",
+    "kind": "trait"
+   }
+  ],
   "abilities": {
    "str": 8,
    "dex": 14,
@@ -669,7 +1311,7 @@
   "initBonus": 0,
   "saveProf": {},
   "skillProf": {},
-  "notes": "CR 1/8 · Small humanoide (goblinoide) · Vel. 30 ft.\nSentidos: darkvision 60 ft., passive Perception 9\nRasgos:\n• Nimble Escape: El goblin puede usar Disengage o Hide como acción bonus.\nAcciones:\n• Scimitar: +4 al ataque, 1d4+2 cortante."
+  "notes": "CR 1/8 · Small humanoide (goblinoide) · Vel. 30 ft."
  },
  {
   "name": "Goblin Veterano",
@@ -690,6 +1332,33 @@
    }
   ],
   "resources": [],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "darkvision 60 ft., passive Perception 9",
+    "kind": "info"
+   },
+   {
+    "name": "Nimble Escape",
+    "desc": "Puede usar Disengage o Hide como acción bonus.",
+    "kind": "trait"
+   },
+   {
+    "name": "Crueldad Goblin",
+    "desc": "El veterano tiene ventaja en ataques contra criaturas acorraladas o derribadas.",
+    "kind": "trait"
+   },
+   {
+    "name": "Golpe Pesado",
+    "desc": "Una vez por turno, inflige +1d4 daño adicional con scimitar si golpea.",
+    "kind": "trait"
+   }
+  ],
   "abilities": {
    "str": 10,
    "dex": 16,
@@ -704,7 +1373,7 @@
   "initBonus": 0,
   "saveProf": {},
   "skillProf": {},
-  "notes": "CR 1/2 · Small humanoide (goblinoide) · Vel. 30 ft.\nSentidos: darkvision 60 ft., passive Perception 9\nRasgos:\n• Nimble Escape: Puede usar Disengage o Hide como acción bonus.\n• Crueldad Goblin: El veterano tiene ventaja en ataques contra criaturas acorraladas o derribadas.\n• Golpe Pesado: Una vez por turno, inflige +1d4 daño adicional con scimitar si golpea.\nAcciones:\n• Scimitar: +5 al ataque, 1d6+3 cortante (+1d4 si se activa Golpe Pesado).\n• Shortbow: +5 al ataque, 1d6+3 perforante."
+  "notes": "CR 1/2 · Small humanoide (goblinoide) · Vel. 30 ft."
  },
  {
   "name": "Goblin Warrior",
@@ -725,6 +1394,23 @@
    }
   ],
   "resources": [],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "darkvision 60 ft., passive Perception 9",
+    "kind": "info"
+   },
+   {
+    "name": "Nimble Escape",
+    "desc": "El goblin puede usar Disengage o Hide como acción bonus.",
+    "kind": "trait"
+   }
+  ],
   "abilities": {
    "str": 8,
    "dex": 15,
@@ -739,7 +1425,7 @@
   "initBonus": 0,
   "saveProf": {},
   "skillProf": {},
-  "notes": "CR 1/4 · Small humanoide (goblinoide) · Vel. 30 ft.\nSentidos: darkvision 60 ft., passive Perception 9\nRasgos:\n• Nimble Escape: El goblin puede usar Disengage o Hide como acción bonus.\nAcciones:\n• Scimitar: +4 al ataque, 1d6+2 cortante.\n• Shortbow: +4 al ataque, alcance 80/320, 1d6+2 perforante."
+  "notes": "CR 1/4 · Small humanoide (goblinoide) · Vel. 30 ft."
  },
  {
   "name": "Guardia del Voto – Rango Iniciado",
@@ -761,6 +1447,33 @@
    }
   ],
   "resources": [],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "['passive Perception 12']",
+    "kind": "info"
+   },
+   {
+    "name": "Golpe de Entrenamiento",
+    "desc": "Cuando el guardia golpea a una criatura desarmada o sin armadura, inflige +1 daño adicional.",
+    "kind": "trait"
+   },
+   {
+    "name": "Relevos del Voto",
+    "desc": "Si otro guardia está a 5 pies, ambos ganan +1 AC.",
+    "kind": "trait"
+   },
+   {
+    "name": "Nervios de Novato",
+    "desc": "Si cae por debajo de 6 HP, hace una tirada de Sabiduría DC 10. Si falla, intenta retirarse o pedir ayuda.",
+    "kind": "trait"
+   }
+  ],
   "abilities": {
    "str": 13,
    "dex": 12,
@@ -775,7 +1488,7 @@
   "initBonus": 0,
   "saveProf": {},
   "skillProf": {},
-  "notes": "CR 1/2 · Medium humanoide · Vel. 30 ft.\nSentidos: ['passive Perception 12']\nRasgos:\n• Golpe de Entrenamiento: Cuando el guardia golpea a una criatura desarmada o sin armadura, inflige +1 daño adicional.\n• Relevos del Voto: Si otro guardia está a 5 pies, ambos ganan +1 AC.\n• Nervios de Novato: Si cae por debajo de 6 HP, hace una tirada de Sabiduría DC 10. Si falla, intenta retirarse o pedir ayuda.\nAcciones:\n• Espada Corta: +3 al ataque, 5 pies, 1d6+1 perforante (+1 si el objetivo está desarmado).\n• Bastón de Control: +3 al ataque, 5 pies, 1d4+1 contundente. Si golpea, empuja 5 pies (STR DC 11)."
+  "notes": "CR 1/2 · Medium humanoide · Vel. 30 ft."
  },
  {
   "name": "Hamcel",
@@ -811,6 +1524,38 @@
     "note": "As a bonus action, Hamcel regains 1d10 + 2 HP."
    }
   ],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "passive Perception 12",
+    "kind": "info"
+   },
+   {
+    "name": "Martial Role — Attacker",
+    "desc": "Hamcel adds +2 to his attack rolls (already included below).",
+    "kind": "trait"
+   },
+   {
+    "name": "Doesn't Know How to Fall Back Yet",
+    "desc": "If an ally drops to 0 HP within 30 ft. of Hamcel, he has disadvantage on his next attack roll: he panics. If he moves toward the fallen ally instead of attacking, there is no disadvantage.",
+    "kind": "trait"
+   },
+   {
+    "name": "Desperate Resolve (1/Session)",
+    "desc": "The first time Hamcel would drop to 0 HP, he drops to 1 HP instead and is frightened until the end of his next turn.",
+    "kind": "trait"
+   },
+   {
+    "name": "Second Wind (1/Short Rest)",
+    "desc": "As a bonus action, Hamcel regains 1d10 + 2 HP.",
+    "kind": "trait"
+   }
+  ],
   "abilities": {
    "str": 12,
    "dex": 14,
@@ -833,7 +1578,7 @@
    "animal": 1,
    "survival": 1
   },
-  "notes": "CR 1/2 · Medium humanoid (human) · Vel. 30 ft.\nSentidos: passive Perception 12\nRasgos:\n• Martial Role — Attacker: Hamcel adds +2 to his attack rolls (already included below).\n• Doesn't Know How to Fall Back Yet: If an ally drops to 0 HP within 30 ft. of Hamcel, he has disadvantage on his next attack roll: he panics. If he moves toward the fallen ally instead of attacking, there…\n• Desperate Resolve (1/Session): The first time Hamcel would drop to 0 HP, he drops to 1 HP instead and is frightened until the end of his next turn.\n• Second Wind (1/Short Rest): As a bonus action, Hamcel regains 1d10 + 2 HP.\nAcciones:\n• Shortsword: Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) piercing damage.\n• Shortbow: Ranged Weapon Attack: +6 to hit, range 80/320 ft., one target. Hit: 5 (1d6 + 2) piercing damage."
+  "notes": "CR 1/2 · Medium humanoid (human) · Vel. 30 ft."
  },
  {
   "name": "Hobgoblin Jefe del Valle",
@@ -852,6 +1597,28 @@
    }
   ],
   "resources": [],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "passive Perception 10",
+    "kind": "info"
+   },
+   {
+    "name": "Martial Advantage",
+    "desc": "Una vez por turno, el hobgoblin inflige 2d6 daño adicional a un objetivo que esté dentro de 5 ft de un aliado del hobgoblin.",
+    "kind": "trait"
+   },
+   {
+    "name": "Liderazgo Brutal",
+    "desc": "Los goblins aliados a 30 ft ganan +1 al ataque mientras el jefe no esté incapacitado.",
+    "kind": "trait"
+   }
+  ],
   "abilities": {
    "str": 15,
    "dex": 12,
@@ -866,7 +1633,7 @@
   "initBonus": 0,
   "saveProf": {},
   "skillProf": {},
-  "notes": "CR 1 · Medium humanoide (goblinoide) · Vel. 30 ft.\nSentidos: passive Perception 10\nRasgos:\n• Martial Advantage: Una vez por turno, el hobgoblin inflige 2d6 daño adicional a un objetivo que esté dentro de 5 ft de un aliado del hobgoblin.\n• Liderazgo Brutal: Los goblins aliados a 30 ft ganan +1 al ataque mientras el jefe no esté incapacitado.\nAcciones:\n• Espada Larga: +4 al ataque, 1d8+2 cortante (versátil 1d10+2).\n• Orden de Matar (recarga 5-6): El jefe ordena a un aliado goblin atacar como reacción inmediata."
+  "notes": "CR 1 · Medium humanoide (goblinoide) · Vel. 30 ft."
  },
  {
   "name": "Ilyas Corven, El Vigilante",
@@ -893,6 +1660,18 @@
     "note": "Ilyas impone desventaja a una tirada de Percepción de una criatura que pueda verlo y se mueve hasta 15 ft. sin provocar ataques de oportunidad, ocultándose si tiene cobertura o penumbra."
    }
   ],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "passive Perception 14",
+    "kind": "info"
+   }
+  ],
   "abilities": {
    "str": 10,
    "dex": 16,
@@ -907,7 +1686,7 @@
   "initBonus": 0,
   "saveProf": {},
   "skillProf": {},
-  "notes": "CR 1/4 · Medium humanoid (human) · Vel. 30 ft.\nSentidos: passive Perception 14\nAcciones:\n• Daga: Ataque cuerpo a cuerpo o a distancia: +4 al ataque, alcance 5 ft. o 20/60 ft., un objetivo. Impacto: 4 (1d4 + 2) daño perforante.\n• Distraer y Desaparecer (1/Descanso corto): Ilyas impone desventaja a una tirada de Percepción de una criatura que pueda verlo y se mueve hasta 15 ft. sin provocar ataques de oportunidad, ocultándose si tiene cobe…"
+  "notes": "CR 1/4 · Medium humanoid (human) · Vel. 30 ft."
  },
  {
   "name": "Iniciado del Trono Silente",
@@ -927,6 +1706,43 @@
    }
   ],
   "resources": [],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "passive Perception 12",
+    "kind": "info"
+   },
+   {
+    "name": "El Ritual Debe Continuar",
+    "desc": "Mientras esté a 30 ft. del niño, tiene ventaja en tiradas de salvación contra ser derribado.",
+    "kind": "trait"
+   },
+   {
+    "name": "Táctica de Retirada",
+    "desc": "Puede usar Desenganche como acción adicional si sostiene al niño.",
+    "kind": "trait"
+   },
+   {
+    "name": "Voluntad del Trono",
+    "desc": "Tiene ventaja en tiradas de salvación contra ser asustado.",
+    "kind": "trait"
+   },
+   {
+    "name": "Orden de Huida",
+    "desc": "Permite que un Acólito a 30 ft. use su reacción para moverse hasta la mitad de su velocidad.",
+    "kind": "bonus"
+   },
+   {
+    "name": "Protección del Designado",
+    "desc": "Si una criatura impacta al niño, el Iniciado puede imponerse como objetivo del ataque.",
+    "kind": "reaction"
+   }
+  ],
   "abilities": {
    "str": 12,
    "dex": 14,
@@ -944,7 +1760,7 @@
    "wis": true
   },
   "skillProf": {},
-  "notes": "CR 1 · Medium humanoid (any race) · Vel. 30 ft.\nSentidos: passive Perception 12\nRasgos:\n• El Ritual Debe Continuar: Mientras esté a 30 ft. del niño, tiene ventaja en tiradas de salvación contra ser derribado.\n• Táctica de Retirada: Puede usar Desenganche como acción adicional si sostiene al niño.\n• Voluntad del Trono: Tiene ventaja en tiradas de salvación contra ser asustado.\nAcciones:\n• Bastón Ritual: Ataque cuerpo a cuerpo: +5 al ataque, alcance 5 ft., un objetivo. Impacto: 1d8+3 daño contundente.\n• Pulso de Desorientación (Recarga 5–6): Criaturas a 10 ft. deben hacer salvación de SAB CD 13 o tienen desventaja en su siguiente ataque.\nAcción adicional:\n• Orden de Huida: Permite que un Acólito a 30 ft. use su reacción para moverse hasta la mitad de su velocidad.\nReacciones:\n• Protección del Designado: Si una criatura impacta al niño, el Iniciado puede imponerse como objetivo del ataque."
+  "notes": "CR 1 · Medium humanoid (any race) · Vel. 30 ft."
  },
  {
   "name": "Inquisidor Solar — Líder de Cuadrilla",
@@ -969,6 +1785,38 @@
    }
   ],
   "resources": [],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "passive Perception 12",
+    "kind": "info"
+   },
+   {
+    "name": "Autoridad del Voto",
+    "desc": "Los aliados a 30 ft. que puedan oírlo tienen ventaja en salvaciones contra miedo y encantamiento. Si el Inquisidor cae, esto termina y la cuadrilla hace la salvación de moral.",
+    "kind": "trait"
+   },
+   {
+    "name": "Lee la Culpa",
+    "desc": "Ventaja en pruebas de Sabiduría (Perspicacia) contra criaturas que le hayan mentido en la última hora.",
+    "kind": "trait"
+   },
+   {
+    "name": "Orden Cortante",
+    "desc": "Un aliado a 30 ft. que pueda oírlo usa su reacción para moverse hasta la mitad de su velocidad o hacer un ataque con arma.",
+    "kind": "bonus"
+   },
+   {
+    "name": "El Voto No Cae",
+    "desc": "Cuando el Inquisidor es reducido a 0 PG, puede quedarse en 1 PG en su lugar. Una vez por combate.",
+    "kind": "reaction"
+   }
+  ],
   "abilities": {
    "str": 16,
    "dex": 11,
@@ -990,7 +1838,7 @@
    "insight": 1,
    "intimidation": 1
   },
-  "notes": "CR 3 · Medium humanoide (humano) · Vel. 30 ft.\nSentidos: passive Perception 12\nRasgos:\n• Autoridad del Voto: Los aliados a 30 ft. que puedan oírlo tienen ventaja en salvaciones contra miedo y encantamiento. Si el Inquisidor cae, esto termina y la cuadrilla hace la salvación de…\n• Lee la Culpa: Ventaja en pruebas de Sabiduría (Perspicacia) contra criaturas que le hayan mentido en la última hora.\nAcciones:\n• Multiataque: Hace dos ataques con la espada larga.\n• Espada larga: +5 al ataque, alcance 5 ft. Impacto: 1d8+3 cortante, o 1d10+3 a dos manos.\n• Sentencia Marcada (Recarga 5-6): Señala a una criatura a 60 ft. y pronuncia su falta. Salvación de Sabiduría CD 13. Fallo: 2d8 psíquico y queda Marcada 1 minuto; mientras lo esté, los ataques de la Guar…\nAcción adicional:\n• Orden Cortante: Un aliado a 30 ft. que pueda oírlo usa su reacción para moverse hasta la mitad de su velocidad o hacer un ataque con arma.\nReacciones:\n• El Voto No Cae: Cuando el Inquisidor es reducido a 0 PG, puede quedarse en 1 PG en su lugar. Una vez por combate."
+  "notes": "CR 3 · Medium humanoide (humano) · Vel. 30 ft."
  },
  {
   "name": "Juramentado de la Guardia del Voto",
@@ -1005,6 +1853,28 @@
    }
   ],
   "resources": [],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "passive Perception 12",
+    "kind": "info"
+   },
+   {
+    "name": "Formación del Voto",
+    "desc": "Mientras tenga un aliado a 5 ft., gana +1 a la CA. No acumula con más aliados.",
+    "kind": "trait"
+   },
+   {
+    "name": "Cerrar Filas",
+    "desc": "Cuando un aliado a 5 ft. es impactado, el Juramentado puede recibir el daño en su lugar.",
+    "kind": "reaction"
+   }
+  ],
   "abilities": {
    "str": 13,
    "dex": 12,
@@ -1019,7 +1889,7 @@
   "initBonus": 0,
   "saveProf": {},
   "skillProf": {},
-  "notes": "CR 1/8 · Medium humanoide (humano) · Vel. 30 ft.\nSentidos: passive Perception 12\nRasgos:\n• Formación del Voto: Mientras tenga un aliado a 5 ft., gana +1 a la CA. No acumula con más aliados.\nAcciones:\n• Lanza: +3 al ataque, alcance 5 ft. o lanzada 20/60. Impacto: 1d6+1 perforante, o 1d8+1 a dos manos.\nReacciones:\n• Cerrar Filas: Cuando un aliado a 5 ft. es impactado, el Juramentado puede recibir el daño en su lugar."
+  "notes": "CR 1/8 · Medium humanoide (humano) · Vel. 30 ft."
  },
  {
   "name": "Lobo",
@@ -1035,6 +1905,23 @@
    }
   ],
   "resources": [],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "40 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "passive Perception 13",
+    "kind": "info"
+   },
+   {
+    "name": "Keen Hearing and Smell",
+    "desc": "Ventaja en Perception que dependan de oído y olfato.",
+    "kind": "trait"
+   }
+  ],
   "abilities": {
    "str": 12,
    "dex": 15,
@@ -1049,7 +1936,84 @@
   "initBonus": 0,
   "saveProf": {},
   "skillProf": {},
-  "notes": "CR 1/4 · Medium bestia · Vel. 40 ft.\nSentidos: passive Perception 13\nRasgos:\n• Keen Hearing and Smell: Ventaja en Perception que dependan de oído y olfato.\nAcciones:\n• Bite: +4 al ataque, 2d4+2 perforante. Si el objetivo es criatura, DC 11 STR o ser derribado."
+  "notes": "CR 1/4 · Medium bestia · Vel. 40 ft."
+ },
+ {
+  "name": "Solanar",
+  "source": "Solanar",
+  "cr": "0",
+  "actions": [
+   {
+    "name": "Flame Seed",
+    "desc": "Ranged Weapon Attack: +5 to hit, range 60 ft., one target. Hit: 1d6 + 2 fire damage.",
+    "toHit": 5,
+    "damage": "1d6+2"
+   },
+   {
+    "name": "Fiery Teleportation",
+    "desc": "Solanar and each willing creature of his choice within 5 ft. teleport up to 30 ft. (Threshold I) to unoccupied spaces Soleil can see. Each creature within 5 ft. of the space he left must succeed on a DEX save DC 13 or t…",
+    "damage": "1d6+2",
+    "save": "save DC 13"
+   }
+  ],
+  "resources": [],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft., fly 30 ft. (hover)",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "darkvision 60 ft., passive Perception 12",
+    "kind": "info"
+   },
+   {
+    "name": "Immunities",
+    "desc": "fire",
+    "kind": "info"
+   },
+   {
+    "name": "Condition immunities",
+    "desc": "charmed, frightened, grappled, prone, restrained",
+    "kind": "info"
+   },
+   {
+    "name": "Bound to Soleil",
+    "desc": "Solanar shares Soleil's initiative and acts right after her. He obeys her commands; without one, he takes the Dodge action. He vanishes after 1 hour, when he drops to 0 HP, or when Soleil dies. Hit points = 5 + 5 × her druid level; proficiency bonus = hers.",
+    "kind": "trait"
+   },
+   {
+    "name": "Summoning",
+    "desc": "Soleil summons him as an action, spending a Wild Shape use and 3 mana; once per long rest she can summon him without spending Wild Shape (Threshold I). He appears in a space within 30 ft.; each creature within 10 ft. (except Soleil) must succeed on a DEX save DC 13 or take 2d6 fire damage.",
+    "kind": "trait"
+   },
+   {
+    "name": "Synchrony (Threshold I)",
+    "desc": "Once per turn, Soleil can order Solanar to move or use Fiery Teleportation without spending her bonus action. Ordering him to attack still costs it.",
+    "kind": "trait"
+   },
+   {
+    "name": "Split Soul (Threshold I)",
+    "desc": "When Soleil takes fire damage and Solanar is within 30 ft., he can use his reaction to swallow it: the damage is reduced to 0 and he takes none. Price of Denial: Solanar can't attack on his next turn.",
+    "kind": "reaction"
+   }
+  ],
+  "abilities": {
+   "str": 10,
+   "dex": 14,
+   "con": 14,
+   "int": 13,
+   "wis": 15,
+   "cha": 11
+  },
+  "ac": 13,
+  "maxHp": 20,
+  "prof": 2,
+  "initBonus": 0,
+  "saveProf": {},
+  "skillProf": {},
+  "notes": "CR 0 · Small elemental (Breath of the Root) · Vel. 30 ft., fly 30 ft. (hover)"
  },
  {
   "name": "Syel Vehr, La que Repitió Mal",
@@ -1090,6 +2054,68 @@
     "note": "Syel elige hasta 2 criaturas a 30 pies. Deben hacer una salvación de Sabiduría CD 15. En fallo, quedan aturdidas hasta el final de su siguiente turno. En éxito, sufren 7 (2d6) daño psíquico."
    }
   ],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "passive Perception 17",
+    "kind": "info"
+   },
+   {
+    "name": "Resistances",
+    "desc": "psychic",
+    "kind": "info"
+   },
+   {
+    "name": "Condition immunities",
+    "desc": "charmed",
+    "kind": "info"
+   },
+   {
+    "name": "Presencia Fractal",
+    "desc": "Las raíces lumínicas bajo su piel vibran y repiten patrones en el entorno. Las criaturas a 10 pies que fallen una tirada de Sabiduría (CD 15) al comienzo de su turno sufren desventaja en sus ataques ese turno.",
+    "kind": "trait"
+   },
+   {
+    "name": "Silencio Inverso (1/Día)",
+    "desc": "Syel puede crear una zona de 20 pies centrada en sí misma durante 1 minuto. Las criaturas dentro quedan silenciadas a menos que ella lo permita. Los conjuros con componentes verbales fallan en esa zona si el lanzador no supera una tirada de Sabiduría CD 15.",
+    "kind": "trait"
+   },
+   {
+    "name": "Eco-Portadora",
+    "desc": "En zonas de alta Resonancia, puede generar un [[Los Ecos|Eco]] ilusorio que repite sus acciones y sonidos. Las criaturas que lo vean deben superar una tirada de Sabiduría (CD 13) o quedar confundidas hasta el final de su siguiente turno.",
+    "kind": "trait"
+   },
+   {
+    "name": "Reliquia Vinculada – El Velo de las Tres Voces",
+    "desc": "El velo translúcido vibra con tres voces simultáneas. Ver [[2. Reliquia de la Sacerdotisa – El Velo de las Tres Voces]] para detalles completos. Permite a Syel proyectar dobles resonantes y manipular pensamientos reprimidos como daño psíquico o control.",
+    "kind": "trait"
+   },
+   {
+    "name": "Murmuro Invertido",
+    "desc": "Syel susurra una letanía al revés. Una criatura a 30 ft que la oiga debe superar una tirada de Sabiduría (CD 15) o quedar afectada por *bane* hasta el final de su siguiente turno.",
+    "kind": "bonus"
+   },
+   {
+    "name": "Eco de Defensa",
+    "desc": "Cuando una criatura hostil la ataca, Syel puede usar su reacción para proyectar una ilusión resonante. El atacante debe superar una tirada de Sabiduría (CD 15) o fallar el ataque.",
+    "kind": "reaction"
+   },
+   {
+    "name": "Palabra No Dicha",
+    "desc": "Forzar a un enemigo que hable a repetir involuntariamente su última frase. Esa criatura pierde su reacción hasta el inicio de su próximo turno.",
+    "kind": "legendary"
+   },
+   {
+    "name": "Silencio Fractal (cuesta 2 acciones)",
+    "desc": "Crea una explosión de silencio (radio 10 ft). Las criaturas dentro hacen una tirada de Constitución CD 15 o sufren 10 (3d6) daño psíquico y quedan mudas hasta su siguiente turno.",
+    "kind": "legendary"
+   }
+  ],
   "abilities": {
    "str": 10,
    "dex": 14,
@@ -1113,7 +2139,7 @@
    "arcana": 1,
    "deception": 1
   },
-  "notes": "CR 5 · Medium humanoid · Vel. 30 ft.\nResist.: psychic\nInmune a: charmed\nSentidos: passive Perception 17\nRasgos:\n• Presencia Fractal: Las raíces lumínicas bajo su piel vibran y repiten patrones en el entorno. Las criaturas a 10 pies que fallen una tirada de Sabiduría (CD 15) al comienzo de su turno suf…\n• Silencio Inverso (1/Día): Syel puede crear una zona de 20 pies centrada en sí misma durante 1 minuto. Las criaturas dentro quedan silenciadas a menos que ella lo permita. Los conjuros con compone…\n• Eco-Portadora: En zonas de alta Resonancia, puede generar un [[Los Ecos|Eco]] ilusorio que repite sus acciones y sonidos. Las criaturas que lo vean deben superar una tirada de Sabidurí…\n• Reliquia Vinculada – El Velo de las Tres Voces: El velo translúcido vibra con tres voces simultáneas. Ver [[2. Reliquia de la Sacerdotisa – El Velo de las Tres Voces]] para detalles completos. Permite a Syel proyectar…\nAcciones:\n• Toque Fractal: Ataque cuerpo a cuerpo: +6 al golpe, alcance 5 ft., un objetivo. Impacto: 10 (2d6 + 3) daño psíquico. Si impacta, el objetivo tiene desventaja en su siguiente tirada de…\n• Revelación Inversa (1/Día): Syel elige hasta 2 criaturas a 30 pies. Deben hacer una salvación de Sabiduría CD 15. En fallo, quedan aturdidas hasta el final de su siguiente turno. En éxito, sufren 7…\n• Zona de Silencio Controlado (Recarga 5–6): Syel crea una zona de 15 pies durante 1 minuto donde solo su voz se escucha. Los enemigos dentro deben hacer una tirada de Constitución CD 15 o q"
+  "notes": "CR 5 · Medium humanoid · Vel. 30 ft.\nBonos de la nota que no cuadran con la fórmula: salv. CON +6, salv. WIS +7, salv. CHA +5, insight +7, arcana +5, deception +6"
  },
  {
   "name": "Varus Caldrin, el Diplomático",
@@ -1152,6 +2178,53 @@
     "note": "Gasta todos los Eslabones (mínimo 3). Declara en voz alta una condición sencilla y verificable dirigida a una criatura que pueda ver. Si acepta, se sella sin tirada; si no, salvación de Sabiduría CD 18. Al romper la condición, la criatura sufre daño psíquico igual a 10 por Eslabón gastado y queda A…"
    }
   ],
+  "traits": [
+   {
+    "name": "Speed",
+    "desc": "30 ft.",
+    "kind": "info"
+   },
+   {
+    "name": "Senses",
+    "desc": "passive Perception 13",
+    "kind": "info"
+   },
+   {
+    "name": "Condition immunities",
+    "desc": "charmed, frightened",
+    "kind": "info"
+   },
+   {
+    "name": "La Cadena que Nadie Cierra (Etapa III)",
+    "desc": "Caldrin porta la reliquia del Diablo XV. Acumula hasta 4 Eslabones: gana 1 Eslabón (máx. 1 por turno) cuando una criatura a 30 ft falla una salvación contra miedo, encanto o compulsión, o se rinde. CD de Reliquia 18. Mantiene Cerrojos activos: su HP máximo ya refleja esa reducción.",
+    "kind": "trait"
+   },
+   {
+    "name": "Nadie Levanta la Mano",
+    "desc": "Mientras haya una multitud civil presente que lo aclame, las criaturas hostiles tienen desventaja en tiradas de ataque contra Caldrin. El efecto termina si la multitud se dispersa, si presencian una prueba pública de su traición, o si él ordena abiertamente una ejecución.",
+    "kind": "trait"
+   },
+   {
+    "name": "Razonable hasta el Final",
+    "desc": "Al inicio de cada uno de sus turnos, Caldrin puede ofrecer un trato verbal concreto a una criatura que pueda oírlo. Si esa criatura acepta, ambos quedan bajo un Cerrojo (ver acción). Si la rechaza en voz alta, Caldrin gana 1 Eslabón: el rechazo público también es una atadura.",
+    "kind": "trait"
+   },
+   {
+    "name": "Retirada Administrativa",
+    "desc": "Caldrin se desengancha y se mueve la mitad de su velocidad hacia un aliado o una salida. No provoca ataques de oportunidad.",
+    "kind": "bonus"
+   },
+   {
+    "name": "Legión Interpuesta",
+    "desc": "Cuando Caldrin recibiría daño y hay un aliado voluntario a 5 ft, ese aliado recibe todo el daño en su lugar. Si el aliado está bajo un Cerrojo suyo, no puede negarse.",
+    "kind": "reaction"
+   },
+   {
+    "name": "Tirón de la Cadena (1 Eslabón)",
+    "desc": "Cuando una criatura a 30 ft intenta huir, alejarse o teletransportarse, es arrastrada 10 ft hacia Caldrin y su velocidad queda en 0 hasta el final de su turno. Caldrin es arrastrado 5 ft hacia ella.",
+    "kind": "reaction"
+   }
+  ],
   "abilities": {
    "str": 11,
    "dex": 14,
@@ -1175,6 +2248,6 @@
    "intimidation": 1,
    "history": 1
   },
-  "notes": "CR 9 · Medium humanoid (human), noble · Vel. 30 ft.\nInmune a: charmed, frightened\nSentidos: passive Perception 13\nRasgos:\n• La Cadena que Nadie Cierra (Etapa III): Caldrin porta la reliquia del Diablo XV. Acumula hasta 4 Eslabones: gana 1 Eslabón (máx. 1 por turno) cuando una criatura a 30 ft falla una salvación contra miedo, encan…\n• Nadie Levanta la Mano: Mientras haya una multitud civil presente que lo aclame, las criaturas hostiles tienen desventaja en tiradas de ataque contra Caldrin. El efecto termina si la multitud s…\n• Razonable hasta el Final: Al inicio de cada uno de sus turnos, Caldrin puede ofrecer un trato verbal concreto a una criatura que pueda oírlo. Si esa criatura acepta, ambos quedan bajo un Cerrojo…\nAcciones:\n• Estilete del Consulado: Ataque cuerpo a cuerpo: +6 al ataque, alcance 5 ft, un objetivo. Impacto: 7 (1d6 + 4) perforante y el objetivo debe superar una salvación de Constitución CD 15 o sufrir…\n• Palabra que Ata: Caldrin nombra a una criatura que pueda oírlo a 60 ft. Salvación de Sabiduría CD 18. Fallo: la criatura no puede realizar ataques contra Caldrin hasta el final de su sig…\n• Decreto (Recarga 5–6): Gasta 2 Eslabones. Elige hasta cuatro criaturas a 30 ft y encadénalas por parejas. Salvación de Carisma CD 18. Fallo: mientras estén a más de 15 ft de su pareja, ambas q…\n• Cerrojo (1/día): Gasta todos los Eslabones (mínimo 3). Declara en voz alta una condición sencilla y verificable dirigida a una criatura que pueda ver. Si acepta, se sella sin ti"
+  "notes": "CR 9 · Medium humanoid (human), noble · Vel. 30 ft."
  }
 ]

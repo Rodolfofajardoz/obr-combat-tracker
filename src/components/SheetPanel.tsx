@@ -22,6 +22,7 @@ import { MARKERS, MARKER_GROUPS, MarkerGroup, markerLabel, toggleMarker } from "
 import { SpellsPanel } from "./SpellsPanel";
 import { ActionsPanel } from "./ActionsPanel";
 import { ResourcesPanel } from "./ResourcesPanel";
+import { TraitsPanel } from "./TraitsPanel";
 import type { Settings } from "../settings";
 import type { ExprRequest } from "../App";
 
@@ -272,6 +273,7 @@ export function SheetPanel({ c, isGM, playerName, settings, profiles, catalog, p
       {/* Izquierda: conjuros · Derecha: habilidades con ancho fijo */}
       <div className="sheet-body">
         <div>
+          <TraitsPanel c={c} />
           {isMob && <ActionsPanel c={c} onRoll={onRoll} onRollExpr={onRollExpr} />}
           {(!isMob || showSpells || s.spells.length > 0) && (
             <SpellsPanel c={c} isGM={isGM} playerName={playerName} settings={settings} />

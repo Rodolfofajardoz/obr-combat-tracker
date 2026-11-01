@@ -125,6 +125,16 @@ export interface Resource {
   note?: string;
 }
 
+/** Tipo de rasgo: pasiva, acción adicional, reacción, legendaria, o un dato fijo (velocidad, sentidos, inmunidades) */
+export type TraitKind = "trait" | "bonus" | "reaction" | "legendary" | "info";
+
+/** Lo que no se tira ni se gasta pero hay que saber para jugar la ficha: Pack Tactics, Multiattack, inmunidades… */
+export interface Trait {
+  name: string;
+  desc: string;
+  kind?: TraitKind;
+}
+
 export interface Sheet {
   initiative: number | null;
   /** Bonificador extra a la iniciativa, aparte del modificador de DES */
@@ -152,6 +162,8 @@ export interface Sheet {
   actions: Action[];
   /** Recursos contables; si la clase no tiene ninguno, la lista va vacía y no se muestra */
   resources: Resource[];
+  /** Rasgos de lectura (pasivas, reacciones, datos); vacío si no hay */
+  traits: Trait[];
   /** Si es true, todos los jugadores ven CA, PG y la hoja completa */
   shared: boolean;
   /** Jugador dueño de la ficha (id de Owlbear): ve la hoja y tira por ella */
@@ -180,6 +192,7 @@ export const defaultSheet = (): Sheet => ({
   casts: {},
   actions: [],
   resources: [],
+  traits: [],
   shared: false,
   owner: null,
   ownerName: "",
@@ -242,6 +255,7 @@ export function readSheet(raw: unknown): Sheet | null {
     casts: r.casts && typeof r.casts === "object" ? r.casts : {},
     actions: Array.isArray(r.actions) ? r.actions : [],
     resources: Array.isArray(r.resources) ? r.resources : [],
+    traits: Array.isArray(r.traits) ? r.traits : [],
   };
 }
 

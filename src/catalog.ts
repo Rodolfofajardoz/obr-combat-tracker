@@ -1,5 +1,5 @@
 import { Profile, findProfile, norm } from "./profiles";
-import { ABILITIES, Ability, Action, ProfLevel, Resource, SKILLS, mod } from "./types";
+import { ABILITIES, Ability, Action, ProfLevel, Resource, SKILLS, Trait, TraitKind, mod } from "./types";
 import { parseAction, resourceFromName } from "./actions";
 
 /** Entrada del catálogo: un perfil más de dónde salió */
@@ -119,11 +119,6 @@ const short = (s: string, n = 170) => {
   return d.length <= n ? d : d.slice(0, n - 1).trimEnd() + "…";
 };
 
-function listBlock(label: string, items: Open5eMonster["actions"]): string {
-  if (!Array.isArray(items) || !items.length) return "";
-  return `${label}:\n` + items.map((a) => `• ${a.name}: ${short(a.desc)}`).join("\n");
-}
-
 export function srdToProfile(m: Open5eMonster): CatalogEntry {
   const abilities = {} as Record<Ability, number>;
   for (const a of ABILITIES) abilities[a] = Number(m[SCORE_FIELD[a]]) || 10;
@@ -149,21 +144,28 @@ export function srdToProfile(m: Open5eMonster): CatalogEntry {
     .map(([k, v]) => `${k} ${v}`)
     .join(", ");
   const notes = [
-    [`CR ${m.challenge_rating}`, `${m.size} ${m.type}`.trim(), speed && `Vel. ${speed}`].filter(Boolean).join(" · "),
-    m.damage_resistances && `Resist.: ${m.damage_resistances}`,
-    m.damage_immunities && `Inmune: ${m.damage_immunities}`,
-    m.damage_vulnerabilities && `Vulnerable: ${m.damage_vulnerabilities}`,
-    m.condition_immunities && `Inmune a: ${m.condition_immunities}`,
-    m.senses && `Sentidos: ${m.senses}`,
-    listBlock("Rasgos", m.special_abilities),
-    listBlock("Acciones", m.actions),
-    listBlock("Reacciones", m.reactions),
-    listBlock("Legendarias", m.legendary_actions),
+    [`CR ${m.challenge_rating}`, `${m.size} ${m.type}`.trim()].filter(Boolean).join(" · "),
     mismatches.length && `Bonos del SRD que no cuadran con la fórmula: ${mismatches.join(", ")}`,
   ]
     .filter(Boolean)
     .join("\n")
     .slice(0, 1500);
+
+  // Rasgos de lectura: datos fijos y pasivas / reacciones / legendarias (las acciones van aparte, tirables)
+  const info = (name: string, desc: string | undefined): Trait[] => (desc ? [{ name, desc, kind: "info" }] : []);
+  const list = (kind: TraitKind, items: Open5eMonster["reactions"]): Trait[] =>
+    Array.isArray(items) ? items.map((a) => ({ name: a.name, desc: short(a.desc, 400), kind })) : [];
+  const traits: Trait[] = [
+    ...info("Speed", speed),
+    ...info("Senses", m.senses),
+    ...info("Resistances", m.damage_resistances),
+    ...info("Immunities", m.damage_immunities),
+    ...info("Vulnerabilities", m.damage_vulnerabilities),
+    ...info("Condition immunities", m.condition_immunities),
+    ...list("trait", m.special_abilities),
+    ...list("reaction", m.reactions),
+    ...list("legendary", m.legendary_actions),
+  ];
 
   // Acciones tirables: el SRD ya trae bono y dados; lo demás se saca del texto
   const actions: Action[] = Array.isArray(m.actions)
@@ -188,6 +190,7 @@ export function srdToProfile(m: Open5eMonster): CatalogEntry {
     notes,
     actions,
     resources,
+    traits,
   };
 }
 

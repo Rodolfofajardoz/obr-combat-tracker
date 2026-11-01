@@ -152,6 +152,19 @@ const D = {
   longRestAll: ["Descanso largo para toda la lista: PG, maná y recursos al máximo", "Long rest for everyone on the list: HP, mana and resources to max"],
   shortRestAllDone: ["Descanso corto: toda la lista", "Short rest: everyone on the list"],
   longRestAllDone: ["Descanso largo: toda la lista", "Long rest: everyone on the list"],
+  // rasgos de lectura
+  traits: ["Rasgos", "Traits"],
+  trait: ["Rasgo", "Trait"],
+  addTrait: [
+    "Agregar un rasgo de lectura: pasivas, Multiattack, reacciones, lo que haya que saber para jugar la ficha",
+    "Add a trait to read: passives, Multiattack, reactions, whatever you need to know to play this token",
+  ],
+  traitDesc: ["Qué hace", "What it does"],
+  kindTrait: ["Rasgo", "Trait"],
+  kindBonus: ["Acción adicional", "Bonus action"],
+  kindReaction: ["Reacción", "Reaction"],
+  kindLegendary: ["Legendaria", "Legendary"],
+  kindInfo: ["Dato (velocidad, sentidos, inmunidades…)", "Info (speed, senses, immunities…)"],
   // tiradas
   rolls: ["Tiradas", "Rolls"],
   // perfiles
