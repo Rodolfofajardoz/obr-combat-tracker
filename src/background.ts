@@ -2,7 +2,7 @@ import OBR from "@owlbear-rodeo/sdk";
 import { setupContextMenu } from "./contextMenu";
 import { startBars } from "./bars";
 import { CARD_POPOVER_ID, onCast } from "./spells";
-import { DICE_DONE_CHANNEL, DICE_SETTLE_MS, DiceShow, dicePopoverId, onDice, readDice3dPref } from "./diceShow";
+import { DICE_DONE_CHANNEL, DICE_SETTLE_MS, DiceShow, canSeeWhisper, dicePopoverId, onDice, readDice3dPref } from "./diceShow";
 import { DICE_SLOTS, Rect, Slots, diceSlotRect } from "./diceSlots";
 
 const page = (name: string, payload: unknown) =>
@@ -69,8 +69,12 @@ OBR.onReady(() => {
 
   // Alguien tiró: los dados ruedan en el primer espacio libre de la fila de arriba
   // (si este navegador tiene 🎲 3D encendido)
-  onDice((msg) => {
+  onDice(async (msg) => {
     if (!readDice3dPref()) return;
+    if (msg.whisper) {
+      const [role, id] = await Promise.all([OBR.player.getRole(), OBR.player.getId()]);
+      if (!canSeeWhisper(msg.whisper, role, id)) return;
+    }
     diceSlots.push(msg);
   });
   OBR.broadcast.onMessage(DICE_DONE_CHANNEL, (ev) => freeSlot((ev.data as { slot: number }).slot));

@@ -21,6 +21,8 @@ export function SpellsPanel({ c, isGM, playerName, settings }: Props) {
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
   const [casting, setCasting] = useState<string | null>(null);
+  /** Conjuro con el menú de nivel superior abierto */
+  const [upcast, setUpcast] = useState<string | null>(null);
 
   const known = new Set(s.spells.map((x) => x.name));
 
@@ -45,13 +47,15 @@ export function SpellsPanel({ c, isGM, playerName, settings }: Props) {
     }));
   const remove = (name: string) => updateSheet(c.id, (cur) => ({ ...cur, spells: cur.spells.filter((x) => x.name !== name) }));
 
-  const cast = async (sp: Spell) => {
-    const cost = castCost(sp, s, settings.repeatCost);
+  /** Lanza el conjuro; `level` mayor que el suyo = a nivel superior, con el costo de ese nivel */
+  const cast = async (sp: Spell, level = sp.level) => {
+    const cost = castCost(sp, s, settings.repeatCost, level);
     if (cost > s.mana && !isGM) {
       setMsg(`${t("notEnoughMana")} (${cost} MP)`);
       return;
     }
     setCasting(sp.name);
+    setUpcast(null);
     try {
       const full = await fetchSpellFull(sp);
       await updateSheet(c.id, (cur) => ({
@@ -59,8 +63,9 @@ export function SpellsPanel({ c, isGM, playerName, settings }: Props) {
         mana: Math.max(0, cur.mana - cost),
         casts: sp.level === 0 ? cur.casts : { ...cur.casts, [sp.name]: (cur.casts[sp.name] ?? 0) + 1 },
       }));
-      await broadcastCast({ caster: c.name, by: playerName, cost, spell: { ...sp, ...full }, at: Date.now() });
-      OBR.notification.show(`${c.name}: ${sp.name}${cost ? ` (−${cost} MP)` : ""}`, "INFO");
+      await broadcastCast({ caster: c.name, by: playerName, cost, level, spell: { ...sp, ...full }, at: Date.now() });
+      const lvl = level > sp.level ? ` (${levelLabel(level)})` : "";
+      OBR.notification.show(`${c.name}: ${sp.name}${lvl}${cost ? ` (−${cost} MP)` : ""}`, "INFO");
     } finally {
       setCasting(null);
     }
@@ -118,7 +123,38 @@ export function SpellsPanel({ c, isGM, playerName, settings }: Props) {
               >
                 {casting === sp.name ? "…" : cost > 0 ? `${cost} MP` : t("cast")}
               </button>
+              {sp.level > 0 && sp.level < 9 ? (
+                <button
+                  className={`icon ${upcast === sp.name ? "on" : ""}`}
+                  title={t("upcast")}
+                  disabled={casting !== null}
+                  onClick={() => setUpcast((v) => (v === sp.name ? null : sp.name))}
+                >
+                  ▴
+                </button>
+              ) : (
+                <span />
+              )}
               <button className="icon" title={t("remove")} onClick={() => remove(sp.name)}>✕</button>
+              {upcast === sp.name && (
+                <div className="upcast">
+                  <small className="muted">{t("upcast")}:</small>
+                  {Array.from({ length: 9 - sp.level }, (_, i) => sp.level + 1 + i).map((lv) => {
+                    const lvCost = castCost(sp, s, settings.repeatCost, lv);
+                    const lvShort = lvCost > s.mana;
+                    return (
+                      <button
+                        key={lv}
+                        className={`cast ${lvShort ? "short" : ""}`}
+                        title={lvShort ? `${t("notEnoughMana")} (${lvCost} MP)` : `${t("cast")} · ${levelLabel(lv)} · ${lvCost} MP`}
+                        onClick={() => cast(sp, lv)}
+                      >
+                        {lv} · {lvCost} MP
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
               <Hover sp={sp} />
             </li>
           );

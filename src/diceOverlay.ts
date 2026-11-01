@@ -8,7 +8,7 @@ const msg = JSON.parse(decodeURIComponent(location.hash.slice(1))) as DicePopove
 const id = dicePopoverId(msg.slot);
 const $ = (id: string) => document.getElementById(id)!;
 
-$("by").textContent = msg.hidden ? `🙈 ${msg.by}` : msg.by;
+$("by").textContent = msg.hidden ? `🙈 ${msg.by}` : msg.whisper ? `🤫 ${msg.by}` : msg.by;
 $("what").textContent = `${msg.who} · ${msg.what}`;
 $("total").textContent = String(msg.total);
 $("detail").textContent = msg.detail;

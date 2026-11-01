@@ -15,6 +15,7 @@ export function RollLog({ log }: { log: RollMessage[] }) {
               <b className="total">{m.total}</b>
               <span className="desc">
                 {m.hidden && <span title="Hidden roll">🙈 </span>}
+                {m.whisper && <span title="Whispered to the DM">🤫 </span>}
                 <span className="who">{m.who}</span> · {m.what}
               </span>
               <span className="detail">

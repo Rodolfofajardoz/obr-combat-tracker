@@ -39,7 +39,7 @@ Imprime una URL tipo `https://algo.trycloudflare.com`. En Owlbear agrega `https:
 4. En la hoja, cada característica, salvación y habilidad es un botón: **clic = tirada**. El resultado sale abajo en *Tiradas*, y lo ven todos en la sala.
 5. Arriba: **Normal / Ventaja / Desventaja** se aplica a la siguiente tirada y luego se apaga solo.
    - **Dados 3D para todos:** cada tirada (iniciativa, salvación, habilidad, ataque, daño) se tira primero al instante y luego se manda a toda la sala; en cada pantalla se abre `dice.html` en una bandeja chica en la fila de arriba del mapa y los dados ruedan y caen justo en esos valores ([dice-box-threejs](https://github.com/3d-dice/dice-box-threejs), que permite fijar el resultado con `2d6@3,5`). Encima sale quién tiró, qué, y el total. Se cierra solo o con un clic. El registro espera ~3.5 s para no adelantar el resultado.
-   - **Cinco espacios arriba:** la fila tiene cinco bandejas (`src/diceSlots.ts`); cada tirada toma la primera libre en el orden en que llega, y si las cinco están ocupadas espera en cola hasta que una se desocupe. No son por jugador: quien tira dos veces seguidas ocupa dos. La fila arranca a la derecha de la ventana del tracker y deja libre la barra de herramientas; en pantallas angostas se achica y, si hace falta, pasa a dos filas. Cada bandeja es un popover aparte que se cierra solo (o con un clic) y avisa a la página de fondo para liberar su espacio.
+   - **Cinco espacios arriba:** la fila tiene cinco bandejas (`src/diceSlots.ts`); cada tirada toma la primera libre en el orden en que llega, y si las cinco están ocupadas espera en cola hasta que una se desocupe. No son por jugador: quien tira dos veces seguidas ocupa dos. La fila va pegada al borde derecho (dejando libre la barra de herramientas), así lo que sobra queda a la izquierda, lejos de la ventana del tracker; en pantallas angostas se achica y, si hace falta, pasa a dos filas. Cada bandeja es un popover aparte que se cierra solo (o con un clic) y avisa a la página de fondo para liberar su espacio.
    - **🎲 3D** decide si **tú** ves los dados (los tuyos y los de los demás); se guarda por navegador. Apagado, tus tiradas salen al instante en el registro. Las tiradas ocultas (🙈) solo ruedan en tu pantalla.
    - La interfaz va en **inglés**. (El diccionario en `src/i18n.ts` conserva el español; para volver a ofrecerlo basta con reponer el botón en `App.tsx`.)
    - **◢** en la esquina inferior derecha: arrástralo para cambiar el tamaño de la ventana. El tamaño se recuerda.
@@ -65,6 +65,8 @@ En la hoja de una ficha, el DM elige **Jugador** (solo aparecen los conectados a
 
 En la hoja, a la izquierda de las habilidades, va la lista de **Spells**. Se buscan en el SRD (Open5e) y se agregan con ➕; al pasar el cursor por uno sale su tarjeta resumida (tiempo, alcance, duración, componentes, descripción). El botón muestra el **costo de maná** según [[Sistema de Maná del Tejido]] (nivel 1 = 2, 2 = 3, 3 = 5… trucos gratis). La regla de repetición (+1 maná por cada vez que se repite el conjuro en el combate) es **opcional**: la casilla *Repeat +1 MP* junto al título de Spells, solo para el DM, apagada por defecto. **Cast** descuenta el maná y manda la **tarjeta animada** a la pantalla de todos (`card.html`, abierta como popover en la esquina inferior derecha por la página de fondo, con el alto ajustado al contenido; se cierra sola a los 14 s o con un clic, y un conjuro nuevo reemplaza a la tarjeta anterior). *Limpiar iniciativa* reinicia la cuenta de repeticiones. Si no alcanza el maná, el jugador no puede lanzar; el DM sí.
 
+**A nivel superior:** el botoncito **▴** junto al costo despliega los niveles por encima del propio (hasta 9), cada uno con su costo según la misma tabla de maná; clic en uno lanza el conjuro a ese nivel. La tarjeta muestra el nivel al que se lanzó, con el nivel original entre paréntesis, y su sección *At higher levels* dice qué cambia.
+
 En la hoja solo se guarda el resumen de cada conjuro; la descripción completa se trae del SRD al lanzar.
 
 ## Mobs: acciones tirables
@@ -72,6 +74,8 @@ En la hoja solo se guarda el resumen de cada conjuro; la descripción completa s
 Las criaturas del catálogo y del SRD traen sus **acciones** ya estructuradas (`scripts/catalogo.py` y `src/actions.ts` leen el texto: `+6 al golpe` / `+4 to hit`, los dados de daño y la salvación `CD 14`). En la hoja de un mob, en vez de Spells sale **Actions**: cada una con **🎯 +6** (tira d20 + bono, respeta ventaja/desventaja) y **💥 2d6+3** (tira el daño; con dado 3D salen los dados reales). Pasar el cursor muestra el texto completo. Los daños alternativos (versátil: "…, o 1d10+3 a dos manos") se quedan con la primera opción. Los PJ siguen con su hoja y sus conjuros; un mob puede mostrar también Spells con el botoncito *+ Spells*.
 
 **Tiradas ocultas:** el botón **🙈** (solo DM) hace que las siguientes tiradas se queden en tu pantalla; en el registro salen con 🙈. Vuelve a pulsarlo para tirar en público.
+
+**Susurro al DM:** los jugadores tienen en su lugar el botón **🤫**: mientras está encendido, sus tiradas (dados y registro) solo las ven ese jugador y el DM; los demás no reciben nada. Salen con 🤫. El mensaje viaja a todos con el id del jugador, y cada ventana decide si lo muestra (`canSeeWhisper` en `src/diceShow.ts`).
 
 ### Los overlays y el mapa
 

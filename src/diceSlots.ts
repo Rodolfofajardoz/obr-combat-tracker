@@ -42,28 +42,25 @@ export interface Rect {
   height: number;
 }
 
-// Márgenes en píxeles de la interfaz de Owlbear: la barra de íconos y la ventana del tracker a la
-// izquierda, la barra de herramientas a la derecha. Entre medio cabe la fila de espacios.
-const LEFT = 236;
-const RIGHT = 56;
+// Márgenes en píxeles de la interfaz de Owlbear: la ventana del tracker a la izquierda (se puede
+// agrandar, así que se reserva de sobra) y la barra de herramientas a la derecha.
+const PANEL = 420;
+const RIGHT = 72;
 const TOP = 8;
 const GAP = 10;
 
 /** Dónde va el espacio `slot` de la fila, según el tamaño de la pantalla */
 export function diceSlotRect(slot: number, vw: number, vh: number): Rect {
-  const avail = vw - LEFT - RIGHT - GAP * (DICE_SLOTS - 1);
+  const avail = vw - PANEL - RIGHT - GAP * (DICE_SLOTS - 1);
   const width = Math.floor(Math.max(90, Math.min(220, avail / DICE_SLOTS)));
   const height = Math.round(Math.max(70, Math.min(width * 0.78, vh * 0.3)));
-  const fit = (left: number) => Math.max(1, Math.floor((vw - left - RIGHT + GAP) / (width + GAP)));
-  // En pantallas angostas la fila arranca pegada al borde izquierdo, y si aun así no caben los cinco
-  // espacios, los que sobran pasan a una segunda fila
-  let left = LEFT;
-  let cols = fit(left);
-  if (cols < DICE_SLOTS) {
-    left = 4;
-    cols = Math.min(DICE_SLOTS, fit(left));
-  }
+  const rowWidth = (cols: number) => width * cols + GAP * (cols - 1);
+  // La fila va pegada al borde derecho, antes de la barra de herramientas: lo que sobra queda a la
+  // izquierda, lejos del tracker. Si ni así caben los cinco, los que sobran pasan a una segunda fila.
+  let cols = DICE_SLOTS;
+  if (vw - RIGHT - rowWidth(cols) < 4) cols = Math.max(1, Math.floor((vw - 4 - RIGHT + GAP) / (width + GAP)));
   const col = slot % cols;
   const row = Math.floor(slot / cols);
+  const left = Math.max(4, vw - RIGHT - rowWidth(cols));
   return { left: left + col * (width + GAP), top: TOP + row * (height + GAP), width, height };
 }

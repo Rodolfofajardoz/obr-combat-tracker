@@ -19,7 +19,10 @@ function read(): CastMessage | null {
 
 function render(m: CastMessage) {
   const sp = m.spell;
-  const tags = [levelLabel(sp.level), sp.school, sp.concentration ? "Concentration" : "", sp.ritual ? "Ritual" : ""]
+  // Lanzado a nivel superior: se ve el nivel al que se lanzó y, entre paréntesis, el nivel propio del conjuro
+  const lvl = m.level ?? sp.level;
+  const level = lvl > sp.level ? `${levelLabel(lvl)} ↑ (${levelLabel(sp.level)} spell)` : levelLabel(sp.level);
+  const tags = [level, sp.school, sp.concentration ? "Concentration" : "", sp.ritual ? "Ritual" : ""]
     .filter(Boolean)
     .join(" · ");
   document.getElementById("root")!.innerHTML = `

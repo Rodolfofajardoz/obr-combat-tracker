@@ -4,10 +4,13 @@ import { PLUGIN_ID, Sheet, Spell } from "./types";
 /** Costo de maná por nivel: Sistema de Maná del Tejido */
 export const MANA_COST: Record<number, number> = { 0: 0, 1: 2, 2: 3, 3: 5, 4: 6, 5: 7, 6: 9, 7: 11, 8: 13, 9: 15 };
 
-/** Costo real: base, más 1 por repetición en el combate si la mesa usa esa regla. Los trucos siempre son gratis. */
-export function castCost(spell: Spell, sheet: Sheet, repeatCost: boolean): number {
+/**
+ * Costo real: el del nivel al que se lanza (un conjuro se puede lanzar a nivel superior), más 1 por
+ * repetición en el combate si la mesa usa esa regla. Los trucos siempre son gratis.
+ */
+export function castCost(spell: Spell, sheet: Sheet, repeatCost: boolean, level = spell.level): number {
   if (spell.level === 0) return 0;
-  return (MANA_COST[spell.level] ?? 0) + (repeatCost ? sheet.casts[spell.name] ?? 0 : 0);
+  return (MANA_COST[level] ?? 0) + (repeatCost ? sheet.casts[spell.name] ?? 0 : 0);
 }
 
 export const SPELL_CHANNEL = `${PLUGIN_ID}/cast`;
@@ -18,6 +21,8 @@ export interface CastMessage {
   caster: string;
   by: string;
   cost: number;
+  /** Nivel al que se lanzó; mayor que spell.level cuando se lanza a nivel superior */
+  level?: number;
   spell: Spell & { fullDesc: string; higher: string };
   at: number;
 }

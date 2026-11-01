@@ -24,10 +24,16 @@ export interface DiceShow {
   detail: string;
   by: string;
   hidden?: boolean;
+  /** Susurro: id del jugador que tiró; solo la ven ese jugador y el DM */
+  whisper?: string;
 }
 
 /** Lo que recibe dice.html en la URL: la tirada y el espacio que le tocó */
 export type DicePopover = DiceShow & { slot: number };
+
+/** Un susurro llega a todos, pero solo lo muestran el DM y quien lo tiró */
+export const canSeeWhisper = (whisper: string | undefined, role: string, playerId: string) =>
+  !whisper || role === "GM" || whisper === playerId;
 
 /** Una tirada oculta solo se muestra en este cliente */
 export async function broadcastDice(msg: DiceShow, hidden = false) {

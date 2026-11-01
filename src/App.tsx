@@ -20,7 +20,7 @@ import { SheetPanel } from "./components/SheetPanel";
 import { RollLog } from "./components/RollLog";
 import { ProfilesPanel } from "./components/ProfilesPanel";
 import { Profile, loadProfiles, onProfilesChange } from "./profiles";
-import { DICE_SETTLE_MS, DiceShow, broadcastDice, readDice3dPref, writeDice3dPref } from "./diceShow";
+import { DICE_SETTLE_MS, DiceShow, broadcastDice, canSeeWhisper, readDice3dPref, writeDice3dPref } from "./diceShow";
 import { CatalogEntry, loadCatalog } from "./catalog";
 import { Lang, LangContext, tr } from "./i18n";
 import { ResizeHandle } from "./components/ResizeHandle";
@@ -60,6 +60,8 @@ export default function App() {
   const [bars, setBars] = useState(readBarsPref);
   /** Tiradas ocultas: solo las ve el DM que las hace */
   const [hidden, setHidden] = useState(false);
+  /** Susurro de un jugador: su tirada solo la ven él y el DM */
+  const [whisper, setWhisper] = useState(false);
   const toggleBars = () => {
     const next = !bars;
     setBars(next);
@@ -125,14 +127,18 @@ export default function App() {
   );
 
   // ---- tiradas ----
+  // Un susurro viaja a todos pero cada ventana muestra solo los que le tocan: los del DM, todos
+  const whisperTo = whisper && !isGM ? playerId : undefined;
+  const visibleLog = useMemo(() => log.filter((m) => canSeeWhisper(m.whisper, role, playerId)), [log, role, playerId]);
+
   /** Manda los dados a la pantalla de todos; si aquí se ven en 3D, espera a que caigan antes de publicar el resultado */
   const showDice = useCallback(
-    async (show: Omit<DiceShow, "by" | "hidden">) => {
+    async (show: Omit<DiceShow, "by" | "hidden" | "whisper">) => {
       if (!show.values.length) return;
-      await broadcastDice({ ...show, by: playerName, hidden: hidden || undefined }, hidden);
+      await broadcastDice({ ...show, by: playerName, hidden: hidden || undefined, whisper: whisperTo }, hidden);
       if (dice3d) await new Promise((r) => setTimeout(r, DICE_SETTLE_MS));
     },
-    [playerName, hidden, dice3d],
+    [playerName, hidden, whisperTo, dice3d],
   );
 
   const roll = useCallback(
@@ -147,6 +153,7 @@ export default function App() {
         by: playerName,
         at: Date.now(),
         hidden: hidden || undefined,
+        whisper: whisperTo,
       };
       setMode("normal");
       const bonus = req.mod ? ` ${req.mod > 0 ? "+" : "−"} ${Math.abs(req.mod)}` : "";
@@ -161,7 +168,7 @@ export default function App() {
       await broadcastRoll(msg, hidden);
       return msg;
     },
-    [mode, playerName, hidden, showDice],
+    [mode, playerName, hidden, whisperTo, showDice],
   );
 
   /** Daño y otras expresiones: sin ventaja/desventaja, con dado 3D si está activo */
@@ -180,6 +187,7 @@ export default function App() {
         at: Date.now(),
         expr: req.expr,
         hidden: hidden || undefined,
+        whisper: whisperTo,
       };
       // Los dados salen en el orden de los grupos de la expresión
       await showDice({
@@ -193,7 +201,7 @@ export default function App() {
       await broadcastRoll(msg, hidden);
       return msg;
     },
-    [playerName, hidden, showDice],
+    [playerName, hidden, whisperTo, showDice],
   );
 
   const toggleDice3d = () => {
@@ -288,9 +296,13 @@ export default function App() {
           <button className={`chip ${bars ? "on" : ""}`} onClick={toggleBars} title={bars ? t("barsOn") : t("barsOff")}>
             ▮ HP
           </button>
-          {isGM && (
+          {isGM ? (
             <button className={`chip ${hidden ? "on dis" : ""}`} onClick={() => setHidden((v) => !v)} title={hidden ? t("hiddenOn") : t("hiddenOff")}>
               🙈
+            </button>
+          ) : (
+            <button className={`chip ${whisper ? "on dis" : ""}`} onClick={() => setWhisper((v) => !v)} title={whisper ? t("whisperOn") : t("whisperOff")}>
+              🤫
             </button>
           )}
         </div>
@@ -367,7 +379,7 @@ export default function App() {
         />
       )}
 
-      <RollLog log={log} />
+      <RollLog log={visibleLog} />
       <div className="hint">
         {mode !== "normal" && `${t("hintNext")} ${t(mode).toLowerCase()} · `}
         {t("hintName")}

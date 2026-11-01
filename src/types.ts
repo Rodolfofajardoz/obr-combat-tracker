@@ -205,6 +205,8 @@ export interface RollMessage {
   expr?: string;
   /** Tirada oculta del DM: solo la ve quien la hizo */
   hidden?: boolean;
+  /** Susurro: id del jugador que tiró; solo la ven ese jugador y el DM */
+  whisper?: string;
 }
 
 /** Fusiona lo guardado con los valores por defecto, por si cambia el formato */
