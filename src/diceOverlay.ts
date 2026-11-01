@@ -1,10 +1,11 @@
 import OBR from "@owlbear-rodeo/sdk";
 import DiceBox from "@3d-dice/dice-box-threejs";
-import { DICE_POPOVER_ID, DICE_SETTLE_MS, DiceShow } from "./diceShow";
+import { DICE_DONE_CHANNEL, DICE_SETTLE_MS, DicePopover, dicePopoverId } from "./diceShow";
 import { lockstep } from "./diceLockstep";
 
-/** Página a pantalla completa (popover sin fondo): los dados ruedan y caen en los valores que ya se tiraron */
-const msg = JSON.parse(decodeURIComponent(location.hash.slice(1))) as DiceShow;
+/** Bandeja chica (popover sin fondo): los dados ruedan y caen en los valores que ya se tiraron */
+const msg = JSON.parse(decodeURIComponent(location.hash.slice(1))) as DicePopover;
+const id = dicePopoverId(msg.slot);
 const $ = (id: string) => document.getElementById(id)!;
 
 $("by").textContent = msg.hidden ? `🙈 ${msg.by}` : msg.by;
@@ -17,7 +18,12 @@ const close = () => {
   if (closing) return;
   closing = true;
   document.body.classList.add("out");
-  setTimeout(() => OBR.popover.close(DICE_POPOVER_ID), 400);
+  setTimeout(async () => {
+    if (!OBR.isAvailable) return;
+    // Avisa a la página de fondo de este cliente que el espacio queda libre
+    await OBR.broadcast.sendMessage(DICE_DONE_CHANNEL, { slot: msg.slot }, { destination: "LOCAL" }).catch(() => {});
+    OBR.popover.close(id);
+  }, 400);
 };
 const reveal = () => {
   $("caption").classList.add("done");
@@ -26,7 +32,10 @@ const reveal = () => {
 
 document.body.addEventListener("click", close);
 
-OBR.onReady(async () => {
+// Fuera de Owlbear (abriendo dice.html directo en el navegador) rueda igual, para probar la bandeja
+const ready = (cb: () => void) => (OBR.isAvailable ? OBR.onReady(cb) : cb());
+
+ready(async () => {
   try {
     const box = new DiceBox("#dice", {
       theme_customColorset: {
@@ -38,7 +47,7 @@ OBR.onReady(async () => {
         material: "glass",
       },
       // El tamaño del dado va en píxeles: proporcional a la bandeja
-      baseScale: Math.max(70, Math.min(innerWidth, innerHeight) / 4.5),
+      baseScale: Math.max(30, Math.min(innerWidth, innerHeight) / 3.6),
       strength: 1.3,
       shadows: true,
       sounds: false,

@@ -3,10 +3,13 @@ import { PLUGIN_ID } from "./types";
 
 /**
  * Dado 3D compartido: quien tira ya sabe el resultado y lo manda a todos; la página de fondo de
- * cada cliente abre dice.html a pantalla completa y los dados caen justo en esos valores.
+ * cada cliente abre dice.html en una bandeja chica arriba del mapa y los dados caen justo en esos valores.
  */
 export const DICE_CHANNEL = `${PLUGIN_ID}/dice`;
-export const DICE_POPOVER_ID = `${PLUGIN_ID}/dice-popover`;
+/** La bandeja avisa (solo a este cliente) cuando se cierra, para liberar su espacio */
+export const DICE_DONE_CHANNEL = `${PLUGIN_ID}/dice-done`;
+/** Cada espacio de la fila es su propio popover */
+export const dicePopoverId = (slot: number) => `${PLUGIN_ID}/dice-popover/${slot}`;
 /** Lo que tarda el dado en caer: el registro espera esto para no adelantar el resultado */
 export const DICE_SETTLE_MS = 3500;
 
@@ -22,6 +25,9 @@ export interface DiceShow {
   by: string;
   hidden?: boolean;
 }
+
+/** Lo que recibe dice.html en la URL: la tirada y el espacio que le tocó */
+export type DicePopover = DiceShow & { slot: number };
 
 /** Una tirada oculta solo se muestra en este cliente */
 export async function broadcastDice(msg: DiceShow, hidden = false) {

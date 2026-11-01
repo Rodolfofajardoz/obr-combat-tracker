@@ -7,26 +7,29 @@
       /* Sin color-scheme: con "dark" el navegador pinta el iframe de negro en vez de dejarlo transparente */
       html, body { margin: 0; width: 100%; height: 100%; background: transparent !important; overflow: hidden;
         font-family: "Segoe UI", Roboto, system-ui, sans-serif; color: #efeaff; cursor: pointer; }
-      /* La bandeja: un recuadro al centro de la pantalla */
+      /* La bandeja: un recuadro chico en la fila de arriba del mapa */
       .tray {
-        position: fixed; inset: 6px; border-radius: 18px; overflow: hidden;
+        position: fixed; inset: 2px; border-radius: 12px; overflow: hidden;
         background: radial-gradient(ellipse at 50% 60%, rgba(43, 31, 66, .78), rgba(16, 12, 24, .86));
         border: 1px solid rgba(169, 139, 255, .55);
-        box-shadow: 0 10px 40px rgba(0, 0, 0, .55), 0 0 26px rgba(169, 139, 255, .25);
+        box-shadow: 0 6px 24px rgba(0, 0, 0, .55), 0 0 16px rgba(169, 139, 255, .25);
         animation: in .25s ease-out both;
       }
       @keyframes in { from { opacity: 0; transform: scale(.94); } }
       #dice { position: absolute; inset: 0; }
       #dice canvas { width: 100% !important; height: 100% !important; }
+      /* Quién y qué arriba; el total abajo cuando los dados ya cayeron. Los dados ruedan entre medio. */
       .caption {
-        position: absolute; left: 0; right: 0; top: 10px; z-index: 1;
-        display: flex; flex-direction: column; align-items: center; gap: 2px;
-        text-shadow: 0 1px 3px #000; pointer-events: none; text-align: center;
+        position: absolute; inset: 0; z-index: 1; padding: 5px 8px 4px; box-sizing: border-box;
+        display: flex; flex-direction: column; align-items: center;
+        text-shadow: 0 1px 3px #000, 0 0 6px #000; pointer-events: none; text-align: center;
       }
-      .what { font-size: 14px; opacity: .9; }
-      .by { font-size: 10px; opacity: .6; letter-spacing: .06em; text-transform: uppercase; }
-      .total { font-size: 44px; font-weight: 800; line-height: 1; opacity: 0; transform: scale(.4); }
-      .detail { font-size: 13px; opacity: 0; }
+      .caption span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .by { font-size: 9px; opacity: .6; letter-spacing: .06em; text-transform: uppercase; }
+      .what { font-size: 11px; opacity: .9; }
+      .result { margin-top: auto; display: flex; align-items: baseline; gap: 6px; max-width: 100%; }
+      .total { font-size: 26px; font-weight: 800; line-height: 1; opacity: 0; transform: scale(.4); }
+      .detail { font-size: 10px; opacity: 0; }
       .done .total { animation: pop .45s cubic-bezier(.2, 1.5, .3, 1) forwards; }
       .done .detail { animation: show .3s .15s forwards; }
       .out { animation: fade .4s ease-in forwards; }
@@ -41,8 +44,7 @@
       <div class="caption" id="caption">
         <span class="by" id="by"></span>
         <span class="what" id="what"></span>
-        <span class="total" id="total"></span>
-        <span class="detail" id="detail"></span>
+        <span class="result"><span class="total" id="total"></span><span class="detail" id="detail"></span></span>
       </div>
     </div>
     <script type="module" src="/src/diceOverlay.ts"></script>

@@ -49,7 +49,7 @@ const msg = read();
 if (msg) render(msg);
 document.addEventListener("click", close);
 
-/** El popover se abre con una altura fija; aquí se ajusta a lo que mide la tarjeta */
+/** El popover se abre con una altura provisional; aquí se ajusta a lo que mide la tarjeta, para no tapar de más */
 function fit() {
   const card = document.getElementById("card");
   if (!card) return;
