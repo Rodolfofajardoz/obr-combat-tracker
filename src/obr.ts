@@ -9,6 +9,8 @@ import {
   SHEET_KEY,
   readSheet,
 } from "./types";
+import { Profile, findProfile, profileToSheet } from "./profiles";
+import { markersByToken } from "./markers";
 
 export interface Combatant {
   id: string;
@@ -16,6 +18,8 @@ export interface Combatant {
   visible: boolean;
   ownerId: string;
   sheet: Sheet;
+  /** Marcadores de Condition Markers pegados a la ficha */
+  conditions: string[];
 }
 
 export const itemName = (item: Item) => {
@@ -25,6 +29,7 @@ export const itemName = (item: Item) => {
 
 export function toCombatants(items: Item[]): Combatant[] {
   const out: Combatant[] = [];
+  const markers = markersByToken(items);
   for (const it of items) {
     const sheet = readSheet(it.metadata[SHEET_KEY]);
     if (!sheet) continue;
@@ -34,6 +39,7 @@ export function toCombatants(items: Item[]): Combatant[] {
       visible: it.visible,
       ownerId: it.createdUserId,
       sheet,
+      conditions: markers.get(it.id) ?? [],
     });
   }
   return out;
@@ -72,12 +78,18 @@ export async function updateSheets(patches: Record<string, Partial<Sheet>>) {
   });
 }
 
-export async function addToCombat(ids: string[]) {
+/** Agrega fichas al combate. Si hay un perfil con el mismo nombre, lo aplica. Devuelve los nombres con perfil. */
+export async function addToCombat(ids: string[], profiles: Profile[] = []): Promise<string[]> {
+  const applied: string[] = [];
   await OBR.scene.items.updateItems(ids, (items) => {
     for (const it of items) {
-      if (!it.metadata[SHEET_KEY]) it.metadata[SHEET_KEY] = defaultSheet();
+      if (it.metadata[SHEET_KEY]) continue;
+      const p = findProfile(profiles, itemName(it));
+      it.metadata[SHEET_KEY] = p ? profileToSheet(p) : defaultSheet();
+      if (p) applied.push(itemName(it));
     }
   });
+  return applied;
 }
 
 export async function removeFromCombat(ids: string[]) {
@@ -111,8 +123,9 @@ export async function focusItem(id: string) {
   });
 }
 
-export async function broadcastRoll(msg: RollMessage) {
-  await OBR.broadcast.sendMessage(ROLL_CHANNEL, msg, { destination: "ALL" });
+/** Una tirada oculta solo llega a este cliente */
+export async function broadcastRoll(msg: RollMessage, hidden = false) {
+  await OBR.broadcast.sendMessage(ROLL_CHANNEL, msg, { destination: hidden ? "LOCAL" : "ALL" });
 }
 
 export function onRoll(cb: (msg: RollMessage) => void) {

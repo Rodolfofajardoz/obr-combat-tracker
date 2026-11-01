@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { Combatant, updateSheet } from "../obr";
-import { fmt, initMod, passivePerception } from "../types";
+import { fmt, initMod } from "../types";
 import { applyDelta } from "../dice";
+import { useT } from "../i18n";
+import { markerLabel } from "../markers";
 
 interface Props {
   c: Combatant;
   isTurn: boolean;
   full: boolean;
+  /** La ficha está asignada al jugador que la ve */
+  mine: boolean;
   isGM: boolean;
   open: boolean;
   onToggle: () => void;
@@ -15,9 +19,11 @@ interface Props {
   onSetTurn: () => void;
 }
 
-export function Row({ c, isTurn, full, isGM, open, onToggle, onFocus, onRollInit, onSetTurn }: Props) {
+export function Row({ c, isTurn, full, mine, isGM, open, onToggle, onFocus, onRollInit, onSetTurn }: Props) {
+  const { t, lang } = useT();
   const s = c.sheet;
   const [hpText, setHpText] = useState<string | null>(null);
+  const [manaText, setManaText] = useState<string | null>(null);
 
   const commitHp = () => {
     if (hpText === null) return;
@@ -25,14 +31,20 @@ export function Row({ c, isTurn, full, isGM, open, onToggle, onFocus, onRollInit
     updateSheet(c.id, { hp });
     setHpText(null);
   };
+  const commitMana = () => {
+    if (manaText === null) return;
+    const mana = Math.max(0, Math.min(s.maxMana, applyDelta(s.mana, manaText)));
+    updateSheet(c.id, { mana });
+    setManaText(null);
+  };
 
   const hpClass = s.hp <= 0 ? "dead" : s.hp <= s.maxHp / 2 ? "bloodied" : "";
 
   return (
-    <li className={`row ${isTurn ? "turn" : ""} ${!c.visible ? "hidden-token" : ""} ${open ? "open" : ""}`}>
+    <li className={`row ${isTurn ? "turn" : ""} ${!c.visible ? "hidden-token" : ""} ${open ? "open" : ""} ${mine ? "mine" : ""}`}>
       <button
         className="init"
-        title={`Tirar iniciativa (d20 ${fmt(initMod(s))})`}
+        title={`${t("rollInit")} (d20 ${fmt(initMod(s))})`}
         onClick={onRollInit}
         disabled={!full}
       >
@@ -40,15 +52,16 @@ export function Row({ c, isTurn, full, isGM, open, onToggle, onFocus, onRollInit
       </button>
 
       <div className="name-wrap">
-        <button className="name" onClick={onFocus} title="Ver en el mapa">
+        <button className="name" onClick={onFocus} title={t("showOnMap")}>
           {isTurn && <span className="marker">▶</span>}
           {c.name}
-          {!c.visible && <span className="eye" title="Oculta para los jugadores">👁</span>}
+          {!c.visible && <span className="eye" title={t("hiddenToken")}>👁</span>}
+          {isGM && s.ownerName && <span className="owner" title={t("assignedPlayer")}>{s.ownerName}</span>}
         </button>
-        {s.conditions.length > 0 && (
+        {c.conditions.length > 0 && (
           <div className="conds">
-            {s.conditions.map((k) => (
-              <span key={k} className="cond">{k}</span>
+            {c.conditions.map((k, i) => (
+              <span key={k + i} className="cond">{markerLabel(k, lang)}</span>
             ))}
           </div>
         )}
@@ -56,16 +69,12 @@ export function Row({ c, isTurn, full, isGM, open, onToggle, onFocus, onRollInit
 
       {full ? (
         <>
-          <div className="stat" title="Clase de Armadura">
-            <span className="label">CA</span>
+          <div className="stat" title={t("acTitle")}>
+            <span className="label">{t("ac")}</span>
             <span>{s.ac}</span>
           </div>
-          <div className="stat" title="Percepción pasiva">
-            <span className="label">PP</span>
-            <span>{passivePerception(s)}</span>
-          </div>
-          <div className={`stat hp ${hpClass}`} title="PG: escribe un número, o +5 / -7">
-            <span className="label">PG</span>
+          <div className={`stat hp ${hpClass}`} title={t("hpTitle")}>
+            <span className="label">{t("hp")}</span>
             <input
               value={hpText ?? s.hp}
               onFocus={(e) => {
@@ -81,15 +90,34 @@ export function Row({ c, isTurn, full, isGM, open, onToggle, onFocus, onRollInit
             />
             <span className="max">/{s.maxHp}{s.tempHp > 0 && <em> +{s.tempHp}</em>}</span>
           </div>
+          {s.maxMana > 0 && (
+            <div className="stat hp mana" title={t("manaTitle")}>
+              <span className="label">{t("mana")}</span>
+              <input
+                value={manaText ?? s.mana}
+                onFocus={(e) => {
+                  setManaText(String(s.mana));
+                  e.target.select();
+                }}
+                onChange={(e) => setManaText(e.target.value)}
+                onBlur={commitMana}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") (e.target as HTMLInputElement).blur();
+                  if (e.key === "Escape") setManaText(null);
+                }}
+              />
+              <span className="max">/{s.maxMana}</span>
+            </div>
+          )}
         </>
       ) : (
         <div className="stat muted">·</div>
       )}
 
       {isGM && !isTurn && (
-        <button className="icon" onClick={onSetTurn} title="Poner el turno aquí">⤵</button>
+        <button className="icon" onClick={onSetTurn} title={t("setTurn")}>⤵</button>
       )}
-      <button className={`icon ${open ? "on" : ""}`} onClick={onToggle} disabled={!full} title="Hoja">
+      <button className={`icon ${open ? "on" : ""}`} onClick={onToggle} disabled={!full} title={t("sheet")}>
         {open ? "▲" : "▼"}
       </button>
     </li>
