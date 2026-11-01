@@ -138,6 +138,6 @@ Cada push a `main` compila y publica la extensión en GitHub Pages (`.github/wor
 https://rodolfofajardoz.github.io/obr-combat-tracker/manifest.json
 ```
 
-El workflow compila con `VITE_BASE=/obr-combat-tracker/`, porque Pages sirve el sitio en esa subcarpeta; por eso el código arma sus rutas con `import.meta.env.BASE_URL` y el manifest usa rutas relativas. En local (`npm run dev`) la base sigue siendo `/`.
+El workflow compila con `VITE_BASE=/obr-combat-tracker/`, porque Pages sirve el sitio en esa subcarpeta; por eso el código arma sus rutas con `import.meta.env.BASE_URL`, y el `manifest.json` de la raíz es una plantilla: `vite.config.ts` le antepone la base a sus rutas al compilar (y al servirlo en `npm run dev`). En local (`npm run dev`) la base sigue siendo `/`.
 
 El repo es público: el código y `public/catalogo.json` (statblocks y notas del vault) los puede leer cualquiera.
