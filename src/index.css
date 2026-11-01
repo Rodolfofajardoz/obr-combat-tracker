@@ -201,8 +201,12 @@ textarea { width: 100%; resize: vertical; }
 
 /* Tiradas */
 .log ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
-.log li { display: grid; grid-template-columns: 36px 1fr auto; gap: 6px; align-items: center; padding: 2px 6px; border-radius: 6px; background: var(--bg2); }
+.log li { display: grid; grid-template-columns: 36px 1fr auto auto; gap: 6px; align-items: center; padding: 2px 6px; border-radius: 6px; background: var(--bg2); border-left: 3px solid transparent; }
 .log li:first-child { outline: 1px solid var(--line); }
+/* Tiradas privadas: borde de color y el ícono junto al desglose */
+.log li.hidden { border-left-color: var(--bad); }
+.log li.whisper { border-left-color: var(--accent); }
+.log .priv { font-size: 13px; line-height: 1; }
 .log .total { font-size: 16px; text-align: center; }
 .log .who { font-weight: 600; }
 .log .detail { color: var(--muted); font-size: 11px; }

@@ -75,7 +75,7 @@ Las criaturas del catálogo y del SRD traen sus **acciones** ya estructuradas (`
 
 **Tiradas ocultas:** el botón **🙈** (solo DM) hace que las siguientes tiradas se queden en tu pantalla; en el registro salen con 🙈. Vuelve a pulsarlo para tirar en público.
 
-**Susurro al DM:** los jugadores tienen en su lugar el botón **🤫**: mientras está encendido, sus tiradas (dados y registro) solo las ven ese jugador y el DM; los demás no reciben nada. Salen con 🤫. El mensaje viaja a todos con el id del jugador, y cada ventana decide si lo muestra (`canSeeWhisper` en `src/diceShow.ts`).
+**Susurro al DM:** los jugadores tienen en su lugar el botón **🤫**: mientras está encendido, sus tiradas (dados y registro) solo las ven ese jugador y el DM; los demás no reciben nada. En el registro, las tiradas privadas llevan el ícono a la derecha, junto al desglose, y un borde izquierdo de color: rojo las ocultas (🙈), morado los susurros (🤫). El mensaje viaja a todos con el id del jugador, y cada ventana decide si lo muestra (`canSeeWhisper` en `src/diceShow.ts`).
 
 ### Los overlays y el mapa
 

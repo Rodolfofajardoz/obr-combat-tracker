@@ -10,14 +10,16 @@ export function RollLog({ log }: { log: RollMessage[] }) {
       <ul>
         {log.slice(0, 8).map((m) => {
           const nat = m.expr ? "" : m.kept === 20 ? "crit" : m.kept === 1 ? "fumble" : "";
+          // Las privadas llevan borde de color y el ícono a la derecha, pegado al desglose
+          const priv = m.hidden ? "hidden" : m.whisper ? "whisper" : "";
           return (
-            <li key={m.at + m.who} className={nat}>
+            <li key={m.at + m.who} className={`${nat} ${priv}`}>
               <b className="total">{m.total}</b>
               <span className="desc">
-                {m.hidden && <span title="Hidden roll">🙈 </span>}
-                {m.whisper && <span title="Whispered to the DM">🤫 </span>}
                 <span className="who">{m.who}</span> · {m.what}
               </span>
+              {m.hidden && <span className="priv" title="Hidden roll">🙈</span>}
+              {m.whisper && <span className="priv" title="Whispered to the DM">🤫</span>}
               <span className="detail">
                 {m.expr ? (
                   <>
