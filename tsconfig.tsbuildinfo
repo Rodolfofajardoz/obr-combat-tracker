@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/background.ts","./src/contextmenu.ts","./src/dice.ts","./src/main.tsx","./src/obr.ts","./src/types.ts","./src/vite-env.d.ts","./src/components/rolllog.tsx","./src/components/row.tsx","./src/components/sheetpanel.tsx"],"version":"5.9.3"}

@@ -1,0 +1,16 @@
+{
+  "name": "Combate — El Juicio del Tejido",
+  "version": "0.1.0",
+  "manifest_version": 1,
+  "author": "Rodolfo",
+  "description": "Iniciativa, PG, CA, percepción pasiva, estados y tiradas de característica, salvación y habilidad por ficha.",
+  "icon": "/icon.svg",
+  "action": {
+    "title": "Combate",
+    "icon": "/icon.svg",
+    "popover": "/",
+    "width": 460,
+    "height": 720
+  },
+  "background_url": "/background.html"
+}

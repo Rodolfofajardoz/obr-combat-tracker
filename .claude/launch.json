@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "obr-combat-tracker",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "cwd": "C:/Users/Rodol/Documents/obr-combat-tracker",
+      "port": 5173
+    }
+  ]
+}
