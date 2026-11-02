@@ -26,6 +26,9 @@ function openAt(id: string, url: string, r: Rect, hidePaper = true) {
   });
 }
 
+/** Alto máximo de una tarjeta de conjuro con su marco (card.html: descripción ≤ 260 px + cabecera, metadatos y pie) */
+const CARD_MAX_H = 470;
+
 // Si la bandeja no avisa que se cerró (se trabó, se perdió el mensaje), su espacio se libera igual
 const DICE_SLOT_LIFE_MS = DICE_SETTLE_MS + 2600 + 400 + 3000;
 const slotTimers: (ReturnType<typeof setTimeout> | null)[] = Array(DICE_SLOTS).fill(null);
@@ -78,8 +81,11 @@ OBR.onReady(() => {
   onCast(async (msg) => {
     const [vw, vh] = await Promise.all([OBR.viewport.getWidth(), OBR.viewport.getHeight()]);
     const width = Math.min(300, Math.round(vw * 0.4));
-    // Alto provisional: la tarjeta lo ajusta a su contenido en cuanto carga (setHeight)
-    const height = Math.min(320, Math.round(vh * 0.6));
+    // Alto provisional: el MÁXIMO que puede medir una tarjeta (la descripción tiene tope y hace scroll).
+    // La tarjeta se pega al borde de abajo, así que lo que sobre arriba es transparente y no se nota;
+    // en cuanto carga, ella misma encoge la ventana a su alto real (setHeight). Si se abriera más
+    // corta, el primer instante saldría recortada por arriba.
+    const height = Math.min(CARD_MAX_H, Math.round(vh * 0.8));
     OBR.popover.open({
       id: CARD_POPOVER_ID,
       url: page("card.html", msg),
