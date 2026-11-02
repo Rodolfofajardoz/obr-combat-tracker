@@ -31,7 +31,7 @@ function render(m: CastMessage) {
   // Aura: colores, glifo y partículas según el daño que hace el conjuro o, si no, su escuela
   const theme = cardTheme(sp);
   document.getElementById("root")!.innerHTML = `
-    <div class="card" id="card" data-theme="${theme.key}" style="--life:${LIFE_MS}ms; --c1:${theme.c1}; --c2:${theme.c2}">
+    <div class="card${OBR.isAvailable ? " pre" : ""}" id="card" data-theme="${theme.key}" style="--life:${LIFE_MS}ms; --c1:${theme.c1}; --c2:${theme.c2}">
       <canvas class="fx" id="fx"></canvas>
       <div class="glyph">${theme.glyph}</div>
       <div class="in">
@@ -79,18 +79,28 @@ if (msg) render(msg);
 document.addEventListener("click", close);
 
 /** El popover se abre con una altura provisional; aquí se ajusta a lo que mide la tarjeta, para no tapar de más */
-function fit() {
+async function fit() {
   const card = document.getElementById("card");
   if (!card || !OBR.isAvailable) return;
   const h = Math.ceil(card.getBoundingClientRect().height) + 16;
-  OBR.popover.setHeight(CARD_POPOVER_ID, Math.min(h, 640));
+  await OBR.popover.setHeight(CARD_POPOVER_ID, Math.min(h, 640));
+}
+
+/** La tarjeta aparece (y arranca su animación de entrada) solo cuando la ventana ya mide lo que ella mide */
+function reveal() {
+  requestAnimationFrame(() => document.getElementById("card")?.classList.remove("pre"));
 }
 
 if (OBR.isAvailable) {
   OBR.onReady(() => {
-    fit();
+    // Si Owlbear tardara en responder, la tarjeta se muestra igual pasado un momento
+    const fallback = window.setTimeout(reveal, 400);
+    fit().finally(() => {
+      window.clearTimeout(fallback);
+      reveal();
+    });
     // la animación de entrada escala la tarjeta: vuelve a medir cuando termina
-    window.setTimeout(fit, 600);
+    window.setTimeout(fit, 700);
     window.setTimeout(close, LIFE_MS);
   });
 }

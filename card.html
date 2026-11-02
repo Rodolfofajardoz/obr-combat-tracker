@@ -61,6 +61,8 @@
         .card, .card[data-theme] { animation: pop .3s ease-out both; }
         .glyph, .card[data-theme="lightning"] .in h1 { animation: none; }
       }
+      /* Hasta que el popover tenga el alto de la tarjeta, no se ve nada: si no, el primer instante saldría recortada */
+      .card.pre, .card.pre[data-theme] { animation: none; opacity: 0; }
 
       .caster { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: color-mix(in srgb, var(--c1) 70%, #fff); }
       h1 { margin: 2px 0 2px; font-size: 22px; line-height: 1.1; }
