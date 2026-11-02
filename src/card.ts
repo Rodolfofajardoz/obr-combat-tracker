@@ -1,5 +1,5 @@
 import OBR from "@owlbear-rodeo/sdk";
-import { CARD_POPOVER_ID, CastMessage, levelLabel } from "./spells";
+import { CARD_POPOVER_ID, CastMessage, fetchSpellFull, levelLabel } from "./spells";
 import { cardTheme, startFx } from "./cardFx";
 
 /** Tarjeta de conjuro: se abre como popover en la pantalla de todos cuando alguien lanza. */
@@ -8,6 +8,8 @@ const LIFE_MS = 14000;
 const esc = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const paras = (s: string) => esc(s).split(/\n{2,}|(?<=\.)\s{2,}/).map((p) => `<p>${p}</p>`).join("");
+const descHtml = (sp: CastMessage["spell"]) =>
+  paras(sp.fullDesc || sp.desc) + (sp.higher ? `<div class="higher"><b>At higher levels.</b> ${esc(sp.higher)}</div>` : "");
 
 function read(): CastMessage | null {
   try {
@@ -42,12 +44,23 @@ function render(m: CastMessage) {
           <span><b>Duration</b>${esc(sp.duration)}</span>
           <span><b>Comp.</b>${esc(sp.components)}</span>
         </div>
-        <div class="desc">${paras(sp.fullDesc || sp.desc)}${sp.higher ? `<div class="higher"><b>At higher levels.</b> ${esc(sp.higher)}</div>` : ""}</div>
+        <div class="desc" id="desc">${descHtml(sp)}</div>
         <div class="foot"><span>${m.cost > 0 ? `<span class="cost">−${m.cost} MP</span>` : "Cantrip"}</span><span>click to close</span></div>
         <div class="bar"><i></i></div>
       </div>
     </div>`;
   stopFx = startFx(document.getElementById("fx") as HTMLCanvasElement, theme);
+
+  // Quien lanzó no esperó a Open5e: la tarjeta sale con el resumen y el texto completo se rellena al llegar
+  if (!sp.fullDesc) {
+    fetchSpellFull(sp).then((full) => {
+      if (!full.fullDesc || full.fullDesc === sp.desc) return;
+      const el = document.getElementById("desc");
+      if (!el) return;
+      el.innerHTML = descHtml({ ...sp, ...full });
+      fit();
+    });
+  }
 }
 
 let stopFx: () => void = () => {};
@@ -68,7 +81,7 @@ document.addEventListener("click", close);
 /** El popover se abre con una altura provisional; aquí se ajusta a lo que mide la tarjeta, para no tapar de más */
 function fit() {
   const card = document.getElementById("card");
-  if (!card) return;
+  if (!card || !OBR.isAvailable) return;
   const h = Math.ceil(card.getBoundingClientRect().height) + 16;
   OBR.popover.setHeight(CARD_POPOVER_ID, Math.min(h, 640));
 }

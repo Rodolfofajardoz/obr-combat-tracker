@@ -127,16 +127,47 @@ export async function searchSpells(query: string): Promise<Spell[]> {
   return list.sort((a, b) => a.level - b.level || a.name.localeCompare(b.name));
 }
 
-const fullCache = new Map<string, { fullDesc: string; higher: string }>();
+export interface SpellFull {
+  fullDesc: string;
+  higher: string;
+}
+
+const fullCache = new Map<string, SpellFull>();
+const inflight = new Map<string, Promise<SpellFull>>();
+
+/** Texto completo si ya se trajo (o el conjuro es local); null si habría que pedirlo a Open5e */
+export function cachedSpellFull(spell: Spell): SpellFull | null {
+  if (spell.slug.startsWith("local:")) return { fullDesc: spell.desc, higher: "" };
+  return fullCache.get(spell.slug) ?? null;
+}
+
+/** Trae por adelantado los textos de una lista (los que falten), de pocos en pocos para no saturar Open5e */
+export function prefetchSpellFull(spells: Spell[]): void {
+  const pending = spells.filter((sp) => !cachedSpellFull(sp));
+  let i = 0;
+  const next = (): Promise<void> => {
+    const sp = pending[i++];
+    return sp ? fetchSpellFull(sp).then(next, next) : Promise.resolve();
+  };
+  for (let k = 0; k < 3; k++) void next();
+}
 
 /** Descripción completa para la tarjeta; si el SRD no responde (o el conjuro es local), usa la de la hoja */
-export async function fetchSpellFull(spell: Spell): Promise<{ fullDesc: string; higher: string }> {
-  const hit = fullCache.get(spell.slug);
-  if (hit) return hit;
-  // "local:…": conjuros que no están en Open5e; la hoja guarda el texto completo
-  if (spell.slug.startsWith("local:")) return { fullDesc: spell.desc, higher: "" };
+export function fetchSpellFull(spell: Spell): Promise<SpellFull> {
+  const hit = cachedSpellFull(spell);
+  if (hit) return Promise.resolve(hit);
+  // Dos pedidos del mismo conjuro a la vez comparten una sola petición
+  let p = inflight.get(spell.slug);
+  if (!p) {
+    p = fetchFull(spell).finally(() => inflight.delete(spell.slug));
+    inflight.set(spell.slug, p);
+  }
+  return p;
+}
+
+async function fetchFull(spell: Spell): Promise<SpellFull> {
   try {
-    let full: { fullDesc: string; higher: string };
+    let full: SpellFull;
     if (spell.slug.startsWith("v2:")) {
       const r = await fetch(`${SPELLS_V2_URL}${encodeURIComponent(spell.slug.slice(3))}/`);
       if (!r.ok) throw new Error(String(r.status));

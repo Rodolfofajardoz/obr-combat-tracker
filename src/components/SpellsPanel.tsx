@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import OBR from "@owlbear-rodeo/sdk";
 import { Combatant, updateSheet } from "../obr";
 import { Spell } from "../types";
-import { broadcastCast, castCost, fetchSpellFull, levelLabel, searchSpells } from "../spells";
+import { broadcastCast, castCost, cachedSpellFull, levelLabel, prefetchSpellFull, searchSpells } from "../spells";
 import { useT } from "../i18n";
 import { Settings, saveSettings } from "../settings";
 
@@ -25,6 +25,12 @@ export function SpellsPanel({ c, isGM, playerName, settings }: Props) {
   const [upcast, setUpcast] = useState<string | null>(null);
 
   const known = new Set(s.spells.map((x) => x.name));
+
+  // Con la hoja abierta, los textos completos se traen por adelantado: al lanzar, la tarjeta ya los tiene
+  const spellKey = s.spells.map((x) => x.slug).join("|");
+  useEffect(() => {
+    prefetchSpellFull(s.spells);
+  }, [spellKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const search = async () => {
     setBusy(true);
@@ -57,13 +63,17 @@ export function SpellsPanel({ c, isGM, playerName, settings }: Props) {
     setCasting(sp.name);
     setUpcast(null);
     try {
-      const full = await fetchSpellFull(sp);
-      await updateSheet(c.id, (cur) => ({
-        ...cur,
-        mana: Math.max(0, cur.mana - cost),
-        casts: sp.level === 0 ? cur.casts : { ...cur.casts, [sp.name]: (cur.casts[sp.name] ?? 0) + 1 },
-      }));
-      await broadcastCast({ caster: c.name, by: playerName, cost, level, spell: { ...sp, ...full }, at: Date.now() });
+      // La tarjeta sale ya: con el texto completo si está en caché; si no, ella misma lo completa al abrirse.
+      // No se espera a Open5e ni a la escritura de la hoja.
+      const full = cachedSpellFull(sp) ?? { fullDesc: "", higher: "" };
+      await Promise.all([
+        broadcastCast({ caster: c.name, by: playerName, cost, level, spell: { ...sp, ...full }, at: Date.now() }),
+        updateSheet(c.id, (cur) => ({
+          ...cur,
+          mana: Math.max(0, cur.mana - cost),
+          casts: sp.level === 0 ? cur.casts : { ...cur.casts, [sp.name]: (cur.casts[sp.name] ?? 0) + 1 },
+        })),
+      ]);
       const lvl = level > sp.level ? ` (${levelLabel(level)})` : "";
       OBR.notification.show(`${c.name}: ${sp.name}${lvl}${cost ? ` (−${cost} MP)` : ""}`, "INFO");
     } finally {

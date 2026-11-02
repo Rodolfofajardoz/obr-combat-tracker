@@ -51,10 +51,28 @@ async function openSheet(id: string) {
   openAt(SHEET_POPOVER_ID, url, { ...pos, width: SHEET_W, height: Math.min(SHEET_H, vh - pos.top - 16) }, false);
 }
 
+/**
+ * Precalienta en la caché del navegador las páginas emergentes y sus scripts: la primera tarjeta o
+ * tirada de la sesión abre entonces sin esperar a GitHub Pages.
+ */
+async function warmPages() {
+  for (const name of ["card.html", "dice.html", "sheet.html"]) {
+    try {
+      const url = pageUrl(name);
+      const html = await (await fetch(url)).text();
+      const assets = [...html.matchAll(/(?:src|href)="([^"]+\.(?:js|css))"/g)].map((m) => new URL(m[1], url).href);
+      await Promise.all(assets.map((a) => fetch(a).catch(() => undefined)));
+    } catch {
+      /* sin red: la página se cargará como siempre */
+    }
+  }
+}
+
 // Página de fondo: corre siempre, aunque la ventana esté cerrada.
 OBR.onReady(() => {
   setupContextMenu();
   startBars();
+  warmPages();
 
   // Alguien lanzó un conjuro: la tarjeta aparece abajo a la derecha de esta pantalla
   onCast(async (msg) => {
