@@ -1,7 +1,7 @@
 import OBR from "@owlbear-rodeo/sdk";
 import { setupContextMenu } from "./contextMenu";
 import { startBars } from "./bars";
-import { CARD_POPOVER_ID, onCast } from "./spells";
+import { CARD_BOTTOM_GAP, CARD_LIFE_MS, CARD_POPOVER_ID, onCast } from "./spells";
 import { DICE_DONE_CHANNEL, DICE_SETTLE_MS, DiceShow, canSeeWhisper, dicePopoverId, onDice, readDice3dPref } from "./diceShow";
 import { DICE_SLOTS, Rect, Slots, diceSlotRect } from "./diceSlots";
 import { SHEET_H, SHEET_POPOVER_ID, SHEET_W, clampSheetPos, defaultSheetPos, onSheet, readSheetPos } from "./sheetWindow";
@@ -26,8 +26,9 @@ function openAt(id: string, url: string, r: Rect, hidePaper = true) {
   });
 }
 
-/** Alto máximo de una tarjeta de conjuro con su marco (card.html: descripción ≤ 260 px + cabecera, metadatos y pie) */
-const CARD_MAX_H = 470;
+/** Si la página de la tarjeta no carga, nadie cierra su ventana transparente, que taparía el mapa: se cierra desde aquí */
+const CARD_GUARD_MS = CARD_LIFE_MS + 5000;
+let cardGuard: ReturnType<typeof setTimeout> | null = null;
 
 // Si la bandeja no avisa que se cerró (se trabó, se perdió el mensaje), su espacio se libera igual
 const DICE_SLOT_LIFE_MS = DICE_SETTLE_MS + 2600 + 400 + 3000;
@@ -55,16 +56,19 @@ async function openSheet(id: string) {
 }
 
 /**
- * Precalienta en la caché del navegador las páginas emergentes y sus scripts: la primera tarjeta o
- * tirada de la sesión abre entonces sin esperar a GitHub Pages.
+ * Precalienta en la caché del navegador los scripts de las páginas emergentes: la primera tarjeta o
+ * tirada de la sesión abre entonces sin esperar a GitHub Pages. El HTML solo se pide para saber cómo
+ * se llaman esos scripts. Los dados se saltan si este navegador los tiene apagados.
  */
 async function warmPages() {
-  for (const name of ["card.html", "dice.html", "sheet.html"]) {
+  const pages = ["card.html", "sheet.html", ...(readDice3dPref() ? ["dice.html"] : [])];
+  for (const name of pages) {
     try {
       const url = pageUrl(name);
       const html = await (await fetch(url)).text();
       const assets = [...html.matchAll(/(?:src|href)="([^"]+\.(?:js|css))"/g)].map((m) => new URL(m[1], url).href);
-      await Promise.all(assets.map((a) => fetch(a).catch(() => undefined)));
+      // Hay que leer el cuerpo entero: sin eso, un archivo grande puede no terminar de bajar a la caché
+      await Promise.all(assets.map((a) => fetch(a).then((r) => r.arrayBuffer()).catch(() => undefined)));
     } catch {
       /* sin red: la página se cargará como siempre */
     }
@@ -81,11 +85,8 @@ OBR.onReady(() => {
   onCast(async (msg) => {
     const [vw, vh] = await Promise.all([OBR.viewport.getWidth(), OBR.viewport.getHeight()]);
     const width = Math.min(300, Math.round(vw * 0.4));
-    // Alto provisional: el MÁXIMO que puede medir una tarjeta (la descripción tiene tope y hace scroll).
-    // La tarjeta se pega al borde de abajo, así que lo que sobre arriba es transparente y no se nota;
-    // en cuanto carga, ella misma encoge la ventana a su alto real (setHeight). Si se abriera más
-    // corta, el primer instante saldría recortada por arriba.
-    const height = Math.min(CARD_MAX_H, Math.round(vh * 0.8));
+    // Alto provisional: la tarjeta nace invisible y no aparece hasta ajustarlo a su contenido (setHeight)
+    const height = Math.min(320, Math.round(vh * 0.6));
     OBR.popover.open({
       id: CARD_POPOVER_ID,
       url: page("card.html", msg),
@@ -93,12 +94,14 @@ OBR.onReady(() => {
       height,
       anchorReference: "POSITION",
       // Pegada a la esquina, dejando libre la barra de herramientas de la derecha y la de abajo
-      anchorPosition: { left: vw - 60, top: vh - 72 },
+      anchorPosition: { left: vw - 60, top: vh - CARD_BOTTOM_GAP },
       anchorOrigin: { horizontal: "RIGHT", vertical: "BOTTOM" },
       transformOrigin: { horizontal: "RIGHT", vertical: "BOTTOM" },
       hidePaper: true,
       disableClickAway: true,
     });
+    if (cardGuard) clearTimeout(cardGuard);
+    cardGuard = setTimeout(() => OBR.popover.close(CARD_POPOVER_ID), CARD_GUARD_MS);
   });
 
   // Alguien tiró: los dados ruedan en el primer espacio libre de la fila de arriba

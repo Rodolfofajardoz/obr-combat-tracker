@@ -1,9 +1,10 @@
 import OBR from "@owlbear-rodeo/sdk";
-import { CARD_POPOVER_ID, CastMessage, fetchSpellFull, levelLabel } from "./spells";
-import { cardTheme, startFx } from "./cardFx";
+import { CARD_BOTTOM_GAP, CARD_LIFE_MS, CARD_POPOVER_ID, CastMessage, fetchSpellFull, levelLabel } from "./spells";
+import { CardTheme, cardTheme, startFx } from "./cardFx";
 
 /** Tarjeta de conjuro: se abre como popover en la pantalla de todos cuando alguien lanza. */
-const LIFE_MS = 14000;
+/** Lo más que la tarjeta espera a su texto completo antes de aparecer */
+const TEXT_WAIT_MS = 300;
 
 const esc = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -31,7 +32,7 @@ function render(m: CastMessage) {
   // Aura: colores, glifo y partículas según el daño que hace el conjuro o, si no, su escuela
   const theme = cardTheme(sp);
   document.getElementById("root")!.innerHTML = `
-    <div class="card${OBR.isAvailable ? " pre" : ""}" id="card" data-theme="${theme.key}" style="--life:${LIFE_MS}ms; --c1:${theme.c1}; --c2:${theme.c2}">
+    <div class="card${OBR.isAvailable ? " pre" : ""}" id="card" data-theme="${theme.key}" style="--life:${CARD_LIFE_MS}ms; --c1:${theme.c1}; --c2:${theme.c2}">
       <canvas class="fx" id="fx"></canvas>
       <div class="glyph">${theme.glyph}</div>
       <div class="in">
@@ -50,20 +51,37 @@ function render(m: CastMessage) {
       </div>
     </div>`;
   stopFx = startFx(document.getElementById("fx") as HTMLCanvasElement, theme);
-
-  // Quien lanzó no esperó a Open5e: la tarjeta sale con el resumen y el texto completo se rellena al llegar
-  if (!sp.fullDesc) {
-    fetchSpellFull(sp).then((full) => {
-      if (!full.fullDesc || full.fullDesc === sp.desc) return;
-      const el = document.getElementById("desc");
-      if (!el) return;
-      el.innerHTML = descHtml({ ...sp, ...full });
-      fit();
-    });
-  }
 }
 
 let stopFx: () => void = () => {};
+
+/** Cambia el aura de una tarjeta ya abierta */
+function applyTheme(theme: CardTheme) {
+  const card = document.getElementById("card");
+  if (!card) return;
+  card.dataset.theme = theme.key;
+  card.style.setProperty("--c1", theme.c1);
+  card.style.setProperty("--c2", theme.c2);
+  card.querySelector(".glyph")!.textContent = theme.glyph;
+  stopFx();
+  stopFx = startFx(document.getElementById("fx") as HTMLCanvasElement, theme);
+}
+
+/**
+ * Si el texto completo no venía en el mensaje (quien lanzó no esperó a Open5e), se trae aquí. Con él se
+ * rellena la descripción y "At higher levels", y se recalcula el aura: el resumen de la hoja está
+ * cortado y puede no llegar a decir qué daño hace el conjuro.
+ */
+async function completeText(m: CastMessage) {
+  if (m.spell.fullDesc) return;
+  const full = await fetchSpellFull(m.spell);
+  const el = document.getElementById("desc");
+  if (!el) return;
+  const spell = { ...m.spell, ...full };
+  el.innerHTML = descHtml(spell);
+  const theme = cardTheme(spell);
+  if (theme.key !== document.getElementById("card")?.dataset.theme) applyTheme(theme);
+}
 
 function close() {
   const card = document.getElementById("card");
@@ -81,9 +99,16 @@ document.addEventListener("click", close);
 /** El popover se abre con una altura provisional; aquí se ajusta a lo que mide la tarjeta, para no tapar de más */
 async function fit() {
   const card = document.getElementById("card");
-  if (!card || !OBR.isAvailable) return;
-  const h = Math.ceil(card.getBoundingClientRect().height) + 16;
-  await OBR.popover.setHeight(CARD_POPOVER_ID, Math.min(h, 640));
+  const desc = document.getElementById("desc");
+  if (!card || !desc || !OBR.isAvailable) return;
+  // Lo que cabe entre el borde de arriba de la pantalla y el punto donde se ancla la tarjeta
+  const room = Math.max(160, (await OBR.viewport.getHeight()) - CARD_BOTTOM_GAP - 8);
+  // offsetHeight es el alto de diseño: no lo altera la escala de la animación de entrada.
+  // 16 = el padding del body. En pantallas bajas cede la descripción, que tiene su propio scroll.
+  desc.style.maxHeight = "";
+  const over = card.offsetHeight + 16 - room;
+  if (over > 0) desc.style.maxHeight = `${Math.max(80, desc.offsetHeight - over)}px`;
+  await OBR.popover.setHeight(CARD_POPOVER_ID, Math.min(card.offsetHeight + 16, room));
 }
 
 /** La tarjeta aparece (y arranca su animación de entrada) solo cuando la ventana ya mide lo que ella mide */
@@ -93,14 +118,22 @@ function reveal() {
 
 if (OBR.isAvailable) {
   OBR.onReady(() => {
-    // Si Owlbear tardara en responder, la tarjeta se muestra igual pasado un momento
-    const fallback = window.setTimeout(reveal, 400);
-    fit().finally(() => {
-      window.clearTimeout(fallback);
-      reveal();
-    });
-    // la animación de entrada escala la tarjeta: vuelve a medir cuando termina
-    window.setTimeout(fit, 700);
-    window.setTimeout(close, LIFE_MS);
+    // Aquí y no antes: al completar el texto se vuelve a medir, y el SDK no acepta mensajes hasta estar listo
+    const text = msg ? completeText(msg).catch(() => {}) : Promise.resolve();
+    // Si el texto completo no venía, se le da un instante para salir ya entera y sin cambiar de tamaño a la vista.
+    // Y si Owlbear tardara en responder, la tarjeta se muestra igual pasado un momento.
+    const fallback = window.setTimeout(reveal, TEXT_WAIT_MS + 400);
+    Promise.race([text, new Promise((r) => window.setTimeout(r, TEXT_WAIT_MS))])
+      .then(fit)
+      .catch(() => {})
+      .finally(() => {
+        window.clearTimeout(fallback);
+        reveal();
+      });
+    // Open5e tardó más que la espera: la tarjeta ya se ve, se vuelve a medir con el texto nuevo
+    text.then(fit).catch(() => {});
+    window.setTimeout(close, CARD_LIFE_MS);
   });
+} else if (msg) {
+  completeText(msg).catch(() => {});
 }

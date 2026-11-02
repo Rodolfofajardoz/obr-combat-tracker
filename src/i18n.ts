@@ -96,6 +96,7 @@ const D = {
   addSpell: ["Agregar a la hoja", "Add to sheet"],
   cast: ["Lanzar", "Cast"],
   notEnoughMana: ["No alcanza el maná", "Not enough mana"],
+  castFailed: ["No se pudo lanzar", "Could not cast"],
   upcast: ["Lanzar a nivel superior", "Cast at a higher level"],
   actions: ["Acciones", "Actions"],
   attack: ["Ataque", "Attack"],

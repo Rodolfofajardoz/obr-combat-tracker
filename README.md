@@ -67,7 +67,7 @@ En la hoja, a la izquierda de las habilidades, va la lista de **Spells**. Se bus
 
 **A nivel superior:** el botoncito **▴** junto al costo despliega los niveles por encima del propio (hasta 9), cada uno con su costo según la misma tabla de maná; clic en uno lanza el conjuro a ese nivel. La tarjeta muestra el nivel al que se lanzó, con el nivel original entre paréntesis, y su sección *At higher levels* dice qué cambia.
 
-En la hoja solo se guarda el resumen de cada conjuro; la descripción completa se trae del SRD. Para que la tarjeta salga **al instante**: con la hoja abierta los textos completos de sus conjuros se precargan en segundo plano; al lanzar no se espera ni a Open5e ni a la escritura de la hoja (la tarjeta viaja con el texto que haya y, si le falta el completo, ella misma lo rellena al llegar); y la página de fondo deja `card.html`, `dice.html` y `sheet.html` con sus scripts ya en la caché del navegador al entrar a la sala.
+En la hoja solo se guarda el resumen de cada conjuro; la descripción completa se trae del SRD. Para que la tarjeta salga **al instante**: con la hoja abierta los textos completos de sus conjuros se precargan en segundo plano; al lanzar no se espera a Open5e (primero se cobra el maná y la tarjeta viaja con el texto que haya; si le falta el completo, ella misma lo trae, rellena la descripción y recalcula el aura); la tarjeta nace invisible y aparece cuando su ventana ya mide lo que ella; y la página de fondo deja en la caché del navegador los scripts de `card.html` y `sheet.html`, y los de `dice.html` si los dados 3D están encendidos, al entrar a la sala.
 
 ### Auras de la tarjeta
 

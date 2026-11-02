@@ -15,6 +15,10 @@ export function castCost(spell: Spell, sheet: Sheet, repeatCost: boolean, level 
 
 export const SPELL_CHANNEL = `${PLUGIN_ID}/cast`;
 export const CARD_POPOVER_ID = `${PLUGIN_ID}/card`;
+/** Cuánto vive la tarjeta en pantalla */
+export const CARD_LIFE_MS = 14000;
+/** Distancia del borde de abajo de la pantalla a la tarjeta: deja libre la barra de herramientas */
+export const CARD_BOTTOM_GAP = 72;
 
 /** Lo que viaja a todos cuando alguien lanza un conjuro: la tarjeta completa */
 export interface CastMessage {

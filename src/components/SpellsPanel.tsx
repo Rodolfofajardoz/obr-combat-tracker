@@ -63,19 +63,19 @@ export function SpellsPanel({ c, isGM, playerName, settings }: Props) {
     setCasting(sp.name);
     setUpcast(null);
     try {
-      // La tarjeta sale ya: con el texto completo si está en caché; si no, ella misma lo completa al abrirse.
-      // No se espera a Open5e ni a la escritura de la hoja.
+      // Primero se cobra: si la hoja no se puede escribir, no sale una tarjeta gratis.
+      // No se espera a Open5e: la tarjeta lleva el texto completo si está en caché; si no, ella misma lo trae.
+      await updateSheet(c.id, (cur) => ({
+        ...cur,
+        mana: Math.max(0, cur.mana - cost),
+        casts: sp.level === 0 ? cur.casts : { ...cur.casts, [sp.name]: (cur.casts[sp.name] ?? 0) + 1 },
+      }));
       const full = cachedSpellFull(sp) ?? { fullDesc: "", higher: "" };
-      await Promise.all([
-        broadcastCast({ caster: c.name, by: playerName, cost, level, spell: { ...sp, ...full }, at: Date.now() }),
-        updateSheet(c.id, (cur) => ({
-          ...cur,
-          mana: Math.max(0, cur.mana - cost),
-          casts: sp.level === 0 ? cur.casts : { ...cur.casts, [sp.name]: (cur.casts[sp.name] ?? 0) + 1 },
-        })),
-      ]);
+      await broadcastCast({ caster: c.name, by: playerName, cost, level, spell: { ...sp, ...full }, at: Date.now() });
       const lvl = level > sp.level ? ` (${levelLabel(level)})` : "";
       OBR.notification.show(`${c.name}: ${sp.name}${lvl}${cost ? ` (−${cost} MP)` : ""}`, "INFO");
+    } catch (e) {
+      setMsg(`${t("castFailed")}: ${(e as Error).message}`);
     } finally {
       setCasting(null);
     }
